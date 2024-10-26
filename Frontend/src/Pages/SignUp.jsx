@@ -35,13 +35,13 @@ const SignUp = () => {
                 <div
                   className={`form-group ${isEmailAnimating ? "animate" : ""}`}
                 >
-                  
                   <input
                     type="email"
                     id="email"
                     name="email"
                     placeholder="Email address"
                     onClick={handleEmailClick}
+                    required
                   />
                 </div>
                 <div
@@ -49,25 +49,38 @@ const SignUp = () => {
                     isPasswordAnimating ? "animate" : ""
                   }`}
                 >
-                  
                   <input
                     type="password"
                     id="password"
                     name="password"
                     placeholder="Password"
                     onClick={handlePasswordClick}
+                    required
                   />
                 </div>
                 <div className="form-group">
-                  <input type="text" id="codeforces" name="codeforces" placeholder="Codeforces username"/>
+                  <input
+                    type="text"
+                    id="codeforces"
+                    name="codeforces"
+                    placeholder="Codeforces username"
+                  />
                 </div>
                 <div className="form-group">
-
-                  <input type="text" id="leetcode" name="leetcode" placeholder="Leetcode username"/>
+                  <input
+                    type="text"
+                    id="leetcode"
+                    name="leetcode"
+                    placeholder="Leetcode username"
+                  />
                 </div>
                 <div className="form-group">
-
-                  <input type="text" id="codechef" name="codechef" placeholder="Codechef username"/>
+                  <input
+                    type="text"
+                    id="codechef"
+                    name="codechef"
+                    placeholder="Codechef username"
+                  />
                 </div>
 
                 <div className="form-group">
