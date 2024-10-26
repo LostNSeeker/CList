@@ -33,7 +33,7 @@ const Login = () => {
                         <div className="login-title">
                             Login
                         </div>
-                        <div className="login-p">If you are already a Admin you can login with your email address and password.</div>
+                        
                         <div className="login-form">
                             <form>
                                 <div className={`form-group ${isEmailAnimating ? 'animate' : ''}`}>
@@ -46,9 +46,9 @@ const Login = () => {
                                 </div>
                                 <RememberMe />
                                 <div className="form-group">
-                                    <button type="submit"><p>Register Account</p></button>
+                                    <button type="submit"><p>Login</p></button>
                                 </div>
-                                <p>Dont have an account ? <a href="/signup" className="right-span">Sign up here</a></p>
+                                <p>Don&apos;t have an account ? <a href="/signup" className="right-span">Sign up here</a></p>
                             </form>
                         </div>
                     </div>
