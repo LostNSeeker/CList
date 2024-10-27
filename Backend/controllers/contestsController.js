@@ -7,7 +7,7 @@ const getUpcomingContests = async (req, res) => {
     // Define the parameters for upcoming and running contests from specific hosts
     const params = {
       total_count: "true", // Get total count of contests
-      resource__in: "atcoder.jp,codechef.com,leetcode.com,geeksforgeeks.org", // Filter contests by host
+      resource__in: "atcoder.jp,codechef.com,leetcode.com,geeksforgeeks.org,codeforces.com", // Filter contests by host
       upcoming: "true", // Filter for upcoming contests
       end__gt: new Date().toISOString(), // Filter for contests still ongoing
       order_by: "start", // Order contests by start date
@@ -42,7 +42,7 @@ const getLiveContests = async (req, res) => {
     // Define the parameters to fetch only live contests (ongoing at the current time)
     const params = {
       total_count: "true", // Get total count of contests
-      resource__in: "atcoder.jp,codechef.com,leetcode.com,geeksforgeeks.org", // Filter contests by host
+      resource__in: "atcoder.jp,codechef.com,leetcode.com,geeksforgeeks.org,codeforces.com", // Filter contests by host
       start__lt: new Date().toISOString(), // Contests that have already started
       end__gt: new Date().toISOString(), // Contests that haven't ended yet
       order_by: "start", // Order contests by start time

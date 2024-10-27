@@ -2,8 +2,25 @@
     margin: 0 0 0 0;
     font: Inter;
     color: #696F79;  
+    box-sizing: border-box;
 }
-
+ 
 a {
     text-decoration: none;
 }
+.app-screen{
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    flex: 1;
+}
+.right-screen{
+    display: flex;
+    flex-direction: column;
+    background-color: #FAFAFB;
+    height: 100vh;
+    flex: 1;
+    margin-left: 84px;
+}
+
+

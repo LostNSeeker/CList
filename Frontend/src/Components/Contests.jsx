@@ -1,6 +1,13 @@
-import React, { useEffect, useState } from "react";
+// This component is used to display the upcoming contests from various platforms like Codeforces, Codechef, Atcoder, Leetcode, GeeksforGeeks.
+import { useEffect, useState } from "react";
 import axios from "axios";
 import "./Contests.css";
+import linkIcon from "/public/link.svg";
+import codeforcesIcon from "/public/code-forces.svg";
+import codechefIcon from "/public/codechef-svgrepo-com.svg";
+import gfgIcon from "/public/gfg.svg";
+import leetcodeIcon from "/public/leetcode.svg";
+import atcoderIcon from "/public/atCoder.svg";
 
 const Contests = () => {
   const [upcomingContests, setUpcomingContests] = useState([]);
@@ -29,16 +36,37 @@ useEffect(() => {
     return <div>Loading...</div>;
   }
 
+
+  const image = (resource) => {
+    if (resource === "codeforces.com") {
+      return codeforcesIcon;
+    }else if(resource === "codechef.com"){
+      return codechefIcon;
+    }else if(resource === "atcoder.jp"){
+      return atcoderIcon;
+    }else if(resource === "leetcode.com"){
+      return leetcodeIcon;
+    }else if(resource === "geeksforgeeks.org"){
+      return gfgIcon;
+    }else{
+      return null;
+    }
+    
+  }
+
   return (
-    <div>
-      <h2>Upcoming Contests</h2>
+    <div className="contests-main-box">
+      <h2 className="main-box-heading">Upcoming Contests</h2>
       {upcomingContests.length > 0 ? (
-        <ul>
+        <ul className="content-box">
           {upcomingContests.map((contest) => (
             <div key={contest.id} className="list-item">
-              <a href={contest.href}>{contest.event}</a>
+              <img src={image(contest.resource)} alt=""  className="resource-icon"/>
+              <a href={contest.href}>
+                {contest.event.slice(0, 20)}...
+              </a>
               <p>{contest.start}</p>
-              <p>{contest.end}</p>
+              <a href={contest.href}><img src={linkIcon} alt="" /></a>
             </div>
           ))}
         </ul>

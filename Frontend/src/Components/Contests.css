@@ -1,6 +1,31 @@
+.contests-main-box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    
+}
+
+.main-box-heading{
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+.content-box{
+    overflow-y: auto;
+    scrollbar-width: thin;
+    height: 220px;
+    margin-bottom: 20px;
+}
 .list-item{
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    justify-content: space-between;
+    grid-template-columns: 1fr 2fr 2fr 1fr;
     padding: 10px 10px;
+    gap: 30px;
+    
+    
+}
+.resource-icon{
+    height: 28px;
+    width: 28px;
+    border-radius: 50%;
 }
