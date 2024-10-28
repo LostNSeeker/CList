@@ -35,7 +35,7 @@
     width: 30%;
     height: 61px;
     display: flex;
-    flex-direction: right;
+    flex-direction: row;
     align-items: center;
     justify-content: flex-end;
     gap: 20px;
@@ -55,4 +55,13 @@
         width: 10%;
     }
     
+}
+@media screen and (max-width: 557px){
+    .search-box{
+        display: none;
+    }
+    .profile-box{
+        width: 100%;
+        justify-content: flex-end;
+    } 
 }

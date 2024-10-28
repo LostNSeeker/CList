@@ -9,7 +9,7 @@ import gfgIcon from "/gfg.svg";
 import leetcodeIcon from "/leetcode.svg";
 import atcoderIcon from "/atCoder.svg";
 
-const Contests = ({fullPage=false}) => {
+const Contests = () => {
   const [upcomingContests, setUpcomingContests] = useState([]);
   const [loading, setLoading] = useState(true);
 

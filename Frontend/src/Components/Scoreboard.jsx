@@ -7,12 +7,8 @@ const Scoreboard = () => {
   return (
     <div className="board-container">
       <div className="upper-board">
-        <div>
-          <TotalContests />
-        </div>
-        <div>
-          <ProblemSolved />
-        </div>
+        <TotalContests />
+        <ProblemSolved />
       </div>
       <div className="lower-board">
         <div className="coding-platform">

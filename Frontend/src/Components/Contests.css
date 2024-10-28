@@ -3,7 +3,7 @@
     flex-direction: column;
     align-items: center;
     flex: 1;
-    
+    height: 100%;
 }
 
 .main-box-heading{
@@ -13,8 +13,9 @@
 .content-box{
     overflow-y: auto;
     scrollbar-width: thin;
-    height: 220px;
-    margin-bottom: 20px;
+    height: 100%;
+    margin-bottom: 30px;
+    margin-right: 10px;
 }
 .list-item{
     display: grid;
