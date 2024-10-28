@@ -1,4 +1,3 @@
-
 import "./App.css";
 import {
   BrowserRouter as Router,
@@ -12,14 +11,16 @@ import Contests from "./Components/Contests";
 import Home from "./Pages/Home";
 import TopNav from "./Components/TopNav";
 import LeftNav from "./Components/LeftNav";
-import Chart from "./Components/Chart";
 import Rating from "./Components/Rating";
+import { UserProvider } from "./utils/userContext";
 
 function App() {
   return (
-    <Router>
-      <AppContent />
-    </Router>
+    <UserProvider>
+      <Router>
+        <AppContent />
+      </Router>
+    </UserProvider>
   );
 }
 
@@ -43,7 +44,6 @@ function AppContent() {
               <Routes>
                 <Route path="/contests" element={<Contests />} />
                 <Route path="/home" element={<Home />} />
-                <Route path="/chart" element={<Chart />} />
                 <Route path="/rating" element={<Rating />} />
               </Routes>
             </div>
