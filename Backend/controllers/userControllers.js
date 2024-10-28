@@ -2,9 +2,57 @@ const axios = require("axios");
 
 const cheerio = require("cheerio");
 
+//object mappings
+//create rating vs title in codeforces
+const getRatingTitleCF = (rating) => {
+	if (rating < 1200) return "Newbie";
+	if (rating < 1400) return "Pupil";
+	if (rating < 1600) return "Specialist";
+	if (rating < 1900) return "Expert";
+	if (rating < 2100) return "Candidate Master";
+	if (rating < 2300) return "Master";
+	if (rating < 2400) return "International Master";
+	if (rating < 2600) return "Grandmaster";
+	if (rating < 3000) return "International Grandmaster";
+	return "Legendary Grandmaster";
+};
+
 //helper functions
 
+async function getTotalSolvedCF(handle) {
+	const url = `https://codeforces.com/api/user.status?handle=${handle}`;
+
+	try {
+		const response = await fetch(url);
+		const data = await response.json();
+
+		if (data.status === "OK") {
+			console.log(data.result);
+			const solvedProblems = new Set();
+
+			data.result.forEach((submission) => {
+				if (submission.verdict === "OK") {
+					const problemId = `${submission.problem.contestId}-${submission.problem.index}`;
+					solvedProblems.add(problemId);
+				}
+			});
+
+			return solvedProblems.size;
+		} else {
+			console.error("Error:", data.comment);
+			return null;
+		}
+	} catch (error) {
+		console.error("Error fetching data:", error);
+		return null;
+	}
+}
+
 const getCFRating = async (cfId) => {
+	const details = {};
+	const totalSolved = await getTotalSolvedCF(cfId);
+	details.solvedProblems = totalSolved;
+
 	try {
 		//codeforces rating api call
 		const response = await axios.get(
@@ -21,7 +69,10 @@ const getCFRating = async (cfId) => {
 				).toLocaleDateString(),
 			});
 		});
-		return cfRatings;
+		details.ratingHistory = cfRatings;
+		details.contests = cfRatings.length;
+		details.title = getRatingTitleCF(cfRatings[cfRatings.length - 1].rating);
+		return details;
 	} catch (error) {
 		console.error("Error:", error);
 		return [];
@@ -223,9 +274,9 @@ async function getCCDetails(username) {
 			.text()
 			.trim();
 
-		const solvedCount = solvedCountText.match(/\d+/)[0];
-		const contests = contestsText.match(/\d+/)[0];
-		const stars = starRating.match(/\d+/)[0];
+		const solvedCount = parseInt(solvedCountText.match(/\d+/)[0], 10);
+		const contests = parseInt(contestsText.match(/\d+/)[0], 10);
+		const stars = parseInt(starRating.match(/\d+/)[0], 10);
 
 		return { solvedCount, contests, stars };
 	} catch (error) {
@@ -235,7 +286,7 @@ async function getCCDetails(username) {
 
 //controllers functions
 
-const getUserRating = async (req, res) => {
+const getUserDetails = async (req, res) => {
 	//it will return the rating of the user in all the platforms
 	const allRatings = {};
 	allRatings.cf = await getCFRating("bipiniitkgp");
@@ -244,15 +295,4 @@ const getUserRating = async (req, res) => {
 	res.json(allRatings);
 };
 
-const getUserDashboard = async (req, res) => {
-	//it will return the total problem solved total contests attended and other details
-
-	const allDetails = {};
-	// allDetails.totalProblemSolved = await getTotalProblemSolved();
-	allDetails.cc = await getCCDetails("ksun48");
-	// // allDetails.cf = await getCFDetails("bipiniitkgp");
-	// allDetails.lc = await getLCDetails("bipiniitkgp");
-	res.json(allDetails);
-};
-
-module.exports = { getUserRating, getUserDashboard };
+module.exports = { getUserDetails };
