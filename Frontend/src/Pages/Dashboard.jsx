@@ -1,21 +1,20 @@
 
 // Desc: Home page for the application
-import './Home.css';
+import './Dashboard.css';
 import Contests from '../Components/Contests';
 import Scoreboard from '../Components/Scoreboard';
-import Chart from '../Components/Chart';
 
-const Home = () => {
+const Dashboard = () => {
     return (
         <div className="home-screen">
             <div className='box' id="scoreboard"><Scoreboard /></div>
-            <div className='box'><iframe src="https://codechef-api.vercel.app/rating/ksun48"></iframe></div>
+            <div className='box'>{/*<iframe src="https://codechef-api.vercel.app/rating/ksun48"></iframe>*/}</div>
             <div className='box'>
                 <Contests/>
             </div>
-            <div className='box'><Chart/></div>
+            <div className='box'></div>
         </div>
     );
 };
 
-export default Home;
+export default Dashboard;
