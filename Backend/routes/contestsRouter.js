@@ -11,4 +11,6 @@ router.get('/upcoming', getUpcomingContests);
 // Route to get live contests
 router.get('/live', getLiveContests);
 
+
+
 module.exports = router;
