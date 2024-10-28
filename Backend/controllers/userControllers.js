@@ -1,9 +1,59 @@
 const axios = require("axios");
 
-//get user rating from codeforces
-const getCFRating = async () => {
+const cheerio = require("cheerio");
+
+//object mappings
+//create rating vs title in codeforces
+const getRatingTitleCF = (rating) => {
+	if (rating < 1200) return "Newbie";
+	if (rating < 1400) return "Pupil";
+	if (rating < 1600) return "Specialist";
+	if (rating < 1900) return "Expert";
+	if (rating < 2100) return "Candidate Master";
+	if (rating < 2300) return "Master";
+	if (rating < 2400) return "International Master";
+	if (rating < 2600) return "Grandmaster";
+	if (rating < 3000) return "International Grandmaster";
+	return "Legendary Grandmaster";
+};
+
+//helper functions
+
+async function getTotalSolvedCF(handle) {
+	const url = `https://codeforces.com/api/user.status?handle=${handle}`;
+
 	try {
-		const cfId = "bipiniitkgp";
+		const response = await fetch(url);
+		const data = await response.json();
+
+		if (data.status === "OK") {
+			console.log(data.result);
+			const solvedProblems = new Set();
+
+			data.result.forEach((submission) => {
+				if (submission.verdict === "OK") {
+					const problemId = `${submission.problem.contestId}-${submission.problem.index}`;
+					solvedProblems.add(problemId);
+				}
+			});
+
+			return solvedProblems.size;
+		} else {
+			console.error("Error:", data.comment);
+			return null;
+		}
+	} catch (error) {
+		console.error("Error fetching data:", error);
+		return null;
+	}
+}
+
+const getCFRating = async (cfId) => {
+	const details = {};
+	const totalSolved = await getTotalSolvedCF(cfId);
+	details.solvedProblems = totalSolved;
+
+	try {
 		//codeforces rating api call
 		const response = await axios.get(
 			`https://codeforces.com/api/user.rating?handle=${cfId}`
@@ -19,16 +69,19 @@ const getCFRating = async () => {
 				).toLocaleDateString(),
 			});
 		});
-		return cfRatings;
+		details.ratingHistory = cfRatings;
+		details.contests = cfRatings.length;
+		details.title = getRatingTitleCF(cfRatings[cfRatings.length - 1].rating);
+		return details;
 	} catch (error) {
 		console.error("Error:", error);
 		return [];
 	}
 };
 
-const getCCRating = async () => {
+const getCCRating = async (ccId) => {
+	const details = {};
 	try {
-		const ccId = "ksun48";
 		//codechef rating api call
 		const response = await axios.get(
 			`https://codechef-api.vercel.app/handle/${ccId}`
@@ -44,13 +97,20 @@ const getCCRating = async () => {
 				).toLocaleDateString(),
 			});
 		});
-		return ccRatings;
+		const gotData = await getCCDetails(ccId);
+		details.solvedProblems = gotData.solvedCount;
+		details.contests = gotData.contests;
+		details.stars = gotData.stars;
+		details.ratingHistory = ccRatings;
+
+		return details;
 	} catch (error) {
 		console.error("Error:", error);
 		return [];
 	}
 };
-const getLCRating = async () => {
+
+const getLCRating = async (lcId) => {
 	const url = "https://leetcode.com/graphql";
 	const query = {
 		operationName: "userContestRankingInfo",
@@ -82,9 +142,11 @@ const getLCRating = async () => {
             }
         `,
 		variables: {
-			username: "bipiniitkgp",
+			username: lcId,
 		},
 	};
+
+	const details = {};
 
 	try {
 		const response = await fetch(url, {
@@ -116,20 +178,121 @@ const getLCRating = async () => {
 			rating: contest.rating,
 			rank: contest.ranking,
 		}));
-
-		// console.log(ratingHistory);
-		return ratingHistory;
+		details.badge = result.data.userContestRanking.badge?.name || "None";
+		details.contests = filteredData.length;
+		details.ratingHistory = ratingHistory;
 	} catch (error) {
 		console.error("Error fetching rating history:", error);
 	}
+
+	const query2 = {
+		operationName: "userSessionProgress",
+		query: `
+            query userSessionProgress($username: String!) {
+                allQuestionsCount {
+                    difficulty
+                    count
+                }
+                matchedUser(username: $username) {
+                    submitStats {
+                        acSubmissionNum {
+                            difficulty
+                            count
+                            submissions
+                        }
+                        totalSubmissionNum {
+                            difficulty
+                            count
+                            submissions
+                        }
+                    }
+                }
+            }
+        `,
+		variables: {
+			username: lcId,
+		},
+	};
+
+	try {
+		const response = await fetch(url, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+				Accept: "application/json",
+			},
+			body: JSON.stringify(query2),
+		});
+
+		if (!response.ok) {
+			console.error("Failed to fetch rating history:\n", response.json());
+			return;
+		}
+
+		const result = await response.json();
+
+		// Check if data was returned
+		const data = result.data.matchedUser.submitStats;
+		if (!data || data.length === 0) {
+			console.log(`No rating history found for ${username}`);
+			return;
+		}
+
+		const solvedProblems = data.acSubmissionNum;
+
+		details.solvedProblems = solvedProblems[0].count;
+	} catch (error) {
+		console.error("Error fetching rating history:", error);
+	}
+
+	return details;
 };
 
-const getUserRating = async (req, res) => {
+async function getCCDetails(username) {
+	const url = `https://www.codechef.com/users/${username}`;
+
+	try {
+		const { data } = await axios.get(url);
+		const $ = cheerio.load(data);
+
+		// Use the provided selector for total solved questions
+		const solvedCountText = $(
+			"body > main > div > div > div > div > div > section.rating-data-section.problems-solved > h3:nth-child(71)"
+		)
+			.text()
+			.trim();
+
+		const contestsText = $(
+			"body > main > div > div > div > div > div > section.rating-data-section.problems-solved > h3:nth-child(5)"
+		)
+			.text()
+			.trim();
+
+		const starRating = $(
+			"body > main > div > div > div > div > div > section.user-details > ul > li:nth-child(1) > span > span.rating"
+		)
+			.text()
+			.trim();
+
+		const solvedCount = parseInt(solvedCountText.match(/\d+/)[0], 10);
+		const contests = parseInt(contestsText.match(/\d+/)[0], 10);
+		const stars = parseInt(starRating.match(/\d+/)[0], 10);
+
+		return { solvedCount, contests, stars };
+	} catch (error) {
+		console.error("Error fetching solved problems count:", error);
+	}
+}
+
+//controllers functions
+
+const getUserDetails = async (req, res) => {
+	//it will return the rating of the user in all the platforms
 	const allRatings = {};
-	allRatings.cf = await getCFRating();
-	allRatings.cc = await getCCRating();
-	allRatings.lc = await getLCRating();
+	allRatings.cf = await getCFRating("bipiniitkgp");
+	allRatings.cc = await getCCRating("ksun48");
+	allRatings.lc = await getLCRating("bipiniitkgp");
 	res.json(allRatings);
 };
 
-module.exports = { getUserRating };
+module.exports = { getUserDetails };

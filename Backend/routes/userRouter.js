@@ -1,8 +1,8 @@
 const express = require("express");
-const { getUserRating } = require("../controllers/userControllers");
+const { getUserDetails } = require("../controllers/userControllers");
 
 const router = express.Router();
 
-router.get("/getRating", getUserRating);
+router.get("/getDetails", getUserDetails);
 
 module.exports = router;
