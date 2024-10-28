@@ -3,6 +3,7 @@
 import './Home.css';
 import Contests from '../Components/Contests';
 import Scoreboard from '../Components/Scoreboard';
+import Chart from '../Components/Chart';
 
 const Home = () => {
     return (
@@ -12,7 +13,7 @@ const Home = () => {
             <div className='box'>
                 <Contests/>
             </div>
-            <div className='box'>Div 4</div>
+            <div className='box'><Chart/></div>
         </div>
     );
 };

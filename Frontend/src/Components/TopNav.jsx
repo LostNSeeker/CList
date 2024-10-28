@@ -1,7 +1,7 @@
 import "./TopNav.css"; // Assuming you will add some styles
-import mailIcon from "/public/mail.svg";
-import notificationIcon from "/public/notification.svg";
-import profileIcon from "/public/profile.svg";
+import mailIcon from "/mail.svg";
+import notificationIcon from "/notification.svg";
+import profileIcon from "/profile.svg";
 
 const TopNav = () => {
   return (

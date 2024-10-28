@@ -12,6 +12,7 @@ import Contests from "./Components/Contests";
 import Home from "./Pages/Home";
 import TopNav from "./Components/TopNav";
 import LeftNav from "./Components/LeftNav";
+import Chart from "./Components/Chart";
 
 function App() {
   return (
@@ -39,8 +40,9 @@ function AppContent() {
             <TopNav />
             <div className="bottom-screen">
               <Routes>
-                <Route path="/contests" element={<Contests />} />
+                <Route path="/contests" element={<Contests fullPage={true}/>} />
                 <Route path="/home" element={<Home />} />
+                <Route path="/chart" element={<Chart />} />
               </Routes>
             </div>
           </div>

@@ -12,7 +12,7 @@ const getUpcomingContests = async (req, res) => {
       end__gt: new Date().toISOString(), // Filter for contests still ongoing
       order_by: "start", // Order contests by start date
       format_time: "true", // Format time in response
-      start_time__during: "10 day", // Filter contests starting in the next 10 days
+      start_time__during: "30 day", // Filter contests starting in the next 10 days
     };
 
     // Fetch contests from Clist API using axios with parameters

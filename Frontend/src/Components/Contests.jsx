@@ -2,14 +2,14 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import "./Contests.css";
-import linkIcon from "/public/link.svg";
-import codeforcesIcon from "/public/code-forces.svg";
-import codechefIcon from "/public/codechef-svgrepo-com.svg";
-import gfgIcon from "/public/gfg.svg";
-import leetcodeIcon from "/public/leetcode.svg";
-import atcoderIcon from "/public/atCoder.svg";
+import linkIcon from "/link.svg";
+import codeforcesIcon from "/code-forces.svg";
+import codechefIcon from "/codechef-svgrepo-com.svg";
+import gfgIcon from "/gfg.svg";
+import leetcodeIcon from "/leetcode.svg";
+import atcoderIcon from "/atCoder.svg";
 
-const Contests = () => {
+const Contests = ({fullPage=false}) => {
   const [upcomingContests, setUpcomingContests] = useState([]);
   const [loading, setLoading] = useState(true);
 

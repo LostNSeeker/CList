@@ -1,7 +1,7 @@
 import "./LeftNav.css"; // Make sure to create a corresponding CSS file for styling
-import homeIcon from "/public/home.svg";
-import contestsIcon from "/public/contests.svg";
-import menuIcon from "/public/menu.svg";
+import homeIcon from "/home.svg";
+import contestsIcon from "/contests.svg";
+import menuIcon from "/menu.svg";
 
 const LeftNav = () => {
   return (

@@ -1,5 +1,5 @@
-import totalContestsIcon from "/public/totalContestsIcon.svg";
-import upperArrowIcon from "/public/upperArrow.svg";
+import totalContestsIcon from "/totalContestsIcon.svg";
+import upperArrowIcon from "/upperArrow.svg";
 import "./TotalContests.css";
 const TotalContests = () => {
   return (

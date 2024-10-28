@@ -1,6 +1,6 @@
 
-import upperArrowIcon from "/public/upperArrow.svg";
-import totalProblemIcon from "/public/totalProblem.svg";
+import upperArrowIcon from "/upperArrow.svg";
+import totalProblemIcon from "/totalProblem.svg";
 import "./TotalContests.css";
 
 const ProblemSolved = () => {
