@@ -24,15 +24,24 @@ import { Link } from "react-router-dom"; // Import Link from react-router-dom
 import homeIcon from "/public/home.svg";
 import contestsIcon from "/public/contests.svg";
 
+const drawerWidth = 260;
+const closedDrawerWidth = 84; // Width when closed
 
-const drawerWidth = 240;
+const ContestsIcon = () => (
+  <img
+    src={contestsIcon}
+    alt="con"
+    style={{ backgroundColor: "white", borderRadius: "50%" }}
+  />
+);
 
-const HomeIcon = ()=>{
-  <img src={homeIcon} />
-}
-const ContestsIcon = ()=>{
-  <img src={contestsIcon} />
-}
+const HomeIcon = () => (
+  <img
+    src={homeIcon}
+    alt="home"
+    style={{ backgroundColor: "white", borderRadius: "50%", padding: "10px" }}
+  />
+);
 
 const menuItems = [
   { text: "Home", path: "/", icon: <HomeIcon /> },
@@ -54,9 +63,9 @@ const closedMixin = (theme) => ({
     duration: theme.transitions.duration.leavingScreen,
   }),
   overflowX: "hidden",
-  width: `calc(${theme.spacing(7)} + 1px)`,
+  width: closedDrawerWidth, // Set the width of the closed drawer
   [theme.breakpoints.up("sm")]: {
-    width: `calc(${theme.spacing(8)} + 1px)`,
+    width: closedDrawerWidth, // Set the width of the closed drawer for larger screens
   },
 });
 
@@ -64,8 +73,8 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "flex-end",
+  backgroundColor: "#18181B", // Set the header background color to black
   padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
   ...theme.mixins.toolbar,
 }));
 
@@ -73,7 +82,6 @@ const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme }) => ({
   zIndex: theme.zIndex.drawer + 1,
-  //backgroundColor: '#000000', // Set AppBar background color to black
   transition: theme.transitions.create(["width", "margin"], {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
@@ -100,19 +108,26 @@ const Drawer = styled(MuiDrawer, {
   flexShrink: 0,
   whiteSpace: "nowrap",
   boxSizing: "border-box",
+  backgroundColor: "#18181B", // Set the entire drawer background color to black
   variants: [
     {
       props: ({ open }) => open,
       style: {
         ...openedMixin(theme),
-        "& .MuiDrawer-paper": openedMixin(theme),
+        "& .MuiDrawer-paper": {
+          backgroundColor: "#18181B", // Set the paper background color to black
+          ...openedMixin(theme),
+        },
       },
     },
     {
       props: ({ open }) => !open,
       style: {
         ...closedMixin(theme),
-        "& .MuiDrawer-paper": closedMixin(theme),
+        "& .MuiDrawer-paper": {
+          backgroundColor: "#18181B", // Set the paper background color to black
+          ...closedMixin(theme),
+        },
       },
     },
   ],
@@ -134,30 +149,26 @@ export default function HomePage() {
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
 
-      <AppBar position="fixed" open={open} sx={{backgroundColor: "#18181B"}}>
-        <Toolbar>
+      <AppBar position="fixed" open={open} sx={{ backgroundColor: "#18181B" }}>
+        <Toolbar sx={{ padding: 0, margin: 0 }}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             edge="start"
-            sx={[
-              {
-                marginRight: 5,
-              },
-              open && { display: "none" },
-            ]}
+            sx={[{ marginRight: 4 }, open && { display: "none" }]}
           >
             <MenuIcon />
           </IconButton>
 
-          <Box sx={{ flexGrow: 1 }}>
+          <Box sx={{ flexGrow: 1, m: 0, p: 0}}>
             <TopNav />
           </Box>
+
         </Toolbar>
       </AppBar>
 
-      <Drawer variant="permanent" open={open} sx={{backgroundColor: "black"}}>
+      <Drawer variant="permanent" open={open}>
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === "rtl" ? (
@@ -169,76 +180,48 @@ export default function HomePage() {
         </DrawerHeader>
         <Divider />
         <List>
-  {menuItems.map(({ text, path, icon }) => (
-    <ListItem key={text} disablePadding sx={{ display: "block" }}>
-      <ListItemButton
-        component={Link} // Use Link as the button component
-        to={path} // Set the path to navigate to
-        sx={[
-          {
-            minHeight: 48,
-            px: 2.5,
-          },
-          open
-            ? {
-                justifyContent: "initial",
-              }
-            : {
-                justifyContent: "center",
-              },
-        ]}
-      >
-        <ListItemIcon
-          sx={[
-            {
-              minWidth: 0,
-              justifyContent: "center",
-            },
-            open
-              ? {
-                  mr: 3,
-                }
-              : {
-                  mr: "auto",
-                },
-          ]}
-        >
-          {icon} {/* Render the icon */}
-        </ListItemIcon>
-        <ListItemText
-          primary={text}
-          sx={[
-            open
-              ? {
-                  opacity: 1,
-                }
-              : {
-                  opacity: 0,
-                },
-          ]}
-        />
-      </ListItemButton>
-    </ListItem>
-  ))}
-</List>
+          {menuItems.map(({ text, path, icon }) => (
+            <ListItem key={text} disablePadding sx={{ display: "block" }}>
+              <ListItemButton
+                component={Link} // Use Link as the button component
+                to={path} // Set the path to navigate to
+                sx={[{ minHeight: 48, px: 2.5, backgroundColor: "#18181B", color: "white" }]}> {/* Set background color and text color */}
+                <ListItemIcon
+                  sx={[
+                    {
+                      minWidth: 0,
+                      justifyContent: "center",
+                    },
+                    open
+                      ? {
+                          mr: 3,
+                        }
+                      : {
+                          mr: "auto",
+                        },
+                  ]}
+                >
+                  {icon} {/* Render the icon */}
+                </ListItemIcon>
+                <ListItemText
+                  primary={text}
+                  sx={[open ? { opacity: 1 } : { opacity: 0 }]}
+                />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
         <Divider />
       </Drawer>
-
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-        <DrawerHeader />
-        <Typography sx={{ marginBottom: 2 }}>
-
-          
-            <Routes>
-              <Route path="/" element={<Dashboard />} />
-              <Route path="/contests" element={<Contests fullPage={true} />} />
-            </Routes>
-          
-          
+        <Typography sx={{ marginBottom: 2, marginTop: 5 }}>
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/contests" element={<Contests fullPage={true} />} />
+          </Routes>
         </Typography>
         <Typography sx={{ marginBottom: 2 }}></Typography>
       </Box>
-
     </Box>
   );
 }
