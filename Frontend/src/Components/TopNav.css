@@ -25,14 +25,14 @@
 .top-menu{
     display: none;
     flex-direction: row;
-    gap: 10px;
+    justify-content: flex-start;
 }
 
 .top-menu ul{
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
-    
+    padding: 10px;
 }
 .top-menu img{
     background-color: white;
