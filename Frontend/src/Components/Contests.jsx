@@ -1,4 +1,3 @@
-// This component is used to display the upcoming contests from various platforms like Codeforces, Codechef, Atcoder, Leetcode, GeeksforGeeks.
 import { useEffect, useState } from "react";
 import axios from "axios";
 import "./Contests.css";
@@ -11,67 +10,87 @@ import atcoderIcon from "/atCoder.svg";
 const Contests = () => {
   const [upcomingContests, setUpcomingContests] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedPlatform, setSelectedPlatform] = useState("all");
 
-useEffect(() => {
+  useEffect(() => {
     const fetchContests = async () => {
-        try {
-            const response = await axios.get(
-                "http://localhost:5000/api/contests/upcoming"
-            );
-            const data = response.data.contests;
-            //console.log(data);
-            setUpcomingContests(data);
-        } catch (error) {
-            console.error("Error fetching contests:", error);
-        } finally {
-            setLoading(false);
-        }
+      try {
+        const response = await axios.get(
+          "http://localhost:5000/api/contests/upcoming"
+        );
+        const data = response.data.contests;
+        setUpcomingContests(data);
+      } catch (error) {
+        console.error("Error fetching contests:", error);
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchContests();
-}, []);
+  }, []);
 
   if (loading) {
     return <div>Loading...</div>;
   }
 
-
   const image = (resource) => {
     if (resource === "codeforces.com") {
       return codeforcesIcon;
-    }else if(resource === "codechef.com"){
+    } else if (resource === "codechef.com") {
       return codechefIcon;
-    }else if(resource === "atcoder.jp"){
+    } else if (resource === "atcoder.jp") {
       return atcoderIcon;
-    }else if(resource === "leetcode.com"){
+    } else if (resource === "leetcode.com") {
       return leetcodeIcon;
-    }else if(resource === "geeksforgeeks.org"){
+    } else if (resource === "geeksforgeeks.org") {
       return gfgIcon;
-    }else{
+    } else {
       return null;
     }
-    
-  }
+  };
+
+  // Filter contests based on the selected platform
+  const filteredContests = selectedPlatform === "all"
+    ? upcomingContests
+    : upcomingContests.filter((contest) => contest.resource.includes(selectedPlatform));
 
   return (
     <div className="contests-main-box">
       <h2 className="main-box-heading">Upcoming Contests</h2>
-      {upcomingContests.length > 0 ? (
+
+      {/* Filter dropdown */}
+      <div className="filter-box">
+        <label htmlFor="platform-select">Filter by Platform:</label>
+        <select
+          id="platform-select"
+          value={selectedPlatform}
+          onChange={(e) => setSelectedPlatform(e.target.value)}
+        >
+          <option value="all">All</option>
+          <option value="codeforces.com">CodeForces</option>
+          <option value="codechef.com">CodeChef</option>
+          <option value="atcoder.jp">AtCoder</option>
+          <option value="leetcode.com">LeetCode</option>
+          <option value="geeksforgeeks.org">GeeksforGeeks</option>
+        </select>
+      </div>
+
+      {filteredContests.length > 0 ? (
         <ul className="content-box">
-          {upcomingContests.map((contest) => (
+          {filteredContests.map((contest) => (
             <div key={contest.id} className="list-item">
-              <img src={image(contest.resource)} alt=""  className="resource-icon"/>
-              <a href={contest.href}>
+              <img src={image(contest.resource)} alt="" className="resource-icon" />
+              <a href={contest.href} target="_blank" rel="noopener noreferrer">
                 {contest.event.slice(0, 20)}...
               </a>
               <p>{contest.start}</p>
               <input type="checkbox" />
-              {/*<a href={contest.href}><img src={linkIcon} alt="" /></a>*/}
             </div>
           ))}
         </ul>
       ) : (
-        <p>No upcoming contests at the moment.</p>
+        <p>No upcoming contests at the moment for the selected platform.</p>
       )}
     </div>
   );

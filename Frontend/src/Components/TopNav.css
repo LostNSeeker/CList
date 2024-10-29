@@ -1,8 +1,8 @@
 .top-nav{
-   
+    position: fixed;
     height: 61px;
     display: flex;
-    
+    width: calc(100% - 84px);
 }
 .space{
     width: 162px;
@@ -76,6 +76,9 @@
     
 }
 @media screen and (max-width: 557px){
+    .top-nav{
+        width: 100%;
+    }
     .search-box{
         display: none;
     }

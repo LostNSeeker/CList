@@ -21,6 +21,10 @@ a {
     height: 100vh;
     flex: 1;
     margin-left: 84px;
+    position: relative;
+}
+.bottom-screen{
+    margin-top: 61px;
 }
 
 @media screen and (max-width: 557px){

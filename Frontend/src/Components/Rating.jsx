@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import UserContext from '../utils/userContext';
 import { useContext } from 'react';
 import PropTypes from 'prop-types';
@@ -8,14 +7,15 @@ import {
   LineElement,
   PointElement,
   LinearScale,
-  CategoryScale,
+  TimeScale,
   Title,
   Tooltip,
   Legend,
 } from 'chart.js';
+import 'chartjs-adapter-moment'; // Required for handling time scale
 
 // Register necessary components
-ChartJS.register(LineElement, PointElement, LinearScale, CategoryScale, Title, Tooltip, Legend);
+ChartJS.register(LineElement, PointElement, LinearScale, TimeScale, Title, Tooltip, Legend);
 
 const CodingPlatformChart = ({ data, width, height }) => {
   const monthYearLabels = [];
@@ -23,18 +23,17 @@ const CodingPlatformChart = ({ data, width, height }) => {
   const ccData = [];
   const lcData = [];
 
-  // Create an object to collect ratings for each month-year
+  // Create an object to collect ratings for each exact date
   const allEntries = {};
 
   const collectData = (platformData, platformKey) => {
     platformData.forEach(entry => {
       // Assume entry.date is in "M/D/YYYY"
-    const [month, day, year] = entry.date.split('/'); // Split the date string
+      const [month, day, year] = entry.date.split('/'); // Split the date string
+      const date = new Date(year, month - 1, day); // Create a Date object for the exact date
 
-    // Create the month-year string manually
-    const monthYear = `${new Date(year, month - 1).toLocaleString('default', { month: 'long' })} ${year}`;
-      allEntries[monthYear] = allEntries[monthYear] || {};
-      allEntries[monthYear][platformKey] = entry.rating;
+      allEntries[date] = allEntries[date] || {};
+      allEntries[date][platformKey] = entry.rating;
     });
   };
 
@@ -43,24 +42,17 @@ const CodingPlatformChart = ({ data, width, height }) => {
   collectData(data.cc.ratingHistory, 'cc');
   collectData(data.lc.ratingHistory, 'lc');
 
-  // Sort month-year keys in chronological order
-  const sortedMonthYears = Object.keys(allEntries).sort((a, b) => {
-    const dateA = new Date(a);
-    const dateB = new Date(b);
-    return dateA - dateB;
-  });
-
   // Prepare data for the chart
-  sortedMonthYears.forEach(monthYear => {
-    monthYearLabels.push(monthYear);
-    cfData.push(allEntries[monthYear].cf || null); // Use null if no rating
-    ccData.push(allEntries[monthYear].cc || null);
-    lcData.push(allEntries[monthYear].lc || null);
+  Object.keys(allEntries).forEach(date => {
+    monthYearLabels.push(date); // Push the date object
+    cfData.push(allEntries[date].cf || null); // Use null if no rating
+    ccData.push(allEntries[date].cc || null);
+    lcData.push(allEntries[date].lc || null);
   });
 
   // Create datasets for Chart.js
   const chartData = {
-    labels: monthYearLabels,
+    labels: monthYearLabels.map(date => new Date(date)), // Convert string labels to Date objects
     datasets: [
       {
         label: 'CodeForces (CF)',
@@ -74,7 +66,7 @@ const CodingPlatformChart = ({ data, width, height }) => {
         pointBackgroundColor: 'rgba(54, 162, 235, 1)',
         pointBorderColor: 'rgba(54, 162, 235, 0.5)',
         tension: 0.3,
-        spanGaps: true,  // This will connect points across null values
+        spanGaps: true,
       },
       {
         label: 'CodeChef (CC)',
@@ -88,7 +80,7 @@ const CodingPlatformChart = ({ data, width, height }) => {
         pointBackgroundColor: '#F67000',
         pointBorderColor: '#F67000',
         tension: 0.3,
-        spanGaps: true,  // This will connect points across null values
+        spanGaps: true,
       },
       {
         label: 'LeetCode (LC)',
@@ -102,7 +94,7 @@ const CodingPlatformChart = ({ data, width, height }) => {
         pointBackgroundColor: 'green',
         pointBorderColor: 'green',
         tension: 0.3,
-        spanGaps: true,  // This will connect points across null values
+        spanGaps: true,
       },
     ],
   };
@@ -114,7 +106,7 @@ const CodingPlatformChart = ({ data, width, height }) => {
     plugins: {
       title: {
         display: true,
-        text: 'Analytics of Rating', // Chart title text
+        text: 'Analytics of Rating',
         color: '#333',
         font: { size: 20, family: 'Inter', weight: 'bold' },
         padding: { top: 10, bottom: 30 },
@@ -147,12 +139,20 @@ const CodingPlatformChart = ({ data, width, height }) => {
     },
     scales: {
       x: {
+        type: 'time', // Set the x-axis type to time for exact date representation
+        time: {
+          tooltipFormat: 'MMM D, YYYY', // Format for the tooltip
+          displayFormats: {
+            day: 'MMM D, YYYY', // Display format on the x-axis
+          },
+          unit: 'day', // Unit for the x-axis
+        },
         grid: {
           display: false, // Hide gridlines for a cleaner look
         },
         title: {
           display: true,
-          text: 'Month and Year',
+          text: 'Time',
           color: '#666',
           font: {
             size: 16,
@@ -163,7 +163,7 @@ const CodingPlatformChart = ({ data, width, height }) => {
         ticks: {
           color: '#666',
           autoSkip: true,
-          maxTicksLimit: 12,
+          maxTicksLimit: 10,
         },
       },
       y: {
