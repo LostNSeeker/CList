@@ -1,4 +1,6 @@
 import { createContext, useEffect, useState, useMemo } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../../config/firebaseConfig";
 import axios from "axios";
 
 // Create the context
@@ -11,22 +13,33 @@ export const UserProvider = ({ children }) => {
 	const [error, setError] = useState(null);
 
 	useEffect(() => {
-		const fetchUserDetails = async () => {
-			try {
-				setLoading(true);
-				const response = await axios.get(
-					"http://localhost:5000/api/user/getDetails"
-				);
-				setUserDetails(response.data);
-				console.log(response.data);
-			} catch (err) {
-				setError(err.message);
-			} finally {
+		const unsubscribe = onAuthStateChanged(auth, async (user) => {
+			if (user) {
+				try {
+					setLoading(true);
+					const token = await user.getIdToken();
+					const response = await axios.get(
+						"http://localhost:5000/api/user/getDetails",
+						{
+							headers: {
+								Authorization: token,
+							},
+						}
+					);
+					setUserDetails(response.data);
+					console.log(response.data);
+				} catch (err) {
+					setError(err.message);
+				} finally {
+					setLoading(false);
+				}
+			} else {
+				setUserDetails(null);
 				setLoading(false);
 			}
-		};
+		});
 
-		fetchUserDetails();
+		return () => unsubscribe();
 	}, []);
 
 	// Function to calculate total problems solved and total contests

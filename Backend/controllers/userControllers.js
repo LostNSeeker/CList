@@ -295,4 +295,14 @@ const getUserDetails = async (req, res) => {
 	res.json(allRatings);
 };
 
-module.exports = { getUserDetails };
+const userLogin = async (req, res) => {
+	res.send("User login");
+};
+
+const userSignup = async (req, res) => {
+	const { email, password, codeforces, leetcode, codechef } = req.body;
+	console.log(email, password, codeforces, leetcode, codechef);
+	res.send("User signup");
+};
+
+module.exports = { getUserDetails, userLogin, userSignup };
