@@ -90,7 +90,7 @@ const SignUp = () => {
                 </div>
                 <p>
                   Already have an account ?{" "}
-                  <a href="/" className="right-span">
+                  <a href="/login" className="right-span">
                     Login here
                   </a>
                 </p>

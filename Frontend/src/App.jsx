@@ -14,6 +14,7 @@ import LeftNav from "./Components/LeftNav";
 import Rating from "./Components/Rating";
 import Events from "./Components/Events"
 import { UserProvider } from "./utils/userContext";
+import Chart from "./Components/Chart";
 
 function App() {
   return (
@@ -46,6 +47,7 @@ function AppContent() {
                 <Route path="/contests" element={<Contests />} />
                 <Route path="/" element={<Home />} />
                 <Route path="/rating" element={<Rating />} />
+                <Route path="/chart" element={<Chart />} />
                 <Route path="/events" element={<Events />} />
               </Routes>
             </div>
