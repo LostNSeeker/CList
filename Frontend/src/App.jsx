@@ -26,12 +26,12 @@ function App() {
 
 function AppContent() {
   const location = useLocation();
-  const hideNav = location.pathname === "/" || location.pathname === "/signup";
+  const hideNav = location.pathname === "/login" || location.pathname === "/signup";
 
   return (
     <div>
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
       </Routes>
 
@@ -43,7 +43,7 @@ function AppContent() {
             <div className="bottom-screen">
               <Routes>
                 <Route path="/contests" element={<Contests />} />
-                <Route path="/home" element={<Home />} />
+                <Route path="/" element={<Home />} />
                 <Route path="/rating" element={<Rating />} />
               </Routes>
             </div>

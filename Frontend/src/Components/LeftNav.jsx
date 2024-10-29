@@ -10,7 +10,7 @@ const LeftNav = () => {
         <img src={menuIcon} />
       </ul>
       <ul>
-        <a href="/home">
+        <a href="/">
           <img src={homeIcon} />
         </a>
       </ul>

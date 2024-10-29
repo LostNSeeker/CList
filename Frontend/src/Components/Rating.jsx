@@ -1,5 +1,5 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
+import UserContext from '../utils/userContext';
+import { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Line } from 'react-chartjs-2';
 import {
@@ -35,9 +35,9 @@ const CodingPlatformChart = ({ data, width, height }) => {
   };
 
   // Collect data for each platform
-  collectData(data.cf, 'cf');
-  collectData(data.cc, 'cc');
-  collectData(data.lc, 'lc');
+  collectData(data.cf.ratingHistory, 'cf');
+  collectData(data.cc.ratingHistory, 'cc');
+  collectData(data.lc.ratingHistory, 'lc');
 
   // Sort month-year keys in chronological order
   const sortedMonthYears = Object.keys(allEntries).sort((a, b) => {
@@ -62,51 +62,127 @@ const CodingPlatformChart = ({ data, width, height }) => {
         label: 'CodeForces (CF)',
         data: cfData,
         fill: false,
-        borderColor: 'blue',
-        tension: 0.1,
+        borderColor: 'rgba(54, 162, 235, 0.8)',
+        backgroundColor: 'rgba(54, 162, 235, 1)',
+        borderWidth: 2,
+        pointRadius: 1,
+        pointHoverRadius: 4,
+        pointBackgroundColor: 'rgba(54, 162, 235, 1)',
+        pointBorderColor: 'rgba(54, 162, 235, 0.5)',
+        tension: 0.3,
       },
       {
         label: 'CodeChef (CC)',
         data: ccData,
         fill: false,
-        borderColor: 'red',
-        tension: 0.1,
+        borderColor: '#F67000',
+        backgroundColor: '#F67000',
+        borderWidth: 2,
+        pointRadius: 1,
+        pointHoverRadius: 4,
+        pointBackgroundColor: '#F67000',
+        pointBorderColor: '#F67000',
+        tension: 0.3,
       },
       {
         label: 'LeetCode (LC)',
         data: lcData,
         fill: false,
         borderColor: 'green',
-        tension: 0.1,
+        backgroundColor: 'green',
+        borderWidth: 2,
+        pointRadius: 1,
+        pointHoverRadius: 4,
+        pointBackgroundColor: 'green',
+        pointBorderColor: 'green',
+        tension: 0.3,
       },
     ],
   };
 
-  // Chart options
+  // Chart options for a premium look
   const options = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
+      title: {
+        display: true,
+        text: 'Analytics of Rating', // Chart title text
+        color: '#333',
+        font: { size: 20, family: 'Inter', weight: 'bold' },
+        padding: { top: 10, bottom: 30 },
+      },
       legend: {
         position: 'top',
+        labels: {
+          color: '#333',
+          font: {
+            size: 14,
+            family: 'Inter',
+          },
+        },
+      },
+      tooltip: {
+        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+        titleColor: '#fff',
+        bodyColor: '#fff',
+        cornerRadius: 4,
+        titleFont: {
+          size: 14,
+          family: 'Inter',
+        },
+        bodyFont: {
+          size: 12,
+          family: 'Inter',
+        },
+        padding: 10,
       },
     },
     scales: {
       x: {
+        grid: {
+          display: false, // Hide gridlines for a cleaner look
+        },
         title: {
           display: true,
           text: 'Month and Year',
+          color: '#666',
+          font: {
+            size: 16,
+            family: 'Inter',
+            weight: 'bold',
+          },
         },
         ticks: {
+          color: '#666',
           autoSkip: true,
-          maxTicksLimit: 12, // Limit the number of ticks on the x-axis
+          maxTicksLimit: 12,
         },
       },
       y: {
+        position: 'right', // Moves the y-axis to the right side of the chart
+        grid: {
+          color: 'rgba(200, 200, 200, 0.2)', // Light, subtle gridline
+          borderDash: [5, 5],
+        },
         title: {
           display: true,
           text: 'Rating',
+          color: '#666',
+          font: {
+            size: 16,
+            family: 'Arial, sans-serif',
+            weight: 'bold',
+          },
+        },
+        ticks: {
+          color: '#666',
         },
       },
+    },
+    animation: {
+      duration: 2000, // Animation duration in ms
+      easing: 'easeInOutQuad', // Smooth easing function
     },
   };
 
@@ -115,21 +191,19 @@ const CodingPlatformChart = ({ data, width, height }) => {
 
 // Main App component
 const Rating = () => {
-  const [data, setData] = useState({ cf: [], cc: [], lc: [] });
+  const { userDetails, loading, error } = useContext(UserContext);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await axios.get('http://localhost:5000/api/user/getRating');
-      setData(response.data);
-    };
-
-    fetchData();
-  }, []);
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error loading data</p>;
 
   return (
-    <div style={{ width: '60%', height: '400px', margin: 'auto', padding: "20px"  }}> {/* Set height here */}
-      {(data.cf.length > 0 || data.cc.length > 0 || data.lc.length > 0) && (
-        <CodingPlatformChart data={data} width={600} height={400} /> // Pass width and height as props
+    <div style={{ width: '98%', height: '100%', margin: 'auto', padding: '30px'}}>
+      {userDetails && userDetails.cf && userDetails.cc && userDetails.lc && (
+        (userDetails.cf.ratingHistory.length > 0 ||
+          userDetails.cc.ratingHistory.length > 0 ||
+          userDetails.lc.ratingHistory.length > 0) && (
+          <CodingPlatformChart data={userDetails} width={600} height={400} />
+        )
       )}
     </div>
   );
@@ -137,24 +211,30 @@ const Rating = () => {
 
 CodingPlatformChart.propTypes = {
   data: PropTypes.shape({
-    cf: PropTypes.arrayOf(
-      PropTypes.shape({
-        date: PropTypes.string.isRequired,
-        rating: PropTypes.number.isRequired,
-      })
-    ).isRequired,
-    cc: PropTypes.arrayOf(
-      PropTypes.shape({
-        date: PropTypes.string.isRequired,
-        rating: PropTypes.number.isRequired,
-      })
-    ).isRequired,
-    lc: PropTypes.arrayOf(
-      PropTypes.shape({
-        date: PropTypes.string.isRequired,
-        rating: PropTypes.number.isRequired,
-      })
-    ).isRequired,
+    cf: PropTypes.shape({
+      ratingHistory: PropTypes.arrayOf(
+        PropTypes.shape({
+          date: PropTypes.string.isRequired,
+          rating: PropTypes.number.isRequired,
+        })
+      ).isRequired,
+    }).isRequired,
+    cc: PropTypes.shape({
+      ratingHistory: PropTypes.arrayOf(
+        PropTypes.shape({
+          date: PropTypes.string.isRequired,
+          rating: PropTypes.number.isRequired,
+        })
+      ).isRequired,
+    }).isRequired,
+    lc: PropTypes.shape({
+      ratingHistory: PropTypes.arrayOf(
+        PropTypes.shape({
+          date: PropTypes.string.isRequired,
+          rating: PropTypes.number.isRequired,
+        })
+      ).isRequired,
+    }).isRequired,
   }).isRequired,
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
