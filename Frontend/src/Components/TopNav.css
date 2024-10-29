@@ -22,6 +22,25 @@
     align-items: center;
     justify-content: center;
 }
+.top-menu{
+    display: none;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.top-menu ul{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+.top-menu img{
+    background-color: white;
+    height: 35px;
+    width: 35px;
+    border-radius: 50%;
+    padding: 10px;
+}
 .search-box input{
     width: 70%;
     height: 40px;
@@ -59,6 +78,9 @@
 @media screen and (max-width: 557px){
     .search-box{
         display: none;
+    }
+    .top-menu{
+        display: flex;
     }
     .profile-box{
         width: 100%;

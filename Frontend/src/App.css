@@ -23,7 +23,7 @@ a {
     margin-left: 84px;
 }
 
-@media screen and (max-width: 528px){
+@media screen and (max-width: 557px){
     .right-screen{
         margin-left: 0px;
     }  

@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import "./Contests.css";
-import linkIcon from "/link.svg";
 import codeforcesIcon from "/code-forces.svg";
 import codechefIcon from "/codechef-svgrepo-com.svg";
 import gfgIcon from "/gfg.svg";
@@ -66,7 +65,8 @@ useEffect(() => {
                 {contest.event.slice(0, 20)}...
               </a>
               <p>{contest.start}</p>
-              <a href={contest.href}><img src={linkIcon} alt="" /></a>
+              <input type="checkbox" />
+              {/*<a href={contest.href}><img src={linkIcon} alt="" /></a>*/}
             </div>
           ))}
         </ul>

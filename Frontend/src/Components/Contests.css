@@ -25,6 +25,9 @@
     
     
 }
+.list-item input{
+    height: 16px;
+}
 .resource-icon{
     height: 28px;
     width: 28px;

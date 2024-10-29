@@ -23,7 +23,7 @@
     padding: 10px;
 }
 
-@media screen and (max-width: 528px){
+@media screen and (max-width: 557px){
     .left-nav-bar{
         display: none;
     }
