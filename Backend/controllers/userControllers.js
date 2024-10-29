@@ -27,7 +27,6 @@ async function getTotalSolvedCF(handle) {
 		const data = await response.json();
 
 		if (data.status === "OK") {
-			console.log(data.result);
 			const solvedProblems = new Set();
 
 			data.result.forEach((submission) => {
@@ -62,6 +61,7 @@ const getCFRating = async (cfId) => {
 		const cfRatings = [];
 		data.result.map((item) => {
 			cfRatings.push({
+				contestName: item.contestName,
 				rating: item.newRating,
 				rank: item.rank,
 				date: new Date(
@@ -87,9 +87,11 @@ const getCCRating = async (ccId) => {
 			`https://codechef-api.vercel.app/handle/${ccId}`
 		);
 		const data = response.data;
+
 		const ccRatings = [];
 		data.ratingData.map((item) => {
 			ccRatings.push({
+				contestName: item.name,
 				rating: item.rating,
 				rank: item.rank,
 				date: new Date(
@@ -177,6 +179,7 @@ const getLCRating = async (lcId) => {
 			date: new Date(contest.contest.startTime * 1000).toLocaleDateString(),
 			rating: contest.rating,
 			rank: contest.ranking,
+			contestName: contest.contest.title,
 		}));
 		details.badge = result.data.userContestRanking.badge?.name || "None";
 		details.contests = filteredData.length;
@@ -289,8 +292,8 @@ async function getCCDetails(username) {
 const getUserDetails = async (req, res) => {
 	//it will return the rating of the user in all the platforms
 	const allRatings = {};
-	allRatings.cf = await getCFRating("bipiniitkgp");
-	allRatings.cc = await getCCRating("ksun48");
+	// allRatings.cf = await getCFRating("bipiniitkgp");
+	// allRatings.cc = await getCCRating("ksun48");
 	allRatings.lc = await getLCRating("bipiniitkgp");
 	res.json(allRatings);
 };
