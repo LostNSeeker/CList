@@ -12,6 +12,7 @@ import Home from "./Pages/Home";
 import TopNav from "./Components/TopNav";
 import LeftNav from "./Components/LeftNav";
 import Rating from "./Components/Rating";
+import Events from "./Components/Events"
 import { UserProvider } from "./utils/userContext";
 
 function App() {
@@ -45,6 +46,7 @@ function AppContent() {
                 <Route path="/contests" element={<Contests />} />
                 <Route path="/" element={<Home />} />
                 <Route path="/rating" element={<Rating />} />
+                <Route path="/events" element={<Events />} />
               </Routes>
             </div>
           </div>

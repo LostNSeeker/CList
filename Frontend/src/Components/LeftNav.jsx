@@ -20,7 +20,7 @@ const LeftNav = () => {
         </a>
       </ul>
       <ul>
-        <a href="/">Events</a>
+        <a href="/events">Events</a>
       </ul>
     </div>
   );
