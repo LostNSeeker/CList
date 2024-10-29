@@ -70,6 +70,7 @@ const CodingPlatformChart = ({ data, width, height }) => {
         pointBackgroundColor: 'rgba(54, 162, 235, 1)',
         pointBorderColor: 'rgba(54, 162, 235, 0.5)',
         tension: 0.3,
+        spanGaps: true,  // This will connect points across null values
       },
       {
         label: 'CodeChef (CC)',
@@ -83,6 +84,7 @@ const CodingPlatformChart = ({ data, width, height }) => {
         pointBackgroundColor: '#F67000',
         pointBorderColor: '#F67000',
         tension: 0.3,
+        spanGaps: true,  // This will connect points across null values
       },
       {
         label: 'LeetCode (LC)',
@@ -96,6 +98,7 @@ const CodingPlatformChart = ({ data, width, height }) => {
         pointBackgroundColor: 'green',
         pointBorderColor: 'green',
         tension: 0.3,
+        spanGaps: true,  // This will connect points across null values
       },
     ],
   };
@@ -197,7 +200,7 @@ const Rating = () => {
   if (error) return <p>Error loading data</p>;
 
   return (
-    <div style={{ width: '98%', height: '100%', margin: 'auto', padding: '30px'}}>
+    <div style={{ width: '97%', height: '100%', margin: 'auto', padding: '30px'}}>
       {userDetails && userDetails.cf && userDetails.cc && userDetails.lc && (
         (userDetails.cf.ratingHistory.length > 0 ||
           userDetails.cc.ratingHistory.length > 0 ||
