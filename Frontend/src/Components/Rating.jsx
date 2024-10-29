@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import UserContext from '../utils/userContext';
 import { useContext } from 'react';
 import PropTypes from 'prop-types';
@@ -27,8 +28,11 @@ const CodingPlatformChart = ({ data, width, height }) => {
 
   const collectData = (platformData, platformKey) => {
     platformData.forEach(entry => {
-      const date = new Date(entry.date);
-      const monthYear = date.toLocaleString('default', { month: 'long', year: 'numeric' });
+      // Assume entry.date is in "M/D/YYYY"
+    const [month, day, year] = entry.date.split('/'); // Split the date string
+
+    // Create the month-year string manually
+    const monthYear = `${new Date(year, month - 1).toLocaleString('default', { month: 'long' })} ${year}`;
       allEntries[monthYear] = allEntries[monthYear] || {};
       allEntries[monthYear][platformKey] = entry.rating;
     });
@@ -174,7 +178,7 @@ const CodingPlatformChart = ({ data, width, height }) => {
           color: '#666',
           font: {
             size: 16,
-            family: 'Arial, sans-serif',
+            family: 'Inter',
             weight: 'bold',
           },
         },

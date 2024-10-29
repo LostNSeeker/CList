@@ -292,8 +292,8 @@ async function getCCDetails(username) {
 const getUserDetails = async (req, res) => {
 	//it will return the rating of the user in all the platforms
 	const allRatings = {};
-	// allRatings.cf = await getCFRating("bipiniitkgp");
-	// allRatings.cc = await getCCRating("ksun48");
+	 allRatings.cf = await getCFRating("bipiniitkgp");
+	 allRatings.cc = await getCCRating("ksun48");
 	allRatings.lc = await getLCRating("bipiniitkgp");
 	res.json(allRatings);
 };
