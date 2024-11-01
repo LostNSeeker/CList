@@ -15,7 +15,7 @@ export const UserProvider = ({ children }) => {
 			try {
 				setLoading(true);
 				const response = await axios.get(
-					"http://localhost:5000/api/user/getDetails"
+					"https://clist-9sd1.onrender.com/api/user/getDetails"
 				);
 				setUserDetails(response.data);
 				console.log(response.data);

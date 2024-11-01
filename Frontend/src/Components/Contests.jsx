@@ -16,7 +16,7 @@ const Contests = () => {
     const fetchContests = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/contests/upcoming"
+          "https://clist-9sd1.onrender.com/api/contests/upcoming"
         );
         const data = response.data.contests;
         setUpcomingContests(data);
