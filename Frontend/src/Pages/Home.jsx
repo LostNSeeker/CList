@@ -4,6 +4,7 @@ import Contests from "../Components/Contests";
 import Scoreboard from "../Components/Scoreboard";
 //import Chart from '../Components/Chart';
 import Rating from "../Components/Rating";
+import Events from "../Components/Events";
 
 const Home = () => {
   return (
@@ -19,6 +20,9 @@ const Home = () => {
 
       <div className="rating-box">
         <Rating />
+      </div>
+      <div className="event-box">
+        <Events />
       </div>
     </div>
   );

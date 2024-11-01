@@ -1,103 +1,101 @@
-
+import { useState, useEffect } from "react";
+import Papa from "papaparse";
 import "./Events.css";
 
 const Events = () => {
-  const eventList = [
-    {
-      company: "Google",
-      events: [
-        "Google Summer of Code (GSoC)",
-        "Google Code Jam",
-        "Google Hash Code",
-        "Google Arcade",
-        "Google Cloud Hero",
-        "Google Kick Start",
-        "Google Women Techmakers Scholars Program",
-        "Google Cloud Skills Boost Challenges",
-        "Google Developer Student Clubs Solution Challenge",
-        "Google Developer Days India",
-        "Google TensorFlow Challenge",
-        "Google Cloud Jam",
-        "Google Firebase Hackathon",
-        "Google Assistant Developer Challenge",
-        "Google AI for Social Good Challenge",
-        "Google Chrome Developer Summit Contests",
-        "Google Flutter Festivals",
-        "Google AI Residency Program Contest",
-        "Google Responsible AI Contest",
-        "Google AI Impact Challenge",
-      ],
-    },
-    {
-      company: "Meta",
-      events: [
-        "Meta Hacker Cup",
-        "Meta Developer Circles Community Challenge",
-        "Facebook PyTorch Global Hackathon",
-        "Meta AI Research Scientist Internship Challenges",
-        "Facebook Messenger Bot Hackathon",
-        "Meta Reality Labs Innovation Challenge",
-        "Meta Bug Bounty Program",
-        "Facebook AR/VR Hackathon",
-        "Meta Blueprint Certification Challenges",
-        "Meta Data Challenge",
-        "Meta Spark AR Hackathon",
-        "Meta Reality Labs Scholarship Hackathon",
-      ],
-    },
-    {
-      company: "Amazon",
-      events: [
-        "Amazon Alexa Skills Challenge",
-        "Amazon CodeWhisperer Challenge",
-        "Amazon Web Services (AWS) DeepRacer League",
-        "Amazon ML Challenge",
-        "Amazon Build It Challenge",
-        "Amazon Alexa AI Tech Challenge",
-        "Amazon Robotics Challenge",
-        "Amazon Code Guru AI Challenge",
-        "Amazon Quantum Solutions Lab Challenge",
-        "Amazon DeepLens Challenge",
-        "Amazon Personalize Challenge",
-        "Amazon Code Catalyst Competition",
-      ],
-    },
-    {
-      company: "Apple",
-      events: [
-        "Apple Swift Student Challenge",
-        "Apple WWDC Scholarship",
-        "Apple Security Bounty Challenge",
-        "Apple App Design Contest",
-      ],
-    },
-    {
-      company: "Netflix",
-      events: [],
-    },
-  ];
+  const [eventsData, setEventsData] = useState([]);
+  const [filteredEvents, setFilteredEvents] = useState([]);
+  const [category, setCategory] = useState("All");
+
+  useEffect(() => {
+    Papa.parse("/MAANG_events.csv", {
+      download: true,
+      header: true,
+      complete: (result) => {
+        setEventsData(result.data);
+        setFilteredEvents(result.data); // Initialize with all events
+      },
+    });
+  }, []);
+
+  // Handle category selection
+  const handleCategoryChange = (selectedCategory) => {
+    setCategory(selectedCategory);
+    if (selectedCategory === "All") {
+      setFilteredEvents(eventsData);
+    } else {
+      setFilteredEvents(
+        eventsData.filter((event) => event.Company === selectedCategory)
+      );
+    }
+  };
 
   return (
     <div className="events-container">
-      <h1 className="events-title">MAANG Competitions</h1>
-      <div className="events-list">
-        {eventList.map((company, index) => (
-          <div key={index} className="company-section">
-            <h2 className="company-title">{company.company}</h2>
-            <ul className="event-items">
-              {company.events.length > 0 ? (
-                company.events.map((event, idx) => (
-                  <li key={idx} className="event-item">
-                    {event}
-                  </li>
-                ))
-              ) : (
-                <li className="event-item empty">No events available</li>
-              )}
-            </ul>
-          </div>
+      <h2>MAANG EVENTS</h2> {/* Heading added here */}
+      <label htmlFor="category-select">Filter by Company:</label>
+      <select
+        id="category-select"
+        value={category}
+        onChange={(e) => handleCategoryChange(e.target.value)}
+      >
+        <option value="All">All</option>
+        <option value="Google">Google</option>
+        <option value="Meta">Meta</option>
+        <option value="Amazon">Amazon</option>
+        <option value="Apple">Apple</option>
+        <option value="Netflix">Netflix</option>
+        {/* Add more categories as needed */}
+      </select>
+
+      <EventList events={filteredEvents} />
+    </div>
+  );
+};
+
+// Modal component
+const EventModal = ({ event, onClose }) => (
+  <div className="modal-overlay" onClick={onClose}>
+    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+      <h2>{event['Event Name']}</h2>
+      <p><strong>Time:</strong> {event['Time']}</p>
+      <p><strong>Venue:</strong> {event['Venue']}</p>
+      <p><strong>Stacks Needed:</strong> {event['Stacks Needed']}</p>
+      <p><strong>Rewards:</strong> {event['Rewards']}</p>
+      <a href={event['Website Link']} target="_blank" rel="noopener noreferrer">
+        Event Website
+      </a>
+      <p><strong>YT Related:</strong> {event['YT Related']}</p>
+      <p>{event['About']}</p>
+      <button onClick={onClose}>Close</button>
+    </div>
+  </div>
+);
+
+// The EventList component remains the same, taking the filteredEvents as props
+const EventList = ({ events }) => {
+  const [selectedEvent, setSelectedEvent] = useState(null);
+
+  const openModal = (event) => {
+    setSelectedEvent(event);
+  };
+
+  const closeModal = () => {
+    setSelectedEvent(null);
+  };
+
+  return (
+    <div className="ul-div">
+      <ul className="event-name-list">
+        {events.map((event, index) => (
+          <li key={index} onClick={() => openModal(event)}>
+            {event["Event Name"]}
+          </li>
         ))}
-      </div>
+      </ul>
+      {selectedEvent && (
+        <EventModal event={selectedEvent} onClose={closeModal} />
+      )}
     </div>
   );
 };
