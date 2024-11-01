@@ -7,28 +7,26 @@ import progressIcon from "/progress.svg";
 const LeftNav = () => {
   return (
     <div className="left-nav-bar">
-      <ul>
+      <ul className="nav-item" data-tooltip="Home">
         <a href="/">
-          <img src={homeIcon} />
+          <img src={homeIcon} alt="Home" />
         </a>
       </ul>
-      <ul>
+      <ul className="nav-item" data-tooltip="Contests">
         <a href="/contests">
-          <img src={contestsIcon} />
+          <img src={contestsIcon} alt="Contests" />
         </a>
       </ul>
-      <ul>
+      <ul className="nav-item" data-tooltip="Progress">
         <a href="/rating">
-          <img src={progressIcon} />
+          <img src={progressIcon} alt="Progress" />
         </a>
       </ul>
-  
-      <ul>
+      <ul className="nav-item" data-tooltip="Events">
         <a href="/events">
-          <img src={eventsIcon} />
+          <img src={eventsIcon} alt="Events" />
         </a>
       </ul>
-      
     </div>
   );
 };
