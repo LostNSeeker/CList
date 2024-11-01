@@ -18,7 +18,7 @@ export const UserProvider = ({ children }) => {
 					"https://clist-9sd1.onrender.com/api/user/getDetails"
 				);
 				setUserDetails(response.data);
-				console.log(response.data);
+				//console.log(response.data);
 			} catch (err) {
 				setError(err.message);
 			} finally {
