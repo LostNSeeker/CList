@@ -16,7 +16,7 @@ const Contests = () => {
     const fetchContests = async () => {
       try {
         const response = await axios.get(
-          "https://clist-9sd1.onrender.com/api/contests/upcoming"
+          `${import.meta.env.VITE_APP_BACKEND_URL}/api/contests/upcoming`
         );
         const data = response.data.contests;
         setUpcomingContests(data);
