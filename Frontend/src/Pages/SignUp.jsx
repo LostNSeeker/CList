@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import "./Login.css";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../config/firebaseConfig";
 
 const SignUp = () => {
 	const [isEmailAnimating, setIsEmailAnimating] = useState(false);
@@ -38,26 +40,54 @@ const SignUp = () => {
 
 		console.log(email, password, codeforces, leetcode, codechef);
 
-		try {
-			const response = await axios.post(
-				"http://localhost:5000/api/user/signup",
-				{
-					email,
-					password,
-					codeforces,
-					leetcode,
-					codechef,
-				}
-			);
-			if (response.status === 200) {
-		
+		createUserWithEmailAndPassword(auth, email, password)
+			.then(async (userCredential) => {
+				const user = userCredential.user;
 
-			} else {
-				toast.error("User registration failed");
-			}
-		} catch (err) {
-			console.error(err);
-		}
+				console.log(userCredential);
+
+				// Send a request to your backend with user data
+				fetch("http://localhost:5000/api/user/signup", {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({
+						accessToken: await user.getIdToken(),
+						email,
+						codeforces,
+						leetcode,
+						codechef,
+					}),
+				})
+					.then((response) => {
+						if (!response.ok) {
+							// If backend fails, delete the user from Firebase
+							user
+								.delete()
+								.then(() => {
+									console.error(
+										"User creation failed on the backend, user deleted from Firebase"
+									);
+								})
+								.catch((error) => {
+									console.error("Failed to delete user from Firebase:", error);
+								});
+							throw new Error("Backend user creation failed");
+						} else {
+							console.log("User created successfully on the backend");
+						}
+					})
+					.catch((error) => {
+						user.delete().then(() => {
+							console.error(
+								"User creation failed on the backend, user deleted from Firebase"
+							);
+						});
+						console.error("Error during user creation:", error);
+					});
+			})
+			.catch((error) => {
+				console.error("Error signing up:", error);
+			});
 	};
 
 	return (
