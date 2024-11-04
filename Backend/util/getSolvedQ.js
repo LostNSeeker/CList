@@ -7,21 +7,26 @@ const scrapeUserSolvedQuestions = async (username, page) => {
 
 	try {
 		const { data } = await axios.get(url);
+		const maxPage = data.max_page;
 		const $ = cheerio.load(data.content);
 		const solvedQ = $("tbody")
 			.find("tr")
-			.map((i, el) => {
-				return $(el).find("td").eq(1).find("a").attr("href");
+			.map((_, el) => {
+				const problemLink =
+					"https://www.codechef.com" +
+					$(el).find("td").eq(1).find("a").attr("href");
+				const problemName = $(el).find("td").eq(1).text().trim();
+				if (problemLink && problemName) {
+					return { problemLink, problemName };
+				}
 			})
-			.get();
+			.get()
+			.filter(Boolean); // Remove undefined values
 
-		solvedQ.map((el, i) => {
-			solvedQ[i] = "https://www.codechef.com" + el;
-		});
-
-		return solvedQ;
+		return { solvedQ, maxPage };
 	} catch (error) {
 		console.error("Error fetching solved problems count:", error);
+		return null;
 	}
 };
 
@@ -42,7 +47,10 @@ async function getSolvedCF(handle) {
 			data.result.forEach((submission) => {
 				if (submission.verdict === "OK") {
 					const problemLink = `https://codeforces.com/problemset/problem/${submission.problem.contestId}/${submission.problem.index}`;
-					solvedProblems.push(problemLink);
+					solvedProblems.push({
+						problemLink,
+						problemName: submission.problem.name,
+					});
 				}
 			});
 			return solvedProblems;
@@ -63,7 +71,8 @@ async function getSolvedLC(handle) {
 		query: `
 			query recentAcSubmissions($username: String!, $limit: Int!) {
 				recentAcSubmissionList(username: $username, limit: $limit) {
-					titleSlug
+					titleSlug,
+					title
 				}
 			}
 		`,
@@ -87,7 +96,13 @@ async function getSolvedLC(handle) {
 		}
 
 		const solvedProblems = data.data.recentAcSubmissionList.map(
-			(submission) => `https://leetcode.com/problems/${submission.titleSlug}`
+			(submission) => {
+				const problemLink = `https://leetcode.com/problems/${submission.titleSlug}`;
+				return {
+					problemLink,
+					problemName: submission.title,
+				};
+			}
 		);
 
 		return solvedProblems;
@@ -97,8 +112,10 @@ async function getSolvedLC(handle) {
 	}
 }
 
-async function getSolvedCC(ccId) {
-	const solvedQ = await scrapeUserSolvedQuestions(ccId, 0).catch(console.error);
+async function getSolvedCC(ccId, page) {
+	const solvedQ = await scrapeUserSolvedQuestions(ccId, page).catch(
+		console.error
+	);
 	return solvedQ;
 }
 module.exports = { getSolvedCF, getSolvedLC, getSolvedCC };

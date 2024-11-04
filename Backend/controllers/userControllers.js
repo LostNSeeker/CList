@@ -333,9 +333,15 @@ const getSolvedQuestions = async (req, res) => {
 	const [CF, LC, CC] = await Promise.all([
 		getSolvedCF("bipiniitkgp"),
 		getSolvedLC("bipiniitkgp"),
-		getSolvedCC("ksun48"),
+		getSolvedCC("ksun48", 0),
 	]);
 	res.json({ CF, LC, CC });
 };
 
-module.exports = { getUserDetails, getSolvedQuestions };
+const getCCByPage = async (req, res) => {
+	const { page } = req.query;
+	const data = await getSolvedCC("ksun48", page);
+	res.json(data);
+};
+
+module.exports = { getUserDetails, getSolvedQuestions, getCCByPage };
