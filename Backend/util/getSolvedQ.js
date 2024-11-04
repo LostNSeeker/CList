@@ -8,11 +8,9 @@ const scrapeUserSolvedQuestions = async (username, page) => {
 	try {
 		const { data } = await axios.get(url);
 		const $ = cheerio.load(data.content);
-		console.log($("tbody").children().length);
 		const solvedQ = $("tbody")
 			.find("tr")
 			.map((i, el) => {
-				// console.log(el);
 				return $(el).find("td").eq(1).find("a").attr("href");
 			})
 			.get();

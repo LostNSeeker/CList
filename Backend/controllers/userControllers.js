@@ -88,7 +88,6 @@ const getCCRating = async (ccId) => {
 			`https://codechef-api.vercel.app/handle/${ccId}`
 		);
 		const data = response.data;
-		console.log(data);
 
 		const ccRatings = [];
 		data.ratingData.map((item) => {
