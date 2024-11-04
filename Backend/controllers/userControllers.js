@@ -1,6 +1,7 @@
 const axios = require("axios");
 
 const cheerio = require("cheerio");
+const { getSolvedCF, getSolvedLC, getSolvedCC } = require("../util/getSolvedQ");
 
 //object mappings
 //create rating vs title in codeforces
@@ -87,6 +88,7 @@ const getCCRating = async (ccId) => {
 			`https://codechef-api.vercel.app/handle/${ccId}`
 		);
 		const data = response.data;
+		console.log(data);
 
 		const ccRatings = [];
 		data.ratingData.map((item) => {
@@ -292,10 +294,25 @@ async function getCCDetails(username) {
 const getUserDetails = async (req, res) => {
 	//it will return the rating of the user in all the platforms
 	const allRatings = {};
-	 allRatings.cf = await getCFRating("bipiniitkgp");
-	 allRatings.cc = await getCCRating("ksun48");
-	allRatings.lc = await getLCRating("bipiniitkgp");
+	const [cfRating, ccRating, lcRating] = await Promise.all([
+		getCFRating("bipiniitkgp"),
+		getCCRating("ksun48"),
+		getLCRating("bipiniitkgp"),
+	]);
+
+	allRatings.cf = cfRating;
+	allRatings.cc = ccRating;
+	allRatings.lc = lcRating;
 	res.json(allRatings);
 };
 
-module.exports = { getUserDetails };
+const getSolvedQuestions = async (req, res) => {
+	const [CF, LC, CC] = await Promise.all([
+		getSolvedCF("bipiniitkgp"),
+		getSolvedLC("bipiniitkgp"),
+		getSolvedCC("ksun48"),
+	]);
+	res.json({ CF, LC, CC });
+};
+
+module.exports = { getUserDetails, getSolvedQuestions };
