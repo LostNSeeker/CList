@@ -35,20 +35,19 @@ const CodingPlatformChart = ({ data, width, height }) => {
   const allEntries = {};
 
   // Calculate the date one year ago
-  const oneYearAgo = new Date();
-  oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+  //const oneYearAgo = new Date();
+  //oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
 
   const collectData = (platformData, platformKey) => {
-    platformData.forEach((entry) => {
+    platformData.forEach(entry => {
       // Assume entry.date is in "M/D/YYYY"
-      const [month, day, year] = entry.date.split("/"); // Split the date string
-      const date = new Date(year, month - 1, day); // Create a Date object for the exact date
+    // eslint-disable-next-line no-unused-vars
+    const [month, day, year] = entry.date.split('/'); // Split the date string
 
-      // Only include dates within the last one year
-      if (date >= oneYearAgo) {
-        allEntries[date] = allEntries[date] || {};
-        allEntries[date][platformKey] = entry.rating;
-      }
+    // Create the month-year string manually
+    const monthYear = `${new Date(year, month - 1).toLocaleString('default', { month: 'long' })} ${year}`;
+      allEntries[monthYear] = allEntries[monthYear] || {};
+      allEntries[monthYear][platformKey] = entry.rating;
     });
   };
 
