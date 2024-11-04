@@ -1,7 +1,9 @@
 const axios = require("axios");
-
 const cheerio = require("cheerio");
+const NodeCache = require("node-cache");
 const { getSolvedCF, getSolvedLC, getSolvedCC } = require("../util/getSolvedQ");
+
+const cache = new NodeCache({ stdTTL: 1800 }); // Cache for 30 minutes
 
 //object mappings
 //create rating vs title in codeforces
@@ -49,6 +51,12 @@ async function getTotalSolvedCF(handle) {
 }
 
 const getCFRating = async (cfId) => {
+	const cacheKey = `cfRating_${cfId}`;
+	const cachedData = cache.get(cacheKey);
+	if (cachedData) {
+		return cachedData;
+	}
+
 	const details = {};
 	const totalSolved = await getTotalSolvedCF(cfId);
 	details.solvedProblems = totalSolved;
@@ -73,6 +81,8 @@ const getCFRating = async (cfId) => {
 		details.ratingHistory = cfRatings;
 		details.contests = cfRatings.length;
 		details.title = getRatingTitleCF(cfRatings[cfRatings.length - 1].rating);
+
+		cache.set(cacheKey, details);
 		return details;
 	} catch (error) {
 		console.error("Error:", error);
@@ -81,6 +91,12 @@ const getCFRating = async (cfId) => {
 };
 
 const getCCRating = async (ccId) => {
+	const cacheKey = `ccRating_${ccId}`;
+	const cachedData = cache.get(cacheKey);
+	if (cachedData) {
+		return cachedData;
+	}
+
 	const details = {};
 	try {
 		//codechef rating api call
@@ -106,6 +122,7 @@ const getCCRating = async (ccId) => {
 		details.stars = gotData.stars;
 		details.ratingHistory = ccRatings;
 
+		cache.set(cacheKey, details);
 		return details;
 	} catch (error) {
 		console.error("Error:", error);
@@ -114,36 +131,42 @@ const getCCRating = async (ccId) => {
 };
 
 const getLCRating = async (lcId) => {
+	const cacheKey = `lcRating_${lcId}`;
+	const cachedData = cache.get(cacheKey);
+	if (cachedData) {
+		return cachedData;
+	}
+
 	const url = "https://leetcode.com/graphql";
 	const query = {
 		operationName: "userContestRankingInfo",
 		query: `
-            query userContestRankingInfo($username: String!) {
-                userContestRanking(username: $username) {
-                    attendedContestsCount
-                    rating
-                    globalRanking
-                    totalParticipants
-                    topPercentage
-                    badge {
-                        name
-                    }
-                }
-                userContestRankingHistory(username: $username) {
-                    attended
-                    trendDirection
-                    problemsSolved
-                    totalProblems
-                    finishTimeInSeconds
-                    rating
-                    ranking
-                    contest {
-                        title
-                        startTime
-                    }
-                }
-            }
-        `,
+			query userContestRankingInfo($username: String!) {
+				userContestRanking(username: $username) {
+					attendedContestsCount
+					rating
+					globalRanking
+					totalParticipants
+					topPercentage
+					badge {
+						name
+					}
+				}
+				userContestRankingHistory(username: $username) {
+					attended
+					trendDirection
+					problemsSolved
+					totalProblems
+					finishTimeInSeconds
+					rating
+					ranking
+					contest {
+						title
+						startTime
+					}
+				}
+			}
+		`,
 		variables: {
 			username: lcId,
 		},
@@ -192,27 +215,27 @@ const getLCRating = async (lcId) => {
 	const query2 = {
 		operationName: "userSessionProgress",
 		query: `
-            query userSessionProgress($username: String!) {
-                allQuestionsCount {
-                    difficulty
-                    count
-                }
-                matchedUser(username: $username) {
-                    submitStats {
-                        acSubmissionNum {
-                            difficulty
-                            count
-                            submissions
-                        }
-                        totalSubmissionNum {
-                            difficulty
-                            count
-                            submissions
-                        }
-                    }
-                }
-            }
-        `,
+			query userSessionProgress($username: String!) {
+				allQuestionsCount {
+					difficulty
+					count
+				}
+				matchedUser(username: $username) {
+					submitStats {
+						acSubmissionNum {
+							difficulty
+							count
+							submissions
+						}
+						totalSubmissionNum {
+							difficulty
+							count
+							submissions
+						}
+					}
+				}
+			}
+		`,
 		variables: {
 			username: lcId,
 		},
@@ -249,6 +272,7 @@ const getLCRating = async (lcId) => {
 		console.error("Error fetching rating history:", error);
 	}
 
+	cache.set(cacheKey, details);
 	return details;
 };
 
