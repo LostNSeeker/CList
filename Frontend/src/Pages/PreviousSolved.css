@@ -75,6 +75,7 @@
     display: flex;
     justify-content: center;
     margin-top: 20px;
+    flex-wrap: wrap;
 }
 
 .pagination button {
@@ -94,4 +95,9 @@
 
 .pagination button:hover {
     background-color: #d0d0d0;
+}
+
+.pagination .ellipsis {
+    padding: 5px 10px;
+    color: #999;
 }
