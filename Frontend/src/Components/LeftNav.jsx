@@ -2,7 +2,6 @@ import "./LeftNav.css"; // Make sure to create a corresponding CSS file for styl
 import homeIcon from "/home.svg";
 import contestsIcon from "/contests.svg";
 import eventsIcon from "/events.svg";
-import progressIcon from "/progress.svg";
 
 const LeftNav = () => {
   return (
@@ -15,11 +14,6 @@ const LeftNav = () => {
       <ul className="nav-item" data-tooltip="Contests">
         <a href="/contests">
           <img src={contestsIcon} alt="Contests" />
-        </a>
-      </ul>
-      <ul className="nav-item" data-tooltip="Progress">
-        <a href="/rating">
-          <img src={progressIcon} alt="Progress" />
         </a>
       </ul>
       <ul className="nav-item" data-tooltip="Events">

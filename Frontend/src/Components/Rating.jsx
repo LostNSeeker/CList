@@ -1,7 +1,7 @@
-import UserContext from '../utils/userContext';
-import { useContext } from 'react';
-import PropTypes from 'prop-types';
-import { Line } from 'react-chartjs-2';
+import UserContext from "../utils/userContext";
+import { useContext } from "react";
+import PropTypes from "prop-types";
+import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   LineElement,
@@ -11,11 +11,19 @@ import {
   Title,
   Tooltip,
   Legend,
-} from 'chart.js';
-import 'chartjs-adapter-moment'; // Required for handling time scale
+} from "chart.js";
+import "chartjs-adapter-moment"; // Required for handling time scale
 
 // Register necessary components
-ChartJS.register(LineElement, PointElement, LinearScale, TimeScale, Title, Tooltip, Legend);
+ChartJS.register(
+  LineElement,
+  PointElement,
+  LinearScale,
+  TimeScale,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const CodingPlatformChart = ({ data, width, height }) => {
   const monthYearLabels = [];
@@ -26,24 +34,31 @@ const CodingPlatformChart = ({ data, width, height }) => {
   // Create an object to collect ratings for each exact date
   const allEntries = {};
 
+  // Calculate the date one year ago
+  const oneYearAgo = new Date();
+  oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+
   const collectData = (platformData, platformKey) => {
-    platformData.forEach(entry => {
+    platformData.forEach((entry) => {
       // Assume entry.date is in "M/D/YYYY"
-      const [month, day, year] = entry.date.split('/'); // Split the date string
+      const [month, day, year] = entry.date.split("/"); // Split the date string
       const date = new Date(year, month - 1, day); // Create a Date object for the exact date
 
-      allEntries[date] = allEntries[date] || {};
-      allEntries[date][platformKey] = entry.rating;
+      // Only include dates within the last one year
+      if (date >= oneYearAgo) {
+        allEntries[date] = allEntries[date] || {};
+        allEntries[date][platformKey] = entry.rating;
+      }
     });
   };
 
   // Collect data for each platform
-  collectData(data.cf.ratingHistory, 'cf');
-  collectData(data.cc.ratingHistory, 'cc');
-  collectData(data.lc.ratingHistory, 'lc');
+  collectData(data.cf.ratingHistory, "cf");
+  collectData(data.cc.ratingHistory, "cc");
+  collectData(data.lc.ratingHistory, "lc");
 
   // Prepare data for the chart
-  Object.keys(allEntries).forEach(date => {
+  Object.keys(allEntries).forEach((date) => {
     monthYearLabels.push(date); // Push the date object
     cfData.push(allEntries[date].cf || null); // Use null if no rating
     ccData.push(allEntries[date].cc || null);
@@ -52,47 +67,47 @@ const CodingPlatformChart = ({ data, width, height }) => {
 
   // Create datasets for Chart.js
   const chartData = {
-    labels: monthYearLabels.map(date => new Date(date)), // Convert string labels to Date objects
+    labels: monthYearLabels.map((date) => new Date(date)), // Convert string labels to Date objects
     datasets: [
       {
-        label: 'CodeForces (CF)',
+        label: "CodeForces (CF)",
         data: cfData,
         fill: false,
-        borderColor: 'rgba(54, 162, 235, 0.8)',
-        backgroundColor: 'rgba(54, 162, 235, 1)',
+        borderColor: "rgba(54, 162, 235, 0.8)",
+        backgroundColor: "rgba(54, 162, 235, 1)",
         borderWidth: 2,
         pointRadius: 1,
         pointHoverRadius: 4,
-        pointBackgroundColor: 'rgba(54, 162, 235, 1)',
-        pointBorderColor: 'rgba(54, 162, 235, 0.5)',
+        pointBackgroundColor: "rgba(54, 162, 235, 1)",
+        pointBorderColor: "rgba(54, 162, 235, 0.5)",
         tension: 0.3,
         spanGaps: true,
       },
       {
-        label: 'CodeChef (CC)',
+        label: "CodeChef (CC)",
         data: ccData,
         fill: false,
-        borderColor: '#F67000',
-        backgroundColor: '#F67000',
+        borderColor: "#F67000",
+        backgroundColor: "#F67000",
         borderWidth: 2,
         pointRadius: 1,
         pointHoverRadius: 4,
-        pointBackgroundColor: '#F67000',
-        pointBorderColor: '#F67000',
+        pointBackgroundColor: "#F67000",
+        pointBorderColor: "#F67000",
         tension: 0.3,
         spanGaps: true,
       },
       {
-        label: 'LeetCode (LC)',
+        label: "LeetCode (LC)",
         data: lcData,
         fill: false,
-        borderColor: 'green',
-        backgroundColor: 'green',
+        borderColor: "green",
+        backgroundColor: "green",
         borderWidth: 2,
         pointRadius: 1,
         pointHoverRadius: 4,
-        pointBackgroundColor: 'green',
-        pointBorderColor: 'green',
+        pointBackgroundColor: "green",
+        pointBorderColor: "green",
         tension: 0.3,
         spanGaps: true,
       },
@@ -106,94 +121,98 @@ const CodingPlatformChart = ({ data, width, height }) => {
     plugins: {
       title: {
         display: true,
-        text: 'Analytics of Rating',
-        color: '#333',
-        font: { size: 20, family: 'Inter', weight: 'bold' },
+        text: "Analytics of Rating",
+        color: "#333",
+        font: { size: 20, family: "Inter", weight: "bold" },
         padding: { top: 10, bottom: 30 },
       },
       legend: {
-        position: 'top',
+        position: "top",
         labels: {
-          color: '#333',
+          usePointStyle: true, // Use point style for the legend
+          pointStyle: "rect", // Set point style to a small square
+          color: "#333",
           font: {
             size: 14,
-            family: 'Inter',
+            family: "Inter",
           },
         },
       },
       tooltip: {
-        backgroundColor: 'rgba(0, 0, 0, 0.7)',
-        titleColor: '#fff',
-        bodyColor: '#fff',
+        backgroundColor: "rgba(0, 0, 0, 0.7)",
+        titleColor: "#fff",
+        bodyColor: "#fff",
         cornerRadius: 4,
         titleFont: {
           size: 14,
-          family: 'Inter',
+          family: "Inter",
         },
         bodyFont: {
           size: 12,
-          family: 'Inter',
+          family: "Inter",
         },
         padding: 10,
       },
     },
     scales: {
       x: {
-        type: 'time', // Set the x-axis type to time for exact date representation
+        type: "time", // Set the x-axis type to time for exact date representation
         time: {
-          tooltipFormat: 'MMM D, YYYY', // Format for the tooltip
+          tooltipFormat: "MMM D, YYYY", // Format for the tooltip
           displayFormats: {
-            day: 'MMM D, YYYY', // Display format on the x-axis
+            day: "MMM D, YYYY", // Display format on the x-axis
           },
-          unit: 'day', // Unit for the x-axis
+          unit: "day", // Unit for the x-axis
         },
         grid: {
           display: false, // Hide gridlines for a cleaner look
         },
         title: {
           display: true,
-          text: 'Time',
-          color: '#666',
+          text: "Time",
+          color: "#666",
           font: {
             size: 16,
-            family: 'Inter',
-            weight: 'bold',
+            family: "Inter",
+            weight: "bold",
           },
         },
         ticks: {
-          color: '#666',
+          color: "#666",
           autoSkip: true,
           maxTicksLimit: 10,
         },
       },
       y: {
-        position: 'right', // Moves the y-axis to the right side of the chart
+        position: "right", // Moves the y-axis to the right side of the chart
         grid: {
-          color: 'rgba(200, 200, 200, 0.2)', // Light, subtle gridline
+          color: "rgba(200, 200, 200, 0.2)", // Light, subtle gridline
           borderDash: [5, 5],
         },
         title: {
           display: true,
-          text: 'Rating',
-          color: '#666',
+          text: "Rating",
+          color: "#666",
           font: {
             size: 16,
-            family: 'Inter',
-            weight: 'bold',
+            family: "Inter",
+            weight: "bold",
           },
         },
         ticks: {
-          color: '#666',
+          color: "#666",
         },
       },
     },
     animation: {
       duration: 2000, // Animation duration in ms
-      easing: 'easeInOutQuad', // Smooth easing function
+      easing: "easeInOutQuad", // Easing function
     },
   };
 
-  return <Line data={chartData} options={options} height={height} width={width} />;
+  return (
+    <Line data={chartData} options={options} height={height} width={width} />
+  );
 };
 
 // Main App component
@@ -204,14 +223,18 @@ const Rating = () => {
   if (error) return <p>Error loading data</p>;
 
   return (
-    <div style={{ width: '97%', height: '100%', margin: 'auto', padding: '30px'}}>
-      {userDetails && userDetails.cf && userDetails.cc && userDetails.lc && (
+    <div
+      style={{ width: "97%", height: "100%", margin: "auto", padding: "30px" }}
+    >
+      {userDetails &&
+        userDetails.cf &&
+        userDetails.cc &&
+        userDetails.lc &&
         (userDetails.cf.ratingHistory.length > 0 ||
           userDetails.cc.ratingHistory.length > 0 ||
           userDetails.lc.ratingHistory.length > 0) && (
           <CodingPlatformChart data={userDetails} width={600} height={400} />
-        )
-      )}
+        )}
     </div>
   );
 };

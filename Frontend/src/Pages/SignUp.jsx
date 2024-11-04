@@ -1,6 +1,7 @@
 // Desc: Login Page
 import { useState } from "react";
 import "./Login.css";
+import ModelViewer from "../Components/3d";
 
 const SignUp = () => {
   const [isEmailAnimating, setIsEmailAnimating] = useState(false);
@@ -21,7 +22,12 @@ const SignUp = () => {
   };
   return (
     <div className="login-screen">
-      <div className="left"></div>
+      <div className="left">
+        
+        <ModelViewer />
+        
+        
+      </div>
       <div className="right">
         <div className="back">
           <a href="/">Back</a>

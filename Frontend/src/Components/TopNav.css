@@ -5,8 +5,13 @@
     width: calc(100% - 84px);
 }
 .space{
-    width: 162px;
-    background: #FF6700;
+    width: 25%;
+    display: flex;
+    justify-content: center;
+}
+.space img{
+    height: 61px;
+    width: 100%;
 }
 .right-side{
     display: flex;
@@ -14,14 +19,36 @@
     background: #18181B;
     box-shadow: 0px 1px 0px 0px #12203B17;
 }
-.search-box{
-    width: 70%;
-    height: 61px;
+
+.quote{
     display: flex;
-    flex-direction: row;
+    flex: 1;
+    justify-content: flex-start;
     align-items: center;
-    justify-content: center;
+    color: white;
+    font-size: 20px;
+    padding-left: 20px;
+
+    opacity: 0; /* Start invisible */
+  transform: translateY(20px); /* Start slightly down */
+  animation: fadeInUp 0.5s forwards; /* Apply animation */
+  animation-delay: 0.3s; /* Delay before starting the animation */
 }
+.quote p{
+    color: white;
+    font-weight: 100;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+  transition: transform 0.2s ease;
+    
+}
+@keyframes fadeInUp {
+    to {
+      opacity: 1; /* End visible */
+      transform: translateY(0); /* Move to original position */
+    }
+  }
+
 .top-menu{
     display: none;
     flex-direction: row;
@@ -41,17 +68,9 @@
     border-radius: 50%;
     padding: 10px;
 }
-.search-box input{
-    width: 70%;
-    height: 40px;
-    background: #FFFFFF;
-    border: 1px solid #E4E4E7;
-    border-radius: 10px;
-    padding: 0 10px;
-}
+
 
 .profile-box{
-    width: 30%;
     height: 61px;
     display: flex;
     flex-direction: row;
@@ -59,46 +78,9 @@
     justify-content: flex-end;
     gap: 20px;
     padding-right: 30px;
+    padding-left: 10px;
 }
 
-
-
-
-.notification-panel {
-    position: absolute;
-    top: 50px;
-    right: 20px;
-    width: 250px;
-    background-color: #ffffff;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    padding: 15px;
-    z-index: 1000;
-  }
-  
-  .notification-panel h3 {
-    margin: 0 0 10px;
-    font-size: 16px;
-    border-bottom: 1px solid #ddd;
-    padding-bottom: 5px;
-  }
-  
-  .notification-panel ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .notification-panel li {
-    padding: 8px 0;
-    border-bottom: 1px solid #f0f0f0;
-    font-size: 14px;
-  }
-  
-  .notification-panel li:last-child {
-    border-bottom: none;
-  }
 
   .icon-button{
     height: 40px;
@@ -111,18 +93,51 @@
 }
 
 
+.profile-box {
+    position: relative; /* Ensure submenu is positioned relative to this box */
+  }
+  
+  .profile-submenu {
+    position: absolute; /* Position submenu absolutely */
+    top: 100%; /* Align submenu just below the profile icon */
+    right: 10; /* Align to the right */
+    background-color: white; /* Submenu background */
+    border: 1px solid #ccc; /* Submenu border */
+    border-radius: 4px;
+    z-index: 1000; /* Higher z-index to overlap other elements */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Optional shadow for better visibility */
+    width: 150px; /* Set width */
+  }
+  
+  .profile-submenu ul {
+    list-style-type: none; /* Remove bullets */
+    padding: 10px; /* Add padding */
+    margin: 0; /* Remove margin */
+  }
+  
+  .profile-submenu li {
+    margin: 5px 0; /* Space between items */
+  }
+  
+  .profile-submenu a {
+    text-decoration: none; /* Remove underline */
+    color: #333; /* Text color */
+    display: block; /* Block display for full clickable area */
+    padding: 5px 10px; /* Add padding */
+  }
+  
+  .profile-submenu a:hover {
+    background-color: #f0f0f0; /* Highlight on hover */
+  }
+  
+
 @media screen and (max-width: 1042px){
-    .space{
-        width: 10%;
-    }
+    
     
 }
 @media screen and (max-width: 557px){
     .top-nav{
         width: 100%;
-    }
-    .search-box{
-        display: none;
     }
     .top-menu{
         display: flex;

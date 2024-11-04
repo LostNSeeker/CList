@@ -13,14 +13,15 @@ const Home = () => {
         <div className="box" id="scoreboard">
           <Scoreboard />
         </div>
-        <div className="box">
-          <Contests />
+        <div className="rating-box">
+          <Rating />
         </div>
       </div>
 
-      <div className="rating-box">
-        <Rating />
+      <div className="box">
+        <Contests />
       </div>
+
       <div className="event-box">
         <Events />
       </div>

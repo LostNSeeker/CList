@@ -2,6 +2,8 @@
 import { useState } from "react";
 import RememberMe from "../Components/RememberMe";
 import './Login.css';
+//import ModelViewer from "../Components/3d";
+import AnimatedCodingPhrases from "../Components/funny";
 
 const Login = () => {
 
@@ -15,15 +17,20 @@ const Login = () => {
         }, 300);
     };
 
+    
+
     const handlePasswordClick = () => {
         setIsPasswordAnimating(true);
         setTimeout(() => {
             setIsPasswordAnimating(false);
         }, 300);
     };
+
     return (
         <div className="login-screen">
-            <div className="left"></div>
+            <div className="left">
+                <AnimatedCodingPhrases />
+            </div>
             <div className="right">
                 <div className='back'>
                     <a href="/">Back</a>
