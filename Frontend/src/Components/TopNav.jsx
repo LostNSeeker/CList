@@ -1,5 +1,6 @@
 import "./TopNav.css"; // Assuming you will add some styles
 import profileIcon from "/profile.svg";
+import problemsIcon from "/Problems.svg";
 import { useState, useRef, useEffect } from "react";
 import  "/DLTxt1.png";
 import { motion } from "framer-motion"; // Import motion
@@ -93,7 +94,7 @@ const TopNav = () => {
 
         <div className="profile-box">
           
-            <img src={""} alt="Problem sets"  onClick={toggleProblemSetMenu}/>
+            <img src={problemsIcon} alt="Problem sets"  onClick={toggleProblemSetMenu}/>
          
           {isProblemSetMenuOpen && (
             <div className="profile-submenu" ref={problemSetRef}>
@@ -117,6 +118,7 @@ const TopNav = () => {
                 <li><a href="/">Home</a></li>
                 <li><a href="/contests">Contests</a></li>
                 <li><a href="/events">MAANG Events</a></li>
+                <li><a href="/solvedQuestions">Solved Ques.</a></li>
                 <li><a href="/Networking">Networking</a></li>
                 <li><a href="/login">Logout</a></li>
               </ul>
