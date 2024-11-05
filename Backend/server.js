@@ -17,6 +17,10 @@ app.use("/api/contests", contestsRouter);
 
 app.use("/api/user", require("./routes/userRouter"));
 
+app.get("/", (req, res) => {
+	res.send("Welcome to DevLaunch CList API");
+});
+
 app.listen(PORT, () => {
 	console.log(`Server is running on http://localhost:${PORT}`);
 });
