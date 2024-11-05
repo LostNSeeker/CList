@@ -7,7 +7,7 @@
     flex-direction: column;
     gap: 10px;
     align-items: center;
-    z-index: 2; /* Ensure it stays above other components */
+    z-index: 2000; /* Ensure it stays above other components */
 }
 
 .left-nav-bar ul {
