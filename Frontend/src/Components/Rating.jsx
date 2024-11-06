@@ -34,13 +34,10 @@ const CodingPlatformChart = ({ data, width, height }) => {
   // Create an object to collect ratings for each exact date
   const allEntries = {};
 
-  // Calculate the date one year ago
-  //const oneYearAgo = new Date();
-  //oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
 
   const collectData = (platformData, platformKey) => {
     platformData.forEach(entry => {
-      // Assume entry.date is in "M/D/YYYY"
+    
     // eslint-disable-next-line no-unused-vars
     const [month, day, year] = entry.date.split('/'); // Split the date string
 
