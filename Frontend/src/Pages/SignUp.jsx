@@ -97,6 +97,14 @@ const SignUp = () => {
                 <div className="form-group">
                   <input
                     type="text"
+                    id="college"
+                    name="college"
+                    placeholder="Enter your college name"
+                  />
+                </div>
+                <div className="form-group">
+                  <input
+                    type="text"
                     id="codeforces"
                     name="codeforces"
                     placeholder="Codeforces username"
