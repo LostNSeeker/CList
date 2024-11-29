@@ -44,7 +44,6 @@ const PreviousSolved = () => {
 					`http://localhost:5000/api/user/getSolvedQuestions`
 				);
 				const data = await response.json();
-				console.log(data);
 				setSolvedQuestions({
 					codechef: data.CC.solvedQ,
 					leetcode: data.LC,
@@ -59,6 +58,12 @@ const PreviousSolved = () => {
 		};
 		fetchData();
 	}, []);
+
+	useEffect(() => {
+		console.log(solvedQuestions);
+		console.log(solvedQuestions[activeTab]);
+		console.log(currentQuestions);
+	}, [solvedQuestions]);
 
 	const handlePageChange = (pageNumber) => {
 		if (activeTab === "codechef") {
@@ -75,12 +80,12 @@ const PreviousSolved = () => {
 	const indexOfLastQuestion = currentPage * questionsPerPage;
 	const indexOfFirstQuestion = indexOfLastQuestion - questionsPerPage;
 	const currentQuestions =
-		solvedQuestions[activeTab].length > 0
-			? solvedQuestions[activeTab].slice(
+		activeTab === "codechef"
+			? solvedQuestions[activeTab]
+			: solvedQuestions[activeTab].slice(
 					indexOfFirstQuestion,
 					indexOfLastQuestion
-			  )
-			: [];
+			  );
 
 	const renderPageNumbers = () => {
 		const pageNumbers = [];
