@@ -109,8 +109,8 @@ const getCCRating = async (ccId) => {
 		data.ratingData.map((item) => {
 			ccRatings.push({
 				contestName: item.name,
-				rating: item.rating,
-				rank: item.rank,
+				rating: parseInt(item.rating, 10),
+				rank: parseInt(item.rank, 10),
 				date: new Date(
 					`${item.getyear}-${item.getmonth}-${item.getday}`
 				).toLocaleDateString(),
