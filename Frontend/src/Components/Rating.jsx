@@ -37,15 +37,17 @@ const CodingPlatformChart = ({ data, width, height }) => {
 
 	const collectData = (platformData, platformKey) => {
 		platformData.forEach((entry) => {
-			// eslint-disable-next-line no-unused-vars
 			const [day, month, year] = entry.date.split("/"); // Split the date string
 
-			// Create the month-year string manually
-			const monthYear = `${new Date(year, month - 1).toLocaleString("default", {
-				month: "long",
-			})} ${year}`;
-			allEntries[monthYear] = allEntries[monthYear] || {};
-			allEntries[monthYear][platformKey] = entry.rating;
+			// Create the day-month-year string manually
+			const dayMonthYear = `${day} ${new Date(year, month - 1).toLocaleString(
+				"default",
+				{
+					month: "long",
+				}
+			)} ${year}`;
+			allEntries[dayMonthYear] = allEntries[dayMonthYear] || {};
+			allEntries[dayMonthYear][platformKey] = entry.rating;
 		});
 	};
 
@@ -64,7 +66,7 @@ const CodingPlatformChart = ({ data, width, height }) => {
 
 	// Create datasets for Chart.js
 	const chartData = {
-		labels: monthYearLabels.map((date) => new Date(date)), // Convert string labels to Date objects
+		labels: monthYearLabels, // Use all labels
 		datasets: [
 			{
 				label: "CodeForces (CF)",
@@ -162,7 +164,7 @@ const CodingPlatformChart = ({ data, width, height }) => {
 					unit: "day", // Unit for the x-axis
 				},
 				grid: {
-					display: false, // Hide gridlines for a cleaner look
+					display: false, // Hide grid lines for a cleaner look
 				},
 				title: {
 					display: true,
@@ -183,7 +185,7 @@ const CodingPlatformChart = ({ data, width, height }) => {
 			y: {
 				position: "right", // Moves the y-axis to the right side of the chart
 				grid: {
-					color: "rgba(200, 200, 200, 0.2)", // Light, subtle gridline
+					color: "rgba(200, 200, 200, 0.2)", // Light, subtle grid line
 					borderDash: [5, 5],
 				},
 				title: {

@@ -74,8 +74,8 @@ const getCFRating = async (cfId) => {
 				rating: item.newRating,
 				rank: item.rank,
 				date: new Date(
-					item.ratingUpdateTimeSeconds * 1000
-				).toLocaleDateString(),
+					`${item.getyear}-${item.getmonth}-${item.getday}`
+				).toLocaleDateString("en-GB"),
 			});
 		});
 		details.ratingHistory = cfRatings;
@@ -113,7 +113,7 @@ const getCCRating = async (ccId) => {
 				rank: parseInt(item.rank, 10),
 				date: new Date(
 					`${item.getyear}-${item.getmonth}-${item.getday}`
-				).toLocaleDateString(),
+				).toLocaleDateString("en-GB"),
 			});
 		});
 		const gotData = await getCCDetails(ccId);
@@ -200,7 +200,9 @@ const getLCRating = async (lcId) => {
 		filteredData = data.filter((contest) => contest.attended !== false);
 		// Format and display rating history
 		const ratingHistory = filteredData.map((contest) => ({
-			date: new Date(contest.contest.startTime * 1000).toLocaleDateString(),
+			date: new Date(contest.contest.startTime * 1000).toLocaleDateString(
+				"en-GB"
+			),
 			rating: contest.rating,
 			rank: contest.ranking,
 			contestName: contest.contest.title,
