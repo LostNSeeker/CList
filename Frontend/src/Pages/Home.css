@@ -46,7 +46,7 @@
 }
 @media screen and (max-width: 685px) {
   #scoreboard {
-    height: 650px;
+    height: auto;
   }
   .rating-box{
     height: 480px;
@@ -54,9 +54,12 @@
 }
 @media screen and (max-width: 508px) {
     #scoreboard {
-      height: 800px;
+      height: auto;
     }
     .rating-box{
       height: 480px;
+    }
+    .upper-box{
+      gap: 2rem;
     }
   }

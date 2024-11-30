@@ -1,7 +1,9 @@
 import TotalContests from "./TotalContests";
 import ProblemSolved from "./ProblemSolved";
 import "./Scoreboard.css";
-import CircularProgress from "./CircularProgress";
+//import CircularProgress from "./CircularProgress";
+import { PieChartQuestions } from "./pieChartQuestions";
+import { PieChartContests } from "./pieChartContests";  
 
 const Scoreboard = () => {
   return (
@@ -11,7 +13,10 @@ const Scoreboard = () => {
         <ProblemSolved />
       </div>
       <div className="lower-board">
-        <div className="coding-platform">
+        <PieChartContests />
+        <PieChartQuestions />
+        
+        {/*<div className="coding-platform">
           <CircularProgress progress="50" />
           <div>Codeforces</div>
         </div>
@@ -22,7 +27,7 @@ const Scoreboard = () => {
         <div className="coding-platform">
           <CircularProgress progress="30" />
           <div>Codechef</div>
-        </div>
+        </div>*/}
       </div>
     </div>
   );

@@ -1,5 +1,3 @@
-
-import upperArrowIcon from "/upperArrow.svg";
 import totalProblemIcon from "/totalProblem.svg";
 import "./TotalContests.css";
 import UserContext  from '../utils/userContext';
@@ -12,17 +10,17 @@ const ProblemSolved = () => {
   if (error) return <p>Error: {error}</p>;
 
     return (
-        <div className="total-container">
+        <div className="total-container border">
             <div className="icon">
         <img src={totalProblemIcon} />
       </div>
       <div className="number">
         <p className="contest-number">{totalStats.totalProblems}</p>
         <div className="head-p">Pronblem solved</div>
-        <div>
+        {/*<div>
           <img src={upperArrowIcon} />
           10% (07 days)
-        </div>
+        </div>*/}
       </div>
         </div>
     );
