@@ -8,6 +8,8 @@ import { motion } from "framer-motion"; // Import motion
 const TopNav = () => {
   const [isProfileMenuOpen, setProfileMenuOpen] = useState(false);
   const [isProblemSetMenuOpen, setIsProblemSetMenuOpen] = useState(false);
+  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 557);
+  
   const submenuRef = useRef(null); // Create a ref for the submenu
   const problemSetRef = useRef(null);
 
@@ -37,6 +39,17 @@ const TopNav = () => {
     };
   }, []);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth <= 557);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
     <nav className="top-nav">
       <div className="space">
@@ -58,14 +71,9 @@ const TopNav = () => {
           </ul>
         </div>
 
-       
-
         <div className="profile-box">
-        <i class="fas fa-clipboard-list fa-2x" alt="Problem sets" onClick={toggleProblemSetMenu}></i>
-        
+          <i className="fas fa-clipboard-list fa-2x" alt="Problem sets" onClick={toggleProblemSetMenu}></i>
 
-
-          {/* <img src={problemsIcon} alt="Problem sets" onClick={toggleProblemSetMenu} /> */}
           {isProblemSetMenuOpen && (
             <div className="profile-submenu" ref={problemSetRef}>
               <ul>
@@ -78,18 +86,24 @@ const TopNav = () => {
         </div>
 
         <div className="profile-box">
-       
           <img src={profileIcon} alt="Profile" onClick={toggleProfileMenu} />
           {isProfileMenuOpen && (
             <div className="profile-submenu" ref={submenuRef}>
               <ul>
                 <li><a href="/profile">View Profile</a></li>
-                {/* <li><a href="/">Home</a></li> */}
-                {/* <li><a href="/contests">Contests</a></li>
-                <li><a href="/events">MAANG Events</a></li>
-                <li><a href="/solvedQuestions">Solved Ques.</a></li> */}
+                 {/* Add hidden menu items for smaller screens */}
+                 {isSmallScreen && (
+                  <>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/contests">Contests</a></li>
+                    <li><a href="/events">MAANG Events</a></li>
+                    <li><a href="/solvedQuestions">Solved Ques.</a></li>
+                  </>
+                )}
                 <li><a href="/Networking">Networking</a></li>
                 <li><a href="/login">Logout</a></li>
+
+               
               </ul>
             </div>
           )}
