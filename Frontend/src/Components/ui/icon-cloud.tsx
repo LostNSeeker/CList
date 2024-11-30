@@ -83,7 +83,7 @@ export default function IconCloud({ iconSlugs }: DynamicCloudProps) {
   return (
     // @ts-ignore
     <Cloud {...cloudProps}>
-      <>{renderedIcons}</>
+      {renderedIcons}
     </Cloud>
   );
 }
