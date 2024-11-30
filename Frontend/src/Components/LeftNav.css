@@ -54,6 +54,17 @@
     visibility: visible;
 }
 
+i {
+    color: #848382;  /* Gold color */
+    font-size: 30px;  /* Set the icon size */
+    transition: all 0.3s ease; /* Smooth transition for hover effect */
+}
+
+/* Hover effect for icons */
+i:hover {
+    color: #ffffff;  /* Slightly darker gold on hover */
+    transform: scale(1.1); /* Slightly larger on hover */
+}
 @media screen and (max-width: 557px) {
     .left-nav-bar {
         display: none;
