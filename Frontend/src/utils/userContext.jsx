@@ -31,18 +31,20 @@ export const UserProvider = ({ children }) => {
 
 	// Function to calculate total problems solved and total contests
 	const totalStats = useMemo(() => {
-		if (!userDetails) return { totalProblems: 0, totalContests: 0 };
-		const totalProblems =
-			(userDetails.cf?.solvedProblems || 0) +
-			(userDetails.cc?.solvedProblems || 0) +
-			(userDetails.lc?.solvedProblems || 0);
+		if (!userDetails) return { totalProblems: 0, totalContests: 0, cfProblems: 0, ccProblems: 0, lcProblems: 0, cfContests: 0, ccContests: 0, lcContests: 0 };
+		const cfProblems = userDetails.cf?.solvedProblems || 0;
+		const ccProblems = userDetails.cc?.solvedProblems || 0;
+		const lcProblems = userDetails.lc?.solvedProblems || 0;
 
-		const totalContests =
-			(userDetails.cf?.contests || 0) +
-			(userDetails.cc?.contests || 0) +
-			(userDetails.lc?.contests || 0);
+		const totalProblems = cfProblems + ccProblems + lcProblems;
 
-		return { totalProblems, totalContests };
+		const cfContests = userDetails.cf?.contests || 0;
+		const ccContests = userDetails.cc?.contests || 0;
+		const lcContests = userDetails.lc?.contests || 0;
+
+		const totalContests = cfContests + ccContests + lcContests;
+
+		return { totalProblems, totalContests, cfProblems, ccProblems, lcProblems, cfContests, ccContests, lcContests };
 	}, [userDetails]);
 
 	return (

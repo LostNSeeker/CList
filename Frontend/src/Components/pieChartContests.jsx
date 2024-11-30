@@ -1,6 +1,5 @@
 "use client"
 
-import * as React from "react"
 import { Label, Pie, PieChart } from "recharts"
 
 import {
@@ -12,11 +11,10 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
-const chartData = [
-  { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
-  { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
-  { browser: "firefox", visitors: 287, fill: "var(--color-firefox)" },
-]
+import UserContext  from '../utils/userContext';
+import { useContext } from 'react';
+
+
 
 const chartConfig = {
   visitors: {
@@ -33,9 +31,16 @@ const chartConfig = {
 } 
 
 export function PieChartContests() {
-  const totalVisitors = React.useMemo(() => {
-    return chartData.reduce((acc, curr) => acc + curr.visitors, 0)
-  }, [])
+    const { totalStats, loading, error } = useContext(UserContext);
+
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error: {error}</p>;
+
+    const chartData = [
+        { platform: "leetcode", visitors: totalStats.lcContests, fill: "var(--color-chrome)" },
+        { platform: "Codeforces", visitors: totalStats.cfContests, fill: "var(--color-safari)" },
+        { platform: "codechef", visitors: totalStats.ccContests, fill: "var(--color-firefox)" },
+    ]
 
   return (
     <Card className="flex flex-col w-full h-full">
@@ -53,8 +58,8 @@ export function PieChartContests() {
             <Pie
               data={chartData}
               dataKey="visitors"
-              nameKey="browser"
-              innerRadius={40}
+              nameKey="platform"
+              innerRadius={45}
               strokeWidth={10}
             >
               <Label
@@ -72,14 +77,14 @@ export function PieChartContests() {
                           y={viewBox.cy}
                           className="fill-foreground text-3xl font-bold"
                         >
-                          {totalVisitors.toLocaleString()}
+                          {totalStats.totalContests.toLocaleString()}
                         </tspan>
                         <tspan
                           x={viewBox.cx}
                           y={(viewBox.cy || 0) + 24}
                           className="fill-muted-foreground"
                         >
-                          Visitors
+                          Contests
                         </tspan>
                       </text>
                     )

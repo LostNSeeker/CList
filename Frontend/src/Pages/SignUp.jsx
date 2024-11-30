@@ -59,9 +59,9 @@ const SignUp = () => {
         <IconCloud iconSlugs={slugs} />
       </div>
       <div className="right">
-        <div className="back">
+        {/*<div className="back">
           <a href="/">Back</a>
-        </div>
+        </div>*/}
         <div className="login-hero-page">
           <div className="login-container">
             <div className="login-title">SignUp</div>
