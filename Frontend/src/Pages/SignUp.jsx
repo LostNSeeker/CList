@@ -1,7 +1,7 @@
 // Desc: Login Page
 import { useState } from "react";
 import "./Login.css";
-import IconCloud from "@/components/ui/icon-cloud";
+import IconCloud from "../components/ui/icon-cloud";
 
 const slugs = [
   "typescript",
