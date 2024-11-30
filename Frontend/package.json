@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^6.6.0",
+    "@fortawesome/fontawesome-free": "^6.7.1",
     "@react-three/drei": "^9.115.0",
     "@react-three/fiber": "^8.17.10",
     "ag-charts-react": "^10.3.1",
@@ -31,7 +31,8 @@
     "tailwind-merge": "^2.5.4",
     "tailwindcss-animate": "^1.0.7",
     "three": "^0.170.0",
-    "three-stdlib": "^2.34.0"
+    "three-stdlib": "^2.34.0",
+    "typeface-montserrat": "^1.1.13"
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",

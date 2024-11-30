@@ -1,8 +1,8 @@
 import "./TopNav.css"; // Assuming you will add some styles
 import profileIcon from "/profile.svg";
 import problemsIcon from "/Problems.svg";
+import logoImage from "/DLTxt1.png"; // Replace with your image file
 import { useState, useRef, useEffect } from "react";
-import  "/DLTxt1.png";
 import { motion } from "framer-motion"; // Import motion
 
 const TopNav = () => {
@@ -27,16 +27,7 @@ const TopNav = () => {
       setIsProblemSetMenuOpen(false); // Hide the menu
     }
   };
-  
 
-  useEffect(() => {
-    // Add event listener for clicks outside the submenu
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      // Cleanup the event listener on component unmount
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
   useEffect(() => {
     // Add event listener for clicks outside the submenu
     document.addEventListener("mousedown", handleClickOutside);
@@ -49,53 +40,32 @@ const TopNav = () => {
   return (
     <nav className="top-nav">
       <div className="space">
-          <img src="/DLTxt1.png" alt="logo"/>
+        <img src={logoImage} alt="logo" />
       </div>
       <div className="right-side">
-        {/*<div className="top-menu">
+        <div className="top-menu">
           <ul>
-            <a href="/">
-              <img src={homeIcon} />
-            </a>
+            <li><a href="/">Home</a></li>
           </ul>
           <ul>
-            <a href="/contests">
-              <img src={contestsIcon} />
-            </a>
+            <li><a href="/contests">Contests</a></li>
           </ul>
           <ul>
-            <a href="/rating">
-              <img src={progressIcon} />
-            </a>
+            <li><a href="/events">MAANG Events</a></li>
           </ul>
           <ul>
-            <a href="/events">
-              <img src={eventsIcon} />
-            </a>
+            <li><a href="/solvedQuestions">Solved Ques.</a></li>
           </ul>
-        </div>*/}
-
-        <div className="quote">
-        <motion.p
-            initial={{ opacity: 0, y: 20, scale: 0.8, rotate: -5 }}
-            animate={{ opacity: 1, y: 0, scale: 1, rotate: 0 }}
-            transition={{
-              duration: 0.8,
-              delay: 0.3,
-              type: "spring",
-              stiffness: 100,
-              damping: 10,
-            }}
-            whileHover={{ scale: 1.05, rotate: 1 }}
-          >
-            “Brute force: a coder’s last resort.”
-          </motion.p>
         </div>
 
+       
+
         <div className="profile-box">
-          
-            <img src={problemsIcon} alt="Problem sets"  onClick={toggleProblemSetMenu}/>
-         
+        <i class="fas fa-clipboard-list fa-2x" alt="Problem sets" onClick={toggleProblemSetMenu}></i>
+        
+
+
+          {/* <img src={problemsIcon} alt="Problem sets" onClick={toggleProblemSetMenu} /> */}
           {isProblemSetMenuOpen && (
             <div className="profile-submenu" ref={problemSetRef}>
               <ul>
@@ -108,25 +78,22 @@ const TopNav = () => {
         </div>
 
         <div className="profile-box">
-          
-            <img src={profileIcon} alt="Profile"  onClick={toggleProfileMenu}/>
-         
+       
+          <img src={profileIcon} alt="Profile" onClick={toggleProfileMenu} />
           {isProfileMenuOpen && (
             <div className="profile-submenu" ref={submenuRef}>
               <ul>
                 <li><a href="/profile">View Profile</a></li>
-                <li><a href="/">Home</a></li>
-                <li><a href="/contests">Contests</a></li>
+                {/* <li><a href="/">Home</a></li> */}
+                {/* <li><a href="/contests">Contests</a></li>
                 <li><a href="/events">MAANG Events</a></li>
-                <li><a href="/solvedQuestions">Solved Ques.</a></li>
+                <li><a href="/solvedQuestions">Solved Ques.</a></li> */}
                 <li><a href="/Networking">Networking</a></li>
                 <li><a href="/login">Logout</a></li>
               </ul>
             </div>
           )}
         </div>
-        
-
       </div>
     </nav>
   );
