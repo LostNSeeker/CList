@@ -3,7 +3,7 @@ import { useState } from "react";
 import RememberMe from "../Components/RememberMe";
 import "./Login.css";
 
-import IconCloud from "../components/ui/icon-cloud";
+import IconCloud from "../Components/ui/icon-cloud";
 
 const slugs = [
   "typescript",
