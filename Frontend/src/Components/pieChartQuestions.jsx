@@ -37,9 +37,9 @@ export function PieChartQuestions() {
   if (error) return <p>Error: {error}</p>;
 
   const chartData = [
-    { platform: "leetcode", visitors: totalStats.lcProblems, fill: "var(--color-chrome)" },
-    { platform: "Codeforces", visitors: totalStats.cfProblems, fill: "var(--color-safari)" },
-    { platform: "codechef", visitors: totalStats.ccProblems, fill: "var(--color-firefox)" },
+    { platform: "leetcode", visitors: totalStats.lcProblems, fill: "green" },
+    { platform: "Codeforces", visitors: totalStats.cfProblems, fill: "blue" },
+    { platform: "codechef", visitors: totalStats.ccProblems, fill: "#FF6700" },
   ]
 
   return (

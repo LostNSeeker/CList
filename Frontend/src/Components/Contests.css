@@ -12,14 +12,14 @@
 }
 .content-box{
     overflow-y: auto;
-    scrollbar-width: thin;
+    scrollbar-width: none;
     height: 100%;
     margin-bottom: 30px;
     margin-right: 10px;
 }
 .list-item{
     display: grid;
-    grid-template-columns: 1fr 2fr 2fr 1fr;
+    grid-template-columns: 1fr 2fr 2fr;
     padding: 10px 10px;
     gap: 30px;
     
@@ -34,6 +34,6 @@
     border-radius: 50%;
 }
 
-.filter-box{
- margin-bottom: 15px;   
+.filter-box{ 
+  margin-bottom: 15px;   
 }

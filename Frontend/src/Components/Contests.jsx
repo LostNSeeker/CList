@@ -51,9 +51,12 @@ const Contests = () => {
   };
 
   // Filter contests based on the selected platform
-  const filteredContests = selectedPlatform === "all"
-    ? upcomingContests
-    : upcomingContests.filter((contest) => contest.resource.includes(selectedPlatform));
+  const filteredContests =
+    selectedPlatform === "all"
+      ? upcomingContests
+      : upcomingContests.filter((contest) =>
+          contest.resource.includes(selectedPlatform)
+        );
 
   return (
     <div className="contests-main-box">
@@ -74,18 +77,28 @@ const Contests = () => {
           <option value="leetcode.com">LeetCode</option>
           <option value="geeksforgeeks.org">GeeksforGeeks</option>
         </select>
+        <button
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          onClick={() => (window.location.href = "/contests")}
+        >
+          View All
+        </button>
       </div>
 
       {filteredContests.length > 0 ? (
         <ul className="content-box">
           {filteredContests.map((contest) => (
             <div key={contest.id} className="list-item">
-              <img src={image(contest.resource)} alt="" className="resource-icon" />
+              <img
+                src={image(contest.resource)}
+                alt=""
+                className="resource-icon"
+              />
               <a href={contest.href} target="_blank" rel="noopener noreferrer">
                 {contest.event.slice(0, 20)}...
               </a>
               <p>{contest.start}</p>
-              <input type="checkbox" />
+              {/*<input type="checkbox" />*/}
             </div>
           ))}
         </ul>

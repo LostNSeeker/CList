@@ -3,21 +3,24 @@ import "./Home.css";
 import Contests from "../Components/Contests";
 import Scoreboard from "../Components/Scoreboard";
 //import Chart from '../Components/Chart';
-import Rating from "../Components/Rating";
+//import Rating from "../Components/Rating";
 import Events from "../Components/Events";
+//import CurrentRatings from "../Components/currentRattings";
 
 const Home = () => {
   return (
     <div className="home-screen">
-      <div className="upper-box">
+      {/*<div className="upper-box">
         <div className="box" id="scoreboard">
           <Scoreboard />
         </div>
-        <div className="rating-box">
+        {/*<div className="rating-box">
           <Rating />
-        </div>
-      </div>
-
+        </div>*//*}
+      </div>*/}
+      
+      <Scoreboard />
+      
       <div className="box">
         <Contests />
       </div>
