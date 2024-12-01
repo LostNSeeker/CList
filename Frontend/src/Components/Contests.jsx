@@ -59,12 +59,12 @@ const Contests = () => {
         );
 
   return (
-    <div className="contests-main-box">
+    <div className="contests-main-box max-w-7xl w-full mx-4 sm:mx-8">
       <h2 className="main-box-heading">Upcoming Contests</h2>
 
       {/* Filter dropdown */}
       <div className="filter-box">
-        <label htmlFor="platform-select">Filter by Platform:</label>
+        <label htmlFor="platform-select">Filter by Platform :     </label>
         <select
           id="platform-select"
           value={selectedPlatform}
@@ -78,7 +78,7 @@ const Contests = () => {
           <option value="geeksforgeeks.org">GeeksforGeeks</option>
         </select>
         <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 ml-6 px-4 rounded  sm:w-auto mt-4"
           onClick={() => (window.location.href = "/contests")}
         >
           View All

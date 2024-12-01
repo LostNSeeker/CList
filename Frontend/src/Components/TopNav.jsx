@@ -69,6 +69,9 @@ const TopNav = () => {
           <ul>
             <li><a href="/solvedQuestions">Solved Ques.</a></li>
           </ul>
+          <ul>
+            <li><a href="/rating">Analytics</a></li>
+          </ul>
         </div>
 
         <div className="profile-box">

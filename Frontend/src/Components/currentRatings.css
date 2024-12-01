@@ -1,7 +1,9 @@
 .main-box{
-    border-radius: 0.75rem;
+    /* border-radius: 0.75rem; */
     margin: 1rem;
     padding: 1rem;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     background: #fff;
+    border-radius: 5px; */
+    border: 5px solid rgb(18, 18, 18);
 }

@@ -1,6 +1,6 @@
 const CurrentRatings = () => {
 return (
-    <div className=" main-box flex flex-col w-full justify-center items-center rounded-xl m-4 pt-4 pb-4 shadow-sm ">
+    <div className=" main-box flex flex-col w-full justify-center items-center rounded-2xl m-4 pt-4 pb-4  bg-white  border-2 border-gray-200 ">
         <div className="text-center">Current Ratings</div>
         <div className="flex flex-row width-full justify-between m-4 gap-4">
             <div className="leetcode">
