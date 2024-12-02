@@ -14,6 +14,7 @@ export const UserProvider = ({ children }) => {
 
 	useEffect(() => {
 		const unsubscribe = onAuthStateChanged(auth, async (user) => {
+			console.log(user);
 			if (user) {
 				try {
 					setLoading(true);
@@ -118,6 +119,8 @@ export const UserProvider = ({ children }) => {
 			lcRating,
 		};
 	}, [userDetails]);
+
+	console.log(userDetails);
 
 	return (
 		<UserContext.Provider value={{ userDetails, totalStats, loading, error }}>

@@ -15,6 +15,8 @@ import LeftNav from "./Components/LeftNav";
 import Rating from "./Components/Rating";
 import Events from "./Components/Events";
 import { UserProvider } from "./utils/userContext";
+import { useContext, useEffect } from "react";
+import UserContext from "./utils/userContext";
 
 function App() {
 	return (
@@ -28,8 +30,22 @@ function App() {
 
 function AppContent() {
 	const location = useLocation();
+	const { userDetails, loading } = useContext(UserContext);
+	const isLogin = userDetails ? true : false;
 	const hideNav =
 		location.pathname === "/login" || location.pathname === "/signup";
+
+	useEffect(() => {
+		if (!loading) {
+			if (!isLogin && !hideNav) {
+				window.location.href = "/login";
+			}
+		}
+	}, [loading]);
+
+	if (loading) {
+		return <div>Loading...</div>;
+	}
 
 	return (
 		<div>
@@ -45,8 +61,8 @@ function AppContent() {
 						<TopNav />
 						<div className="bottom-screen">
 							<Routes>
-								<Route path="/contests" element={<Contests />} />
 								<Route path="/" element={<Home />} />
+								<Route path="/contests" element={<Contests />} />
 								<Route path="/rating" element={<Rating />} />
 								<Route path="/events" element={<Events />} />
 								<Route path="/solvedQuestions" element={<PreviousSolved />} />

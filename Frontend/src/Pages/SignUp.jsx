@@ -44,6 +44,12 @@ const SignUp = () => {
 	const [isEmailAnimating, setIsEmailAnimating] = useState(false);
 	const [isPasswordAnimating, setIsPasswordAnimating] = useState(false);
 
+	//if logged in return to home
+	console.log(auth);
+	if (auth.currentUser) {
+		window.location.href = "/";
+	}
+
 	const handleEmailClick = () => {
 		setIsEmailAnimating(true);
 		setTimeout(() => {
