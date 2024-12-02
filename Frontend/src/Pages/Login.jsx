@@ -89,6 +89,7 @@ const Login = () => {
 			await signInWithEmailAndPassword(auth, email, password);
 			toast.success("Logged in successfully");
 			window.location.href = "/";
+		// eslint-disable-next-line no-unused-vars
 		} catch (error) {
 			toast.error("Invalid email or password");
 		} finally {
