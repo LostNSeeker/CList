@@ -1,15 +1,14 @@
 import "./TopNav.css"; // Assuming you will add some styles
 import profileIcon from "/profile.svg";
-import problemsIcon from "/Problems.svg";
 import logoImage from "/DLTxt1.png"; // Replace with your image file
 import { useState, useRef, useEffect } from "react";
-import { motion } from "framer-motion"; // Import motion
+
 
 const TopNav = () => {
   const [isProfileMenuOpen, setProfileMenuOpen] = useState(false);
   const [isProblemSetMenuOpen, setIsProblemSetMenuOpen] = useState(false);
-  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 557);
-  
+  // [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 557);
+
   const submenuRef = useRef(null); // Create a ref for the submenu
   const problemSetRef = useRef(null);
 
@@ -25,7 +24,10 @@ const TopNav = () => {
     if (submenuRef.current && !submenuRef.current.contains(event.target)) {
       setProfileMenuOpen(false); // Hide the menu
     }
-    if (problemSetRef.current && !problemSetRef.current.contains(event.target)) {
+    if (
+      problemSetRef.current &&
+      !problemSetRef.current.contains(event.target)
+    ) {
       setIsProblemSetMenuOpen(false); // Hide the menu
     }
   };
@@ -39,7 +41,7 @@ const TopNav = () => {
     };
   }, []);
 
-  useEffect(() => {
+  {/*useEffect(() => {
     const handleResize = () => {
       setIsSmallScreen(window.innerWidth <= 557);
     };
@@ -48,7 +50,7 @@ const TopNav = () => {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, []);
+  }, []);*/}
 
   return (
     <nav className="top-nav">
@@ -58,31 +60,69 @@ const TopNav = () => {
       <div className="right-side">
         <div className="top-menu">
           <ul>
-            <li><a href="/">Home</a></li>
+            <li>
+              <a href="/">Home</a>
+            </li>
           </ul>
           <ul>
-            <li><a href="/contests">Contests</a></li>
+            <li>
+              <a href="/contests">Contests</a>
+            </li>
           </ul>
           <ul>
-            <li><a href="/events">MAANG Events</a></li>
+            <li>
+              <a href="/events">MAANG Events</a>
+            </li>
           </ul>
           <ul>
-            <li><a href="/solvedQuestions">Solved Ques.</a></li>
+            <li>
+              <a href="/solvedQuestions">Solved Ques.</a>
+            </li>
           </ul>
           <ul>
-            <li><a href="/rating">Analytics</a></li>
+            <li>
+              <a href="/rating">Analytics</a>
+            </li>
           </ul>
         </div>
 
         <div className="profile-box">
-          <i className="fas fa-clipboard-list fa-2x" alt="Problem sets" onClick={toggleProblemSetMenu}></i>
+          <i
+            className="fas fa-clipboard-list fa-2x"
+            alt="Problem sets"
+            onClick={toggleProblemSetMenu}
+          ></i>
 
           {isProblemSetMenuOpen && (
             <div className="profile-submenu" ref={problemSetRef}>
               <ul>
-                <li><a href="https://cses.fi/problemset" target="_blank" rel="noopener noreferrer">CSES</a></li>
-                <li><a href="https://450dsa.com/" target="_blank" rel="noopener noreferrer">Love babbar</a></li>
-                <li><a href="https://takeuforward.org/interviews/strivers-sde-sheet-top-coding-interview-problems/" target="_blank" rel="noopener noreferrer">Strivers sheet</a></li>
+                <li>
+                  <a
+                    href="https://cses.fi/problemset"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    CSES
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://450dsa.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Love babbar
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://takeuforward.org/interviews/strivers-sde-sheet-top-coding-interview-problems/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Strivers sheet
+                  </a>
+                </li>
               </ul>
             </div>
           )}
@@ -93,20 +133,25 @@ const TopNav = () => {
           {isProfileMenuOpen && (
             <div className="profile-submenu" ref={submenuRef}>
               <ul>
-                <li><a href="/profile">View Profile</a></li>
-                 {/* Add hidden menu items for smaller screens */}
-                 {isSmallScreen && (
-                  <>
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/contests">Contests</a></li>
-                    <li><a href="/events">MAANG Events</a></li>
-                    <li><a href="/solvedQuestions">Solved Ques.</a></li>
-                  </>
-                )}
-                <li><a href="/Networking">Networking</a></li>
-                <li><a href="/login">Logout</a></li>
-
-               
+                {/* Add hidden menu items for smaller screens */}
+                <li>
+                  <a href="/">Home</a>
+                </li>
+                <li>
+                  <a href="/contests">Contests</a>
+                </li>
+                <li>
+                  <a href="/rating">Ratings</a>
+                </li>
+                <li>
+                  <a href="/events">MAANG Events</a>
+                </li>
+                <li>
+                  <a href="/solvedQuestions">Solved Ques.</a>
+                </li>
+                <li>
+                  <a href="/login">Logout</a>
+                </li>
               </ul>
             </div>
           )}

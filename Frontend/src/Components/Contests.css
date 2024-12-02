@@ -18,8 +18,9 @@
 }
 
 .content-box {
-  overflow-y: auto;
+  /*overflow-y: auto;*/
   scrollbar-width: none;
+  overflow-y: hidden;
   height: 100%;
   margin-bottom: 30px;
   
