@@ -2,6 +2,8 @@ const axios = require("axios");
 const cheerio = require("cheerio");
 const NodeCache = require("node-cache");
 const { getSolvedCF, getSolvedLC, getSolvedCC } = require("../util/getSolvedQ");
+const { getAuth } = require("firebase-admin/auth");
+const db = require("../config/firebaseAdmin"); // Firestore DB setup
 
 const cache = new NodeCache({ stdTTL: 1800 }); // Cache for 30 minutes
 
@@ -346,4 +348,48 @@ const getCCByPage = async (req, res) => {
 	res.json(data);
 };
 
-module.exports = { getUserDetails, getSolvedQuestions, getCCByPage };
+const userLogin = async (req, res) => {
+	res.send("User login");
+};
+
+const userSignup = async (req, res) => {
+	const { accessToken, email, name, college, codeforces, leetcode, codechef } =
+		req.body;
+	try {
+		// Verify the Firebase ID token from the client
+		const decodedToken = await getAuth().verifyIdToken(accessToken);
+		const uid = decodedToken.uid;
+
+		// Check if the user already exists in Firestore
+		const userDoc = await db.collection("users").doc(uid).get();
+		console.log(userDoc);
+		if (userDoc.exists) {
+			// User already exists, return existing user data
+			const existingUserData = userDoc.data();
+			return res.status(200).json({
+				message: "User already registered",
+				userData: existingUserData,
+			});
+		}
+
+		// If user does not exist, save new user details
+		await db.collection("users").doc(uid).set({
+			uid: uid,
+			name: name,
+			createdAt: new Date().toISOString(),
+		});
+	} catch (error) {
+		console.error("Error creating user:", error);
+		return res.status(500).json({ error: "Internal server error" });
+	}
+
+	res.send("User signup");
+};
+
+module.exports = {
+	getUserDetails,
+	getSolvedQuestions,
+	getCCByPage,
+	userLogin,
+	userSignup,
+};
