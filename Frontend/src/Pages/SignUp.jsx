@@ -132,8 +132,12 @@ const SignUp = () => {
 					});
 			})
 			.catch((error) => {
+				if (error.code === "auth/email-already-in-use") {
+					toast.error("An account with this email already exists");
+				} else {
+					toast.error("User creation failed");
+				}
 				console.error("Error signing up:", error);
-				toast.error("User creation failed");
 				setLoading(false);
 			});
 	};
