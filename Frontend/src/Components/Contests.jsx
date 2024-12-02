@@ -1,3 +1,4 @@
+//contest component to display upcoming contests from various platforms
 import { useEffect, useState } from "react";
 import axios from "axios";
 import "./Contests.css";
