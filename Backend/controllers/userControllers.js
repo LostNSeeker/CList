@@ -73,9 +73,9 @@ const getCFRating = async (cfId) => {
 				contestName: item.contestName,
 				rating: item.newRating,
 				rank: item.rank,
-				date: new Date(
-					`${item.getyear}-${item.getmonth}-${item.getday}`
-				).toLocaleDateString("en-GB"),
+				date: new Date(item.ratingUpdateTimeSeconds * 1000).toLocaleDateString(
+					"en-GB"
+				),
 			});
 		});
 		details.ratingHistory = cfRatings;
