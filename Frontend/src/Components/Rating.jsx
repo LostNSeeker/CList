@@ -51,10 +51,16 @@ const CodingPlatformChart = ({ data, width, height }) => {
 		});
 	};
 
-	// Collect data for each platform
-	collectData(data.cf.ratingHistory, "cf");
-	collectData(data.cc.ratingHistory, "cc");
-	collectData(data.lc.ratingHistory, "lc");
+	// Collect data for each platform if it exists
+	if (data.cf && data.cf.ratingHistory) {
+		collectData(data.cf.ratingHistory, "cf");
+	}
+	if (data.cc && data.cc.ratingHistory) {
+		collectData(data.cc.ratingHistory, "cc");
+	}
+	if (data.lc && data.lc.ratingHistory) {
+		collectData(data.lc.ratingHistory, "lc");
+	}
 
 	// Prepare data for the chart
 	Object.keys(allEntries).forEach((date) => {
@@ -65,52 +71,59 @@ const CodingPlatformChart = ({ data, width, height }) => {
 	});
 
 	// Create datasets for Chart.js
+	const datasets = [];
+	if (cfData.length > 0) {
+		datasets.push({
+			label: "CodeForces (CF)",
+			data: cfData,
+			fill: false,
+			borderColor: "rgba(54, 162, 235, 0.8)",
+			backgroundColor: "rgba(54, 162, 235, 1)",
+			borderWidth: 2,
+			pointRadius: 1,
+			pointHoverRadius: 4,
+			pointBackgroundColor: "rgba(54, 162, 235, 1)",
+			pointBorderColor: "rgba(54, 162, 235, 0.5)",
+			tension: 0.3,
+			spanGaps: true,
+		});
+	}
+	if (ccData.length > 0) {
+		datasets.push({
+			label: "CodeChef (CC)",
+			data: ccData,
+			fill: false,
+			borderColor: "#F67000",
+			backgroundColor: "#F67000",
+			borderWidth: 2,
+			pointRadius: 1,
+			pointHoverRadius: 4,
+			pointBackgroundColor: "#F67000",
+			pointBorderColor: "#F67000",
+			tension: 0.3,
+			spanGaps: true,
+		});
+	}
+	if (lcData.length > 0) {
+		datasets.push({
+			label: "LeetCode (LC)",
+			data: lcData,
+			fill: false,
+			borderColor: "green",
+			backgroundColor: "green",
+			borderWidth: 2,
+			pointRadius: 1,
+			pointHoverRadius: 4,
+			pointBackgroundColor: "green",
+			pointBorderColor: "green",
+			tension: 0.3,
+			spanGaps: true,
+		});
+	}
+
 	const chartData = {
 		labels: monthYearLabels, // Use all labels
-		datasets: [
-			{
-				label: "CodeForces (CF)",
-				data: cfData,
-				fill: false,
-				borderColor: "rgba(54, 162, 235, 0.8)",
-				backgroundColor: "rgba(54, 162, 235, 1)",
-				borderWidth: 2,
-				pointRadius: 1,
-				pointHoverRadius: 4,
-				pointBackgroundColor: "rgba(54, 162, 235, 1)",
-				pointBorderColor: "rgba(54, 162, 235, 0.5)",
-				tension: 0.3,
-				spanGaps: true,
-			},
-			{
-				label: "CodeChef (CC)",
-				data: ccData,
-				fill: false,
-				borderColor: "#F67000",
-				backgroundColor: "#F67000",
-				borderWidth: 2,
-				pointRadius: 1,
-				pointHoverRadius: 4,
-				pointBackgroundColor: "#F67000",
-				pointBorderColor: "#F67000",
-				tension: 0.3,
-				spanGaps: true,
-			},
-			{
-				label: "LeetCode (LC)",
-				data: lcData,
-				fill: false,
-				borderColor: "green",
-				backgroundColor: "green",
-				borderWidth: 2,
-				pointRadius: 1,
-				pointHoverRadius: 4,
-				pointBackgroundColor: "green",
-				pointBorderColor: "green",
-				tension: 0.3,
-				spanGaps: true,
-			},
-		],
+		datasets: datasets,
 	};
 
 	// Chart options for a premium look
@@ -225,15 +238,9 @@ const Rating = () => {
 		<div
 			style={{ width: "97%", height: "100%", margin: "auto", padding: "30px" }}
 		>
-			{userDetails &&
-				userDetails.cf &&
-				userDetails.cc &&
-				userDetails.lc &&
-				(userDetails.cf.ratingHistory.length > 0 ||
-					userDetails.cc.ratingHistory.length > 0 ||
-					userDetails.lc.ratingHistory.length > 0) && (
-					<CodingPlatformChart data={userDetails} width={600} height={400} />
-				)}
+			{userDetails && (
+				<CodingPlatformChart data={userDetails} width={600} height={400} />
+			)}
 		</div>
 	);
 };
@@ -246,24 +253,24 @@ CodingPlatformChart.propTypes = {
 					date: PropTypes.string.isRequired,
 					rating: PropTypes.number.isRequired,
 				})
-			).isRequired,
-		}).isRequired,
+			),
+		}),
 		cc: PropTypes.shape({
 			ratingHistory: PropTypes.arrayOf(
 				PropTypes.shape({
 					date: PropTypes.string.isRequired,
 					rating: PropTypes.number.isRequired,
 				})
-			).isRequired,
-		}).isRequired,
+			),
+		}),
 		lc: PropTypes.shape({
 			ratingHistory: PropTypes.arrayOf(
 				PropTypes.shape({
 					date: PropTypes.string.isRequired,
 					rating: PropTypes.number.isRequired,
 				})
-			).isRequired,
-		}).isRequired,
+			),
+		}),
 	}).isRequired,
 	width: PropTypes.number.isRequired,
 	height: PropTypes.number.isRequired,

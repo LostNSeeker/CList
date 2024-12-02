@@ -3,18 +3,17 @@ const {
 	getUserDetails,
 	getSolvedQuestions,
 	getCCByPage,
-	userLogin,
 	userSignup,
 } = require("../controllers/userControllers");
+const verifyUser = require("../middleware/verifyUser");
 
 const router = express.Router();
 
-router.get("/getDetails", getUserDetails);
+router.get("/getDetails", verifyUser, getUserDetails);
 
-router.get("/getSolvedQuestions", getSolvedQuestions);
+router.get("/getSolvedQuestions", verifyUser, getSolvedQuestions);
 
-router.get("/getQuestionByPage", getCCByPage);
-router.post("/login", userLogin);
+router.get("/getQuestionByPage",verifyUser, getCCByPage);
 router.post("/signup", userSignup);
 
 module.exports = router;

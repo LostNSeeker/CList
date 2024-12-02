@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./PreviousSolved.css";
+import { auth } from "../../config/firebaseConfig";
 
 const PreviousSolved = () => {
 	const [activeTab, setActiveTab] = useState("codechef");
@@ -14,12 +15,21 @@ const PreviousSolved = () => {
 	const questionsPerPage = 13;
 
 	const fetchPageData = async (pageNumber) => {
+		if (!auth.currentUser) {
+			window.location.href = "/login";
+		}
+
 		setIsLoading(true); // Set loading to true when fetching starts
 		try {
 			const response = await fetch(
 				`http://localhost:5000/api/user/getQuestionByPage?page=${
 					pageNumber - 1
-				}`
+				}`,
+				{
+					headers: {
+						Authorization: await auth.currentUser.getIdToken(),
+					},
+				}
 			);
 			const data = await response.json();
 			console.log(data);
@@ -41,7 +51,12 @@ const PreviousSolved = () => {
 			setIsLoading(true); // Set loading to true when fetching starts
 			try {
 				const response = await fetch(
-					`http://localhost:5000/api/user/getSolvedQuestions`
+					`http://localhost:5000/api/user/getSolvedQuestions`,
+					{
+						headers: {
+							Authorization: await auth.currentUser.getIdToken(),
+						},
+					}
 				);
 				const data = await response.json();
 				setSolvedQuestions({

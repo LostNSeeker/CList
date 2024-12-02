@@ -1,4 +1,3 @@
-// Desc: Login Page
 import { useState } from "react";
 import "./Login.css";
 import IconCloud from "../Components/ui/icon-cloud";
@@ -43,9 +42,9 @@ const slugs = [
 const SignUp = () => {
 	const [isEmailAnimating, setIsEmailAnimating] = useState(false);
 	const [isPasswordAnimating, setIsPasswordAnimating] = useState(false);
+	const [loading, setLoading] = useState(false);
 
 	//if logged in return to home
-	console.log(auth);
 	if (auth.currentUser) {
 		window.location.href = "/";
 	}
@@ -66,6 +65,7 @@ const SignUp = () => {
 
 	const handleSignup = async (e) => {
 		e.preventDefault();
+		setLoading(true);
 		const name = e.target.name.value;
 		const email = e.target.email.value;
 		const password = e.target.password.value;
@@ -75,17 +75,14 @@ const SignUp = () => {
 		const codechef = e.target.codechef.value;
 
 		if (!codeforces && !leetcode && !codechef) {
-			toast.error("Please enter atleast one username");
+			toast.error("Please enter atleast one platform username");
+			setLoading(false);
 			return;
 		}
-
-		console.log(name, email, college, password, codeforces, leetcode, codechef);
 
 		createUserWithEmailAndPassword(auth, email, password)
 			.then(async (userCredential) => {
 				const user = userCredential.user;
-
-				console.log(userCredential);
 
 				// Send a request to your backend with user data
 				fetch("http://localhost:5000/api/user/signup", {
@@ -114,9 +111,11 @@ const SignUp = () => {
 								.catch((error) => {
 									console.error("Failed to delete user from Firebase:", error);
 								});
+							toast.error("Something went wrong, try again later");
 							throw new Error("Backend user creation failed");
 						} else {
-							console.log("User created successfully on the backend");
+							toast.success("Registration successfully");
+							window.location.href = "/";
 						}
 					})
 					.catch((error) => {
@@ -126,10 +125,16 @@ const SignUp = () => {
 							);
 						});
 						console.error("Error during user creation:", error);
+						toast.error("Something went wrong, try again later");
+					})
+					.finally(() => {
+						setLoading(false);
 					});
 			})
 			.catch((error) => {
 				console.error("Error signing up:", error);
+				toast.error("User creation failed");
+				setLoading(false);
 			});
 	};
 
@@ -146,7 +151,13 @@ const SignUp = () => {
 						<div className="login-form">
 							<form onSubmit={handleSignup}>
 								<div className="form-group">
-									<input type="text" id="name" name="name" placeholder="Name" />
+									<input
+										type="text"
+										id="name"
+										name="name"
+										placeholder="Name"
+										required
+									/>
 								</div>
 								<div
 									className={`form-group ${isEmailAnimating ? "animate" : ""}`}
@@ -209,8 +220,8 @@ const SignUp = () => {
 								</div>
 
 								<div className="form-group">
-									<button type="submit">
-										<p>Register Account</p>
+									<button type="submit" disabled={loading}>
+										<p>{loading ? "Registering..." : "Register Account"}</p>
 									</button>
 								</div>
 								<p>

@@ -319,12 +319,13 @@ async function getCCDetails(username) {
 //controllers functions
 
 const getUserDetails = async (req, res) => {
+	console.log(req.user);
 	//it will return the rating of the user in all the platforms
 	const allRatings = {};
 	const [cfRating, ccRating, lcRating] = await Promise.all([
-		getCFRating("bipiniitkgp"),
-		getCCRating("ksun48"),
-		getLCRating("bipiniitkgp"),
+		req.user.codeforces && getCFRating(req.user.codeforces),
+		req.user.codechef && getCCRating(req.user.codechef),
+		req.user.leetcode && getLCRating(req.user.leetcode),
 	]);
 
 	allRatings.cf = cfRating;
@@ -334,22 +335,26 @@ const getUserDetails = async (req, res) => {
 };
 
 const getSolvedQuestions = async (req, res) => {
+	console.log(req.user);
 	const [CF, LC, CC] = await Promise.all([
-		getSolvedCF("bipiniitkgp"),
-		getSolvedLC("bipiniitkgp"),
-		getSolvedCC("ksun48", 0),
+		req.user.codeforces ? getSolvedCF(req.user.codeforces) : [],
+		req.user.leetcode ? getSolvedLC(req.user.leetcode) : [],
+		req.user.codechef
+			? getSolvedCC(req.user.codechef, 0)
+			: { solvedQ: [], maxPage: 0 },
 	]);
+
 	res.json({ CF, LC, CC });
 };
 
 const getCCByPage = async (req, res) => {
+	console.log(req.user);
+	if (!req.user.codechef) {
+		return res.status(400).json({ error: "Codechef handle not found" });
+	}
 	const { page } = req.query;
-	const data = await getSolvedCC("ksun48", page);
+	const data = await getSolvedCC(req.user.codechef, page);
 	res.json(data);
-};
-
-const userLogin = async (req, res) => {
-	res.send("User login");
 };
 
 const userSignup = async (req, res) => {
@@ -376,6 +381,11 @@ const userSignup = async (req, res) => {
 		await db.collection("users").doc(uid).set({
 			uid: uid,
 			name: name,
+			college: college,
+			email: email,
+			codeforces: codeforces,
+			leetcode: leetcode,
+			codechef: codechef,
 			createdAt: new Date().toISOString(),
 		});
 	} catch (error) {
@@ -383,13 +393,12 @@ const userSignup = async (req, res) => {
 		return res.status(500).json({ error: "Internal server error" });
 	}
 
-	res.send("User signup");
+	res.json({ message: "User registered successfully" }, 200);
 };
 
 module.exports = {
 	getUserDetails,
 	getSolvedQuestions,
 	getCCByPage,
-	userLogin,
 	userSignup,
 };

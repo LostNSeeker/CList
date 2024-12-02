@@ -66,6 +66,7 @@ function AppContent() {
 								<Route path="/rating" element={<Rating />} />
 								<Route path="/events" element={<Events />} />
 								<Route path="/solvedQuestions" element={<PreviousSolved />} />
+								<Route path="/*" element={<Home />} />
 							</Routes>
 						</div>
 					</div>
