@@ -360,6 +360,19 @@ const getCCByPage = async (req, res) => {
 const userSignup = async (req, res) => {
 	const { accessToken, email, name, college, codeforces, leetcode, codechef } =
 		req.body;
+
+	if (
+		!accessToken ||
+		!email ||
+		!name ||
+		!college ||
+		(!codeforces && !leetcode && !codechef)
+	) {
+		return res
+			.status(400)
+			.json({ error: "Missing required fields in request" });
+	}
+
 	try {
 		// Verify the Firebase ID token from the client
 		const decodedToken = await getAuth().verifyIdToken(accessToken);
