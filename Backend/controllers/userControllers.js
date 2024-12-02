@@ -118,10 +118,12 @@ const getCCRating = async (ccId) => {
 				).toLocaleDateString("en-GB"),
 			});
 		});
+
 		const gotData = await getCCDetails(ccId);
-		details.solvedProblems = gotData.solvedCount;
-		details.contests = gotData.contests;
-		details.stars = gotData.stars;
+		console.log("gotData" + gotData);
+		details.solvedProblems = gotData?.solvedCount;
+		details.contests = gotData?.contests;
+		details.stars = gotData?.stars;
 		details.ratingHistory = ccRatings;
 
 		cache.set(cacheKey, details);
@@ -289,24 +291,25 @@ async function getCCDetails(username) {
 
 		// Use the provided selector for total solved questions
 		const solvedCountText = $(
-			"body > main > div > div > div > div > div > section.rating-data-section.problems-solved > h3:nth-child(71)"
+			"section.rating-data-section.problems-solved > h3:last-child"
 		)
 			.text()
 			.trim();
 
 		const contestsText = $(
-			"body > main > div > div > div > div > div > section.rating-data-section.problems-solved > h3:nth-child(5)"
+			"section.rating-data-section.problems-solved > h3:nth-child(5)"
 		)
 			.text()
 			.trim();
 
 		const starRating = $(
-			"body > main > div > div > div > div > div > section.user-details > ul > li:nth-child(1) > span > span.rating"
+			"section.user-details > ul > li:nth-child(1) > span > span.rating"
 		)
 			.text()
 			.trim();
 
-		const solvedCount = parseInt(solvedCountText.match(/\d+/)[0], 10);
+		console.log(solvedCountText, contestsText, starRating);
+		const solvedCount = parseInt(solvedCountText?.match(/\d+/)[0], 10);
 		const contests = parseInt(contestsText.match(/\d+/)[0], 10);
 		const stars = parseInt(starRating.match(/\d+/)[0], 10);
 
@@ -319,7 +322,6 @@ async function getCCDetails(username) {
 //controllers functions
 
 const getUserDetails = async (req, res) => {
-	console.log(req.user);
 	//it will return the rating of the user in all the platforms
 	const allRatings = {};
 	const [cfRating, ccRating, lcRating] = await Promise.all([
@@ -335,7 +337,6 @@ const getUserDetails = async (req, res) => {
 };
 
 const getSolvedQuestions = async (req, res) => {
-	console.log(req.user);
 	const [CF, LC, CC] = await Promise.all([
 		req.user.codeforces ? getSolvedCF(req.user.codeforces) : [],
 		req.user.leetcode ? getSolvedLC(req.user.leetcode) : [],
@@ -348,7 +349,6 @@ const getSolvedQuestions = async (req, res) => {
 };
 
 const getCCByPage = async (req, res) => {
-	console.log(req.user);
 	if (!req.user.codechef) {
 		return res.status(400).json({ error: "Codechef handle not found" });
 	}
