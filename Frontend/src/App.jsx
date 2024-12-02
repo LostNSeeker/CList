@@ -17,6 +17,7 @@ import Events from "./Components/Events";
 import { UserProvider } from "./utils/userContext";
 import { useContext, useEffect } from "react";
 import UserContext from "./utils/userContext";
+import ForgotPassword from "./Pages/ForgotPassword";
 
 function App() {
 	return (
@@ -33,7 +34,9 @@ function AppContent() {
 	const { userDetails, loading } = useContext(UserContext);
 	const isLogin = userDetails ? true : false;
 	const hideNav =
-		location.pathname === "/login" || location.pathname === "/signup";
+		location.pathname === "/login" ||
+		location.pathname === "/signup" ||
+		location.pathname === "/forgot-password";
 
 	useEffect(() => {
 		if (!loading) {
@@ -52,6 +55,7 @@ function AppContent() {
 			<Routes>
 				<Route path="/login" element={<Login />} />
 				<Route path="/signup" element={<SignUp />} />
+				<Route path="/forgot-password" element={<ForgotPassword />} />
 			</Routes>
 
 			{!hideNav && (
@@ -65,6 +69,7 @@ function AppContent() {
 								<Route path="/contests" element={<Contests />} />
 								<Route path="/rating" element={<Rating />} />
 								<Route path="/events" element={<Events />} />
+
 								<Route path="/solvedQuestions" element={<PreviousSolved />} />
 								<Route path="/*" element={<Home />} />
 							</Routes>

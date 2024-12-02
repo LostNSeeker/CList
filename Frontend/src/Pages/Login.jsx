@@ -89,7 +89,7 @@ const Login = () => {
 			await signInWithEmailAndPassword(auth, email, password);
 			toast.success("Logged in successfully");
 			window.location.href = "/";
-		// eslint-disable-next-line no-unused-vars
+			// eslint-disable-next-line no-unused-vars
 		} catch (error) {
 			toast.error("Invalid email or password");
 		} finally {
@@ -133,11 +133,16 @@ const Login = () => {
 									required
 								/>
 							</div>
-							<CheckboxWithLabel
-								onChange={handleRememberMeChange}
-								checked={rememberMe}
-								label="Remember me"
-							/>
+							<div style={{ display: "flex", justifyContent: "space-between" }}>
+								<CheckboxWithLabel
+									onChange={handleRememberMeChange}
+									checked={rememberMe}
+									label="Remember me"
+								/>
+								<Link to="/forgot-password" className="right-span">
+									Forgot password?
+								</Link>
+							</div>
 							<div className="form-group">
 								<button type="submit" disabled={isLoading}>
 									{isLoading ? (
