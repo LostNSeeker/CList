@@ -9,9 +9,9 @@ import Events from "../Components/Events";
 import { auth } from "../../config/firebaseConfig";
 
 const Home = () => {
-	if (location.pathname !== "/") {
-		window.location.href = "/";
-	}
+	// if (location.pathname !== "/") {
+	// 	window.location.href = "/";
+	// }
 
 	if (!auth.currentUser) {
 		window.location.href = "/login";
