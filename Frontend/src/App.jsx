@@ -38,13 +38,13 @@ function AppContent() {
 		location.pathname === "/signup" ||
 		location.pathname === "/forgot-password";
 
-	useEffect(() => {
-		if (!loading) {
-			if (!isLogin && !hideNav) {
-				window.location.href = "/login";
-			}
-		}
-	}, [loading]);
+	// useEffect(() => {
+	// 	if (!loading) {
+	// 		if (!isLogin && !hideNav) {
+	// 			window.location.href = "/login";
+	// 		}
+	// 	}
+	// }, [loading]);
 
 	if (loading) {
 		return <div>Loading...</div>;

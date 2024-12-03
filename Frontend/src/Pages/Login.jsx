@@ -51,6 +51,7 @@ const Login = () => {
 	const [isPasswordAnimating, setIsPasswordAnimating] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const [rememberMe, setRememberMe] = useState(false);
+	console.log(auth.currentUser);
 
 	if (auth.currentUser) {
 		window.location.href = "/";

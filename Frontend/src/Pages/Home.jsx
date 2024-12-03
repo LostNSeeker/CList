@@ -13,6 +13,8 @@ const Home = () => {
 	// 	window.location.href = "/";
 	// }
 
+	console.log(auth.currentUser);
+
 	if (!auth.currentUser) {
 		window.location.href = "/login";
 	}
