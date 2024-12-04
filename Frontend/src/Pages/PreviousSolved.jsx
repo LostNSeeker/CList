@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./PreviousSolved.css";
 import { auth } from "../../config/firebaseConfig";
 
@@ -22,7 +22,7 @@ const PreviousSolved = () => {
 		setIsLoading(true); // Set loading to true when fetching starts
 		try {
 			const response = await fetch(
-				`http://localhost:5000/api/user/getQuestionByPage?page=${
+				`${import.meta.env.VITE_APP_BACKEND_URL}/api/user/getQuestionByPage?page=${
 					pageNumber - 1
 				}`,
 				{
@@ -51,7 +51,7 @@ const PreviousSolved = () => {
 			setIsLoading(true); // Set loading to true when fetching starts
 			try {
 				const response = await fetch(
-					`http://localhost:5000/api/user/getSolvedQuestions`,
+					`${import.meta.env.VITE_APP_BACKEND_URL}/api/user/getSolvedQuestions`,
 					{
 						headers: {
 							Authorization: await auth.currentUser.getIdToken(),

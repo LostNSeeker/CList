@@ -20,7 +20,7 @@ export const UserProvider = ({ children }) => {
 					setLoading(true);
 					const token = await user.getIdToken();
 					const response = await axios.get(
-						"http://localhost:5000/api/user/getDetails",
+						`${import.meta.env.VITE_APP_BACKEND_URL}/api/user/getDetails`,
 						{
 							headers: {
 								Authorization: token,
@@ -30,6 +30,7 @@ export const UserProvider = ({ children }) => {
 					setUserDetails(response.data);
 					console.log(response.data);
 				} catch (err) {
+					console.log(err)
 					setError(err.message);
 				} finally {
 					setLoading(false);

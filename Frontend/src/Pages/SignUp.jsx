@@ -86,7 +86,7 @@ const SignUp = () => {
 				const user = userCredential.user;
 
 				// Send a request to your backend with user data
-				fetch("http://localhost:5000/api/user/signup", {
+				fetch(`${import.meta.env.VITE_APP_BACKEND_URL}/api/user/signup`, {
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
 					body: JSON.stringify({

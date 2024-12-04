@@ -322,6 +322,8 @@ async function getCCDetails(username) {
 //controllers functions
 
 const getUserDetails = async (req, res) => {
+
+	console.log("in getUserDetails");
 	//it will return the rating of the user in all the platforms
 	const allRatings = {};
 	const [cfRating, ccRating, lcRating] = await Promise.all([
