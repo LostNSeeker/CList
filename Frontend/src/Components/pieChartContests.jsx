@@ -37,14 +37,14 @@ export function PieChartContests() {
     if (error) return <p>Error: {error}</p>;
 
     const chartData = [
-        { platform: "leetcode", visitors: totalStats.lcContests, fill: "green" },
-        { platform: "Codeforces", visitors: totalStats.cfContests, fill: "blue" },
-        { platform: "codechef", visitors: totalStats.ccContests, fill: "#FF6700" },
+        { platform: "leetcode", visitors: totalStats.lcContests, fill: "#37375C" },
+        { platform: "Codeforces", visitors: totalStats.cfContests, fill: "#8593ED" },
+        { platform: "codechef", visitors: totalStats.ccContests, fill: "#C7CEFF" },
     ]
 
   return (
     <Card className="flex flex-col w-full h-full">
-      
+      <header className="flex items-center justify-center mt-4 mb-0 pb-0 font-bold">Contests</header>
       <CardContent className="flex-1 pb-0">
         <ChartContainer
           config={chartConfig}

@@ -43,6 +43,7 @@ const Events = () => {
       <div className="event-header">
         <h2>Events</h2>
         <div className="filter-controls">
+          
           <select
             value={category}
             onChange={(e) => handleCategoryChange(e.target.value)}
@@ -54,6 +55,12 @@ const Events = () => {
             <option value="Apple">Apple</option>
             <option value="Netflix">Netflix</option>
           </select>
+          <button
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1  px-4 rounded  sm:w-auto "
+          onClick={() => (window.location.href = "/events")}
+        >
+          View All
+        </button>
         </div>
       </div>
 
