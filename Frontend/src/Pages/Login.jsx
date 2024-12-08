@@ -160,6 +160,7 @@ const Login = () => {
 								</Link>
 							</p>
 						</form>
+						<p className="text-sm">Powered by <strong>DevLaunch</strong></p>
 					</div>
 				</div>
 			</div>

@@ -237,6 +237,7 @@ const SignUp = () => {
 								</p>
 							</form>
 						</div>
+						<p className="text-sm">Powered by <strong>DevLaunch</strong></p>
 					</div>
 				</div>
 			</div>
