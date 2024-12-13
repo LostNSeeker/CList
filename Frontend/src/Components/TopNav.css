@@ -17,14 +17,23 @@
     width: auto;
     display: flex;
     justify-content: center;
+    align-items: start;
     background-color: #18181B;
+    padding-left: 2rem;
+    padding-top: 0.6rem;
 }
 
 .space img {
-  height: 61px; /* Set a fixed height for better size */
+  height: 40px; /* Set a fixed height for better size */
   width: auto; /* Allow width to adjust automatically */
   max-width: 100%; /* Ensure the logo is not stretched */
   object-fit: contain; /* Preserve aspect ratio */
+}
+.logoTitle{
+    color: white;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-left: -0.5rem;
 }
 
 .right-side {
@@ -80,10 +89,9 @@
 }
 
 .profile-box img {
-    height: 40px;
-    width: 40px;
+    height: 2.5rem;
+    width: 2.5rem;
     border-radius: 50%;
-    padding: 2px;
     background-color: white;
 }
 
@@ -194,7 +202,7 @@
       width: 35px;
   }
   .space img{
-    height: 65px;
+    height: 40px;
     width: auto;
   }
 }
@@ -209,7 +217,7 @@
 }
 @media screen and (max-width: 557px) {
     .space img{
-        height: 62px;
+        height: 40px;
     }
     .top-nav {
         width: 100%;

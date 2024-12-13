@@ -1,8 +1,8 @@
 import "./TopNav.css"; // Assuming you will add some styles
-import profileIcon from "/profile.svg";
-import logoImage from "/DLTxt1.png"; // Replace with your image file
+import profileIcon from "/profile.jpg";
+import logoImage from "/Yorigin.png"; // Replace with your image file
 import { useState, useRef, useEffect } from "react";
-import { Link, redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { signOut } from "firebase/auth";
 import { auth } from "../../config/firebaseConfig";
@@ -46,7 +46,8 @@ const TopNav = () => {
 	return (
 		<nav className="top-nav">
 			<div className="space">
-				<img src={logoImage} alt="logo" />
+				<img src={logoImage} alt="Y" />
+				<div className="logoTitle">origin</div>
 			</div>
 			<div className="right-side">
 				<div className="top-menu">
