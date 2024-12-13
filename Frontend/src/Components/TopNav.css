@@ -17,10 +17,10 @@
     width: auto;
     display: flex;
     justify-content: center;
-    align-items: start;
+    align-items: center;
     background-color: #18181B;
     padding-left: 2rem;
-    padding-top: 0.6rem;
+
 }
 
 .space img {
