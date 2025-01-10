@@ -4,7 +4,7 @@
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
+    --foreground: 222.2 47.4% 11.2%;
     --card: 0 0% 100%;
     --card-foreground: 240 10% 3.9%;
     --popover: 0 0% 100%;
@@ -27,7 +27,7 @@
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
-    --radius: 0.5rem
+    --radius: 0.5rem;
   }
   .dark {
     --background: 240 10% 3.9%;
@@ -53,7 +53,7 @@
     --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%
+    --chart-5: 340 75% 55%;
   }
 }
 @layer base {
@@ -62,5 +62,225 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  /* Loading Screen */
+  .loading-spinner {
+    @apply animate-spin rounded-full border-2 border-gray-200;
+    border-top-color: theme("colors.blue.500");
+    border-bottom-color: theme("colors.blue.500");
+  }
+
+  /* Container sizes for different breakpoints */
+  /* Container */
+  .container {
+    @apply max-w-7xl mx-auto;
+  }
+
+  /* Card Styles */
+  .dashboard-card {
+    @apply bg-white rounded-xl shadow-sm overflow-hidden;
+  }
+
+  /* Section Spacing */
+  .section-spacing {
+    @apply space-y-6;
+  }
+
+  /* Grid Items */
+  .grid-item {
+    @apply h-full;
+  }
+
+  /* Responsive adjustments */
+  @screen md {
+    .dashboard-grid {
+      @apply grid-cols-2;
+    }
+  }
+
+  @screen xl {
+    .dashboard-grid {
+      @apply grid-cols-12;
+    }
+  }
+
+  /* Main content area spacing */
+  .main-content {
+    @apply py-4 px-4;
+    @screen sm {
+      @apply py-6 px-6;
+    }
+    @screen lg {
+      @apply py-8 px-8;
+    }
+  }
+
+  /* Background patterns and colors */
+  .bg-pattern {
+    background-color: #f8fafc;
+    background-image: radial-gradient(#e2e8f0 0.5px, transparent 0.5px);
+    background-size: 10px 10px;
+  }
+
+  /* Scoreboard Styles */
+  .board-container {
+    @apply w-full space-y-6;
+  }
+
+  .lower-board {
+    @apply grid grid-cols-1 md:grid-cols-2 gap-6;
+  }
+
+  /* Contest List Styles */
+  .contests-main-box {
+    @apply w-full space-y-4;
+  }
+
+  .filter-box {
+    @apply flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-4;
+  }
+
+  .filter-box select {
+    @apply px-3 py-2 rounded-lg border border-gray-200 bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+  }
+
+  .content-box {
+    @apply space-y-2;
+  }
+
+  .list-item {
+    @apply flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors;
+  }
+
+  .resource-icon {
+    @apply w-6 h-6 object-contain;
+  }
+
+  /* Event Card Styles */
+  .event-card {
+    @apply hover:shadow-lg transition-all duration-300;
+  }
+
+  /* Custom Scrollbar */
+  .custom-scrollbar {
+    @apply overflow-y-auto;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    @apply w-2;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    @apply bg-transparent rounded-lg;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-gray-300 rounded-lg hover:bg-gray-400;
+  }
+
+  .total-container {
+    @apply flex items-center gap-4 p-4 rounded-lg;
+  }
+
+  .total-container .icon {
+    @apply flex items-center justify-center w-12 h-12 rounded-full bg-blue-100;
+  }
+
+  .total-container .icon img {
+    @apply w-6 h-6;
+  }
+
+  .total-container .number {
+    @apply flex flex-col;
+  }
+
+  .contest-number {
+    @apply text-2xl font-bold text-gray-900;
+  }
+
+  .head-p {
+    @apply text-sm text-gray-600;
+  }
+
+  /* Current Ratings Component */
+  .leetcode-main {
+    @apply grid grid-cols-1 sm:grid-cols-3 gap-6 w-full mt-4;
+  }
+
+  .leetcode {
+    @apply flex flex-col items-center p-4 rounded-lg bg-gray-50 transition-all;
+  }
+
+  .leetcode img.resource-icon {
+    @apply w-8 h-8 mb-2;
+  }
+
+  .leetcode h2 {
+    @apply text-sm font-medium text-gray-800 mb-1;
+  }
+
+  .leetcode p {
+    @apply text-lg font-semibold text-gray-900;
+  }
+
+  /* Contest List Styles */
+  .contests-main-box {
+    @apply space-y-4;
+  }
+
+  .filter-box {
+    @apply flex flex-col sm:flex-row items-start sm:items-center gap-4;
+  }
+
+  .filter-box select {
+    @apply px-3 py-2 rounded-lg border border-gray-200 bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+  }
+
+  .list-item {
+    @apply flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors border-b border-gray-100 last:border-0;
+  }
+
+  /* Scrollbar Styles */
+  .custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: theme("colors.gray.200") theme("colors.white");
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    @apply w-2;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-gray-200 rounded-full;
+  }
+
+  /* Chart Styles */
+  .chart-container {
+    @apply relative w-full aspect-square max-h-[300px];
+  }
+
+  /* Responsive Padding */
+  @screen sm {
+    .contests-main-box {
+      @apply mx-0;
+    }
+  }
+
+  /* Responsive Adjustments */
+  @screen lg {
+    .leetcode-main {
+      @apply gap-8;
+    }
+
+    .contests-main-box {
+      @apply mx-0;
+    }
   }
 }

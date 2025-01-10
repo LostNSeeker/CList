@@ -1,163 +1,195 @@
-import "./TopNav.css"; // Assuming you will add some styles
-import profileIcon from "/profile.jpg";
-import logoImage from "/Yorigin.png"; // Replace with your image file
-import { useState, useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
-
-import { signOut } from "firebase/auth";
-import { auth } from "../../config/firebaseConfig";
+import React, { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { signOut } from 'firebase/auth';
+import { auth } from '../../config/firebaseConfig';
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+} from '@/components/ui/navigation-menu';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { Button } from '@/components/ui/button';
+import { cn } from "@/lib/utils";
+import { 
+  Menu, 
+  User,
+  Home,
+  Trophy,
+  Calendar,
+  CheckCircle,
+  BarChart2,
+  Book,
+  LogOut 
+} from 'lucide-react';
 
 const TopNav = () => {
-	const [isProfileMenuOpen, setProfileMenuOpen] = useState(false);
-	const [isProblemSetMenuOpen, setIsProblemSetMenuOpen] = useState(false);
+  const location = useLocation();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-	const submenuRef = useRef(null); // Create a ref for the submenu
-	const problemSetRef = useRef(null);
+  const menuItems = [
+    { name: 'Home', icon: Home, href: '/' },
+    { name: 'Contests', icon: Trophy, href: '/contests' },
+    { name: 'MAANG Events', icon: Calendar, href: '/events' },
+    { name: 'Solved Questions', icon: CheckCircle, href: '/solvedQuestions' },
+    { name: 'Analytics', icon: BarChart2, href: '/rating' },
+  ];
 
-	const toggleProfileMenu = () => {
-		setProfileMenuOpen(!isProfileMenuOpen);
-	};
-	const toggleProblemSetMenu = () => {
-		setIsProblemSetMenuOpen(!isProblemSetMenuOpen);
-	};
+  const problemSets = [
+    { name: 'CSES', href: 'https://cses.fi/problemset' },
+    { name: 'Love Babbar Sheet', href: 'https://450dsa.com/' },
+    { name: 'Striver\'s SDE Sheet', href: 'https://takeuforward.org/interviews/strivers-sde-sheet-top-coding-interview-problems/' },
+  ];
 
-	const handleClickOutside = (event) => {
-		// Check if the click is outside the submenu
-		if (submenuRef.current && !submenuRef.current.contains(event.target)) {
-			setProfileMenuOpen(false); // Hide the menu
-		}
-		if (
-			problemSetRef.current &&
-			!problemSetRef.current.contains(event.target)
-		) {
-			setIsProblemSetMenuOpen(false); // Hide the menu
-		}
-	};
+  const handleLogout = () => {
+    signOut(auth);
+    window.location.href = '/login';
+  };
 
-	useEffect(() => {
-		// Add event listener for clicks outside the submenu
-		document.addEventListener("mousedown", handleClickOutside);
-		return () => {
-			// Cleanup the event listener on component unmount
-			document.removeEventListener("mousedown", handleClickOutside);
-		};
-	}, []);
+  return (
+    <header className="sticky top-0 z-50 w-full border-b bg-background">
+      <div className="container mx-auto px-4">
+        <div className="flex h-14 items-center justify-between">
+          {/* Logo */}
+          <Link to="/" className="flex items-center space-x-2">
+            <img src="/Yorigin.png" alt="Logo" className="h-18 w-20" />
+            
+          </Link>
 
-	return (
-		<nav className="top-nav">
-			<div className="space">
-				<img src={logoImage} alt="Y" />
-				<div className="logoTitle">origin</div>
-			</div>
-			<div className="right-side">
-				<div className="top-menu">
-					<ul>
-						<li>
-							<Link to="/">Home</Link>
-						</li>
-					</ul>
-					<ul>
-						<li>
-							<Link to="/contests">Contests</Link>
-						</li>
-					</ul>
-					<ul>
-						<li>
-							<Link to="/events">MAANG Events</Link>
-						</li>
-					</ul>
-					<ul>
-						<li>
-							<Link to="/solvedQuestions">Solved Ques.</Link>
-						</li>
-					</ul>
-					<ul>
-						<li>
-							<Link to="/rating">Analytics</Link>
-						</li>
-					</ul>
-				</div>
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center space-x-1">
+            {menuItems.map((item) => {
+              const Icon = item.icon;
+              const isActive = location.pathname === item.href;
+              
+              return (
+                <Link
+                  key={item.name}
+                  to={item.href}
+                  className={cn(
+                    "flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors",
+                    "hover:bg-accent hover:text-accent-foreground",
+                    isActive ? "bg-accent text-accent-foreground" : "text-foreground/60"
+                  )}
+                >
+                  <Icon className="h-4 w-4 mr-2" />
+                  {item.name}
+                </Link>
+              );
+            })}
+          </nav>
 
-				<div className="profile-box">
-					<i
-						className="fas fa-clipboard-list fa-2x"
-						alt="Problem sets"
-						onClick={toggleProblemSetMenu}
-					></i>
+          {/* Right Section */}
+          <div className="flex items-center space-x-1">
+            {/* Problem Sets Dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon" className="h-9 w-9">
+                  <Book className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48">
+                <DropdownMenuItem className="font-medium" disabled>
+                  Problem Sets
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                {problemSets.map((set) => (
+                  <DropdownMenuItem key={set.name}>
+                    <a
+                      href={set.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full"
+                    >
+                      {set.name}
+                    </a>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
 
-					{isProblemSetMenuOpen && (
-						<div className="profile-submenu" ref={problemSetRef}>
-							<ul>
-								<li>
-									<a
-										href="https://cses.fi/problemset"
-										target="_blank"
-										rel="noopener noreferrer"
-									>
-										CSES
-									</a>
-								</li>
-								<li>
-									<a
-										href="https://450dsa.com/"
-										target="_blank"
-										rel="noopener noreferrer"
-									>
-										Love babbar
-									</a>
-								</li>
-								<li>
-									<a
-										href="https://takeuforward.org/interviews/strivers-sde-sheet-top-coding-interview-problems/"
-										target="_blank"
-										rel="noopener noreferrer"
-									>
-										Strivers sheet
-									</a>
-								</li>
-							</ul>
-						</div>
-					)}
-				</div>
+            {/* Profile Dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon" className="h-9 w-9">
+                  <User className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48">
+                <DropdownMenuItem onClick={handleLogout}>
+                  <LogOut className="h-4 w-4 mr-2" />
+                  Logout
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
 
-				<div className="profile-box">
-					<img src={profileIcon} alt="Profile" onClick={toggleProfileMenu} />
-					{isProfileMenuOpen && (
-						<div className="profile-submenu" ref={submenuRef}>
-							<ul>
-								{/* Add hidden menu items for smaller screens */}
-								<li>
-									<Link to="/">Home</Link>
-								</li>
-								<li>
-									<Link to="/contests">Contests</Link>
-								</li>
-								<li>
-									<Link to="/rating">Ratings</Link>
-								</li>
-								<li>
-									<Link to="/events">MAANG Events</Link>
-								</li>
-								<li>
-									<Link to="/solvedQuestions">Solved Ques.</Link>
-								</li>
-								<li>
-									<Link
-										onClick={() => {
-											window.location.href = "/login";
-											signOut(auth);
-										}}
-									>
-										Logout
-									</Link>
-								</li>
-							</ul>
-						</div>
-					)}
-				</div>
-			</div>
-		</nav>
-	);
+            {/* Mobile Menu Button */}
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-9 w-9 md:hidden"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            >
+              <Menu className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile Menu Dropdown */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden border-t bg-background">
+          <div className="container mx-auto px-4 py-2">
+            <nav className="flex flex-col space-y-1">
+              {menuItems.map((item) => {
+                const Icon = item.icon;
+                const isActive = location.pathname === item.href;
+                
+                return (
+                  <Link
+                    key={item.name}
+                    to={item.href}
+                    className={cn(
+                      "flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors",
+                      "hover:bg-accent hover:text-accent-foreground",
+                      isActive ? "bg-accent text-accent-foreground" : "text-foreground/60"
+                    )}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    <Icon className="h-4 w-4 mr-2" />
+                    {item.name}
+                  </Link>
+                );
+              })}
+              
+              <div className="pt-2 mt-2 border-t">
+                <div className="px-3 py-2 text-sm font-medium text-foreground/60">
+                  Problem Sets
+                </div>
+                {problemSets.map((set) => (
+                  <a
+                    key={set.name}
+                    href={set.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center px-3 py-2 text-sm text-foreground/60 hover:bg-accent hover:text-accent-foreground rounded-md"
+                  >
+                    {set.name}
+                  </a>
+                ))}
+              </div>
+            </nav>
+          </div>
+        </div>
+      )}
+    </header>
+  );
 };
 
 export default TopNav;

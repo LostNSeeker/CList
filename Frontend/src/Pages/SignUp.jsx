@@ -1,248 +1,249 @@
-//signup page
 import { useState } from "react";
-import "./Login.css";
-import IconCloud from "../Components/ui/icon-cloud";
 import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
-import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../config/firebaseConfig";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { Eye, EyeOff } from "lucide-react";
+import IconCloud from "../Components/ui/icon-cloud";
+import { toast } from "react-toastify";
 
 const slugs = [
-	"typescript",
-	"javascript",
-	"dart",
-	"java",
-	"react",
-	"flutter",
-	"android",
-	"html5",
-	"css3",
-	"nodedotjs",
-	"express",
-	"nextdotjs",
-	"prisma",
-	"amazonaws",
-	"postgresql",
-	"firebase",
-	"nginx",
-	"vercel",
-	"testinglibrary",
-	"jest",
-	"cypress",
-	"docker",
-	"git",
-	"jira",
-	"github",
-	"gitlab",
-	"visualstudiocode",
-	"androidstudio",
-	"sonarqube",
-	"figma",
+  "typescript", "javascript", "dart", "java", "react", "flutter", "android",
+  "html5", "css3", "nodedotjs", "express", "nextdotjs", "prisma", "amazonaws",
+  "postgresql", "firebase", "nginx", "vercel", "testinglibrary", "jest",
+  "cypress", "docker", "git", "jira", "github", "gitlab", "visualstudiocode",
+  "androidstudio", "sonarqube", "figma",
 ];
 
 const SignUp = () => {
-	const [isEmailAnimating, setIsEmailAnimating] = useState(false);
-	const [isPasswordAnimating, setIsPasswordAnimating] = useState(false);
-	const [loading, setLoading] = useState(false);
+  const [isEmailAnimating, setIsEmailAnimating] = useState(false);
+  const [isPasswordAnimating, setIsPasswordAnimating] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
-	//if logged in return to home
-	if (auth.currentUser) {
-		window.location.href = "/";
-	}
+  if (auth.currentUser) {
+    window.location.href = "/";
+  }
 
-	const handleEmailClick = () => {
-		setIsEmailAnimating(true);
-		setTimeout(() => {
-			setIsEmailAnimating(false);
-		}, 300);
-	};
+  const handleEmailClick = () => {
+    setIsEmailAnimating(true);
+    setTimeout(() => setIsEmailAnimating(false), 300);
+  };
 
-	const handlePasswordClick = () => {
-		setIsPasswordAnimating(true);
-		setTimeout(() => {
-			setIsPasswordAnimating(false);
-		}, 300);
-	};
+  const handlePasswordClick = () => {
+    setIsPasswordAnimating(true);
+    setTimeout(() => setIsPasswordAnimating(false), 300);
+  };
 
-	const handleSignup = async (e) => {
-		e.preventDefault();
-		setLoading(true);
-		const name = e.target.name.value;
-		const email = e.target.email.value;
-		const password = e.target.password.value;
-		const college = e.target.college.value;
-		const codeforces = e.target.codeforces.value;
-		const leetcode = e.target.leetcode.value;
-		const codechef = e.target.codechef.value;
+  const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
-		if (!codeforces && !leetcode && !codechef) {
-			toast.error("Please enter atleast one platform username");
-			setLoading(false);
-			return;
-		}
+  const handleSignup = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    const name = e.target.name.value;
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+    const college = e.target.college.value;
+    const codeforces = e.target.codeforces.value;
+    const leetcode = e.target.leetcode.value;
+    const codechef = e.target.codechef.value;
 
-		createUserWithEmailAndPassword(auth, email, password)
-			.then(async (userCredential) => {
-				const user = userCredential.user;
+    if (!codeforces && !leetcode && !codechef) {
+      toast.error("Please enter at least one platform username");
+      setLoading(false);
+      return;
+    }
 
-				// Send a request to your backend with user data
-				fetch(`${import.meta.env.VITE_APP_BACKEND_URL}/api/user/signup`, {
-					method: "POST",
-					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify({
-						accessToken: await user.getIdToken(),
-						email,
-						name,
-						college,
-						codeforces,
-						leetcode,
-						codechef,
-					}),
-				})
-					.then((response) => {
-						if (!response.ok) {
-							// If backend fails, delete the user from Firebase
-							user
-								.delete()
-								.then(() => {
-									console.error(
-										"User creation failed on the backend, user deleted from Firebase"
-									);
-								})
-								.catch((error) => {
-									console.error("Failed to delete user from Firebase:", error);
-								});
-							toast.error("Something went wrong, try again later");
-							throw new Error("Backend user creation failed");
-						} else {
-							toast.success("Registration successfully");
-							window.location.href = "/";
-						}
-					})
-					.catch((error) => {
-						user.delete().then(() => {
-							console.error(
-								"User creation failed on the backend, user deleted from Firebase"
-							);
-						});
-						console.error("Error during user creation:", error);
-						toast.error("Something went wrong, try again later");
-					})
-					.finally(() => {
-						setLoading(false);
-					});
-			})
-			.catch((error) => {
-				if (error.code === "auth/email-already-in-use") {
-					toast.error("An account with this email already exists");
-				} else {
-					toast.error("User creation failed");
-				}
-				console.error("Error signing up:", error);
-				setLoading(false);
-			});
-	};
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
 
-	return (
-		<div className="login-screen">
-			<div className="left">
-				<IconCloud iconSlugs={slugs} />
-			</div>
-			<div className="right">
-				<div className="login-hero-page">
-					<div className="login-container">
-						<div className="login-title">SignUp</div>
-						{/*<div className="login-p">If you are a Admin you can login with your email address and password.</div>*/}
-						<div className="login-form">
-							<form onSubmit={handleSignup}>
-								<div className="form-group">
-									<input
-										type="text"
-										id="name"
-										name="name"
-										placeholder="Name"
-										required
-									/>
-								</div>
-								<div
-									className={`form-group ${isEmailAnimating ? "animate" : ""}`}
-								>
-									<input
-										type="email"
-										id="email"
-										name="email"
-										placeholder="Email address"
-										onClick={handleEmailClick}
-										required
-									/>
-								</div>
-								<div
-									className={`form-group ${
-										isPasswordAnimating ? "animate" : ""
-									}`}
-								>
-									<input
-										type="password"
-										id="password"
-										name="password"
-										placeholder="Password"
-										onClick={handlePasswordClick}
-										required
-									/>
-								</div>
-								<div className="form-group">
-									<input
-										type="text"
-										id="college"
-										name="college"
-										placeholder="Enter your college name"
-										required
-									/>
-								</div>
-								<div className="form-group">
-									<input
-										type="text"
-										id="codeforces"
-										name="codeforces"
-										placeholder="Codeforces username"
-									/>
-								</div>
-								<div className="form-group">
-									<input
-										type="text"
-										id="leetcode"
-										name="leetcode"
-										placeholder="Leetcode username"
-									/>
-								</div>
-								<div className="form-group">
-									<input
-										type="text"
-										id="codechef"
-										name="codechef"
-										placeholder="Codechef username"
-									/>
-								</div>
+      const response = await fetch(`${import.meta.env.VITE_APP_BACKEND_URL}/api/user/signup`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          accessToken: await user.getIdToken(),
+          email, name, college, codeforces, leetcode, codechef,
+        }),
+      });
 
-								<div className="form-group">
-									<button type="submit" disabled={loading}>
-										<p>{loading ? "Registering..." : "Register Account"}</p>
-									</button>
-								</div>
-								<p>
-									Already have an account ?{" "}
-									<Link to="/login" className="right-span">
-										Login here
-									</Link>
-								</p>
-							</form>
-						</div>
-						<p className="text-sm">Powered by <strong>DevLaunch</strong></p>
-					</div>
-				</div>
-			</div>
-		</div>
-	);
+      if (!response.ok) {
+        await user.delete();
+        throw new Error("Backend user creation failed");
+      }
+
+      toast.success("Registration successful");
+      window.location.href = "/";
+    } catch (error) {
+      if (error.code === "auth/email-already-in-use") {
+        toast.error("An account with this email already exists");
+      } else {
+        toast.error("Registration failed. Please try again later");
+      }
+      console.error("Error signing up:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="flex flex-col md:flex-row h-screen bg-white">
+      {/* Icon Cloud Section - Hidden on mobile, shown on desktop */}
+      <div className="hidden md:flex justify-center items-center w-1/2 bg-white">
+        <IconCloud iconSlugs={slugs} />
+      </div>
+
+      {/* Signup Form Section */}
+      <div className="flex flex-col justify-start md:justify-center w-full md:w-1/2 bg-white p-4 h-screen overflow-y-auto">
+        <div className="w-full max-w-md mx-auto">
+          {/* Small IconCloud for mobile only */}
+          <div className="flex md:hidden justify-center mb-16">
+            <div className="w-24 h-24">
+              <IconCloud iconSlugs={slugs} />
+            </div>
+          </div>
+
+          <h1 className="text-2xl md:text-4xl font-bold text-gray-900 mb-2 tracking-tight">
+            Create Account
+          </h1>
+          <p className="text-gray-600 text-sm md:text-base mb-4">
+            Track your problem solving journey with Yorigin
+          </p>
+
+          <form onSubmit={handleSignup} className="space-y-3">
+            {/* Name & Email Row */}
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label htmlFor="name" className="block text-xs font-medium text-gray-700">
+                  Full Name
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  required
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 mt-1 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  placeholder="Your name"
+                />
+              </div>
+              <div className={isEmailAnimating ? "animate-pulse" : ""}>
+                <label htmlFor="email" className="block text-xs font-medium text-gray-700">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  onClick={handleEmailClick}
+                  required
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 mt-1 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  placeholder="Your email"
+                />
+              </div>
+            </div>
+
+            {/* Password & College Row */}
+            <div className="grid grid-cols-2 gap-3">
+              <div className={`relative ${isPasswordAnimating ? "animate-pulse" : ""}`}>
+                <label htmlFor="password" className="block text-xs font-medium text-gray-700">
+                  Password
+                </label>
+                <div className="relative">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    id="password"
+                    name="password"
+                    onClick={handlePasswordClick}
+                    required
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 mt-1 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 pr-8"
+                    placeholder="Password"
+                  />
+                  <button
+                    type="button"
+                    onClick={togglePasswordVisibility}
+                    className="absolute right-2 top-[60%] -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none"
+                  >
+                    {showPassword ? (
+                      <EyeOff className="h-4 w-4" />
+                    ) : (
+                      <Eye className="h-4 w-4" />
+                    )}
+                  </button>
+                </div>
+              </div>
+              <div>
+                <label htmlFor="college" className="block text-xs font-medium text-gray-700">
+                  College
+                </label>
+                <input
+                  type="text"
+                  id="college"
+                  name="college"
+                  required
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 mt-1 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  placeholder="Your college"
+                />
+              </div>
+            </div>
+
+            {/* Coding Platforms */}
+            <div>
+              <label className="block text-xs font-medium text-gray-700 mb-1">
+                Coding Platforms usernames
+              </label>
+              <div className="grid grid-cols-3 gap-2">
+                <input
+                  type="text"
+                  id="codeforces"
+                  name="codeforces"
+                  className="w-full border border-gray-300 rounded-lg px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  placeholder="Codeforces"
+                />
+                <input
+                  type="text"
+                  id="leetcode"
+                  name="leetcode"
+                  className="w-full border border-gray-300 rounded-lg px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  placeholder="LeetCode"
+                />
+                <input
+                  type="text"
+                  id="codechef"
+                  name="codechef"
+                  className="w-full border border-gray-300 rounded-lg px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  placeholder="CodeChef"
+                />
+              </div>
+              <p className="text-xs text-gray-500 mt-1">Enter at least one platform username</p>
+            </div>
+
+            {/* Signup Button */}
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-orange-500 text-white py-2 rounded-lg hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 disabled:opacity-50 transition-colors font-medium text-sm mt-2"
+            >
+              {loading ? "Creating Account..." : "Sign Up"}
+            </button>
+
+            {/* Login Link */}
+            <p className="text-xs text-gray-700 text-center mt-2">
+              Already have an account?{" "}
+              <Link
+                to="/login"
+                className="text-orange-500 font-medium hover:text-orange-600 transition-colors"
+              >
+                Sign in
+              </Link>
+            </p>
+          </form>
+
+          <p className="text-xs text-gray-400 text-center mt-2">
+            Powered by <strong>DevLaunch</strong>
+          </p>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default SignUp;
