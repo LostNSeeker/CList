@@ -1,13 +1,18 @@
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
 import { useContext } from "react";
 import Login from "./Pages/Login";
 import SignUp from "./Pages/SignUp";
 import PreviousSolved from "./Pages/PreviousSolved";
-import Contests from "./Components/Contests";
+import Contests from "./components/Contests";
 import Home from "./Pages/Home";
-import TopNav from "./Components/TopNav";
-import Rating from "./Components/Rating";
-import Events from "./Components/Events";
+import TopNav from "./components/TopNav";
+import Rating from "./components/Rating";
+import Events from "./components/Events";
 import { UserProvider } from "./utils/userContext";
 import UserContext from "./utils/userContext";
 import ForgotPassword from "./Pages/ForgotPassword";
@@ -26,7 +31,9 @@ function AppContent() {
   const location = useLocation();
   const { userDetails, loading } = useContext(UserContext);
   const isLogin = Boolean(userDetails);
-  const hideNav = ["/login", "/signup", "/forgot-password"].includes(location.pathname);
+  const hideNav = ["/login", "/signup", "/forgot-password"].includes(
+    location.pathname
+  );
 
   if (loading) {
     return (
@@ -52,7 +59,7 @@ function AppContent() {
     <div className="min-h-screen bg-gray-50">
       {/* Top Navigation */}
       <TopNav />
-      
+
       {/* Main Content */}
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="py-4 sm:py-6">

@@ -3,15 +3,40 @@ import { Link } from "react-router-dom";
 import { auth } from "../../config/firebaseConfig";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { Eye, EyeOff } from "lucide-react";
-import IconCloud from "../Components/ui/icon-cloud";
+import IconCloud from "../components/ui/icon-cloud";
 import { toast } from "react-toastify";
 
 const slugs = [
-  "typescript", "javascript", "dart", "java", "react", "flutter", "android",
-  "html5", "css3", "nodedotjs", "express", "nextdotjs", "prisma", "amazonaws",
-  "postgresql", "firebase", "nginx", "vercel", "testinglibrary", "jest",
-  "cypress", "docker", "git", "jira", "github", "gitlab", "visualstudiocode",
-  "androidstudio", "sonarqube", "figma",
+  "typescript",
+  "javascript",
+  "dart",
+  "java",
+  "react",
+  "flutter",
+  "android",
+  "html5",
+  "css3",
+  "nodedotjs",
+  "express",
+  "nextdotjs",
+  "prisma",
+  "amazonaws",
+  "postgresql",
+  "firebase",
+  "nginx",
+  "vercel",
+  "testinglibrary",
+  "jest",
+  "cypress",
+  "docker",
+  "git",
+  "jira",
+  "github",
+  "gitlab",
+  "visualstudiocode",
+  "androidstudio",
+  "sonarqube",
+  "figma",
 ];
 
 const SignUp = () => {
@@ -54,17 +79,29 @@ const SignUp = () => {
     }
 
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
       const user = userCredential.user;
 
-      const response = await fetch(`${import.meta.env.VITE_APP_BACKEND_URL}/api/user/signup`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          accessToken: await user.getIdToken(),
-          email, name, college, codeforces, leetcode, codechef,
-        }),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_APP_BACKEND_URL}/api/user/signup`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            accessToken: await user.getIdToken(),
+            email,
+            name,
+            college,
+            codeforces,
+            leetcode,
+            codechef,
+          }),
+        }
+      );
 
       if (!response.ok) {
         await user.delete();
@@ -113,7 +150,10 @@ const SignUp = () => {
             {/* Name & Email Row */}
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label htmlFor="name" className="block text-xs font-medium text-gray-700">
+                <label
+                  htmlFor="name"
+                  className="block text-xs font-medium text-gray-700"
+                >
                   Full Name
                 </label>
                 <input
@@ -126,7 +166,10 @@ const SignUp = () => {
                 />
               </div>
               <div className={isEmailAnimating ? "animate-pulse" : ""}>
-                <label htmlFor="email" className="block text-xs font-medium text-gray-700">
+                <label
+                  htmlFor="email"
+                  className="block text-xs font-medium text-gray-700"
+                >
                   Email
                 </label>
                 <input
@@ -143,8 +186,15 @@ const SignUp = () => {
 
             {/* Password & College Row */}
             <div className="grid grid-cols-2 gap-3">
-              <div className={`relative ${isPasswordAnimating ? "animate-pulse" : ""}`}>
-                <label htmlFor="password" className="block text-xs font-medium text-gray-700">
+              <div
+                className={`relative ${
+                  isPasswordAnimating ? "animate-pulse" : ""
+                }`}
+              >
+                <label
+                  htmlFor="password"
+                  className="block text-xs font-medium text-gray-700"
+                >
                   Password
                 </label>
                 <div className="relative">
@@ -171,7 +221,10 @@ const SignUp = () => {
                 </div>
               </div>
               <div>
-                <label htmlFor="college" className="block text-xs font-medium text-gray-700">
+                <label
+                  htmlFor="college"
+                  className="block text-xs font-medium text-gray-700"
+                >
                   College
                 </label>
                 <input
@@ -213,7 +266,9 @@ const SignUp = () => {
                   placeholder="CodeChef"
                 />
               </div>
-              <p className="text-xs text-gray-500 mt-1">Enter at least one platform username</p>
+              <p className="text-xs text-gray-500 mt-1">
+                Enter at least one platform username
+              </p>
             </div>
 
             {/* Signup Button */}

@@ -2,15 +2,40 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "../../config/firebaseConfig";
-import IconCloud from "../Components/ui/icon-cloud";
+import IconCloud from "../components/ui/icon-cloud";
 import { toast } from "react-toastify";
 
 const slugs = [
-  "typescript", "javascript", "dart", "java", "react", "flutter", "android",
-  "html5", "css3", "nodedotjs", "express", "nextdotjs", "prisma", "amazonaws",
-  "postgresql", "firebase", "nginx", "vercel", "testinglibrary", "jest",
-  "cypress", "docker", "git", "jira", "github", "gitlab", "visualstudiocode",
-  "androidstudio", "sonarqube", "figma",
+  "typescript",
+  "javascript",
+  "dart",
+  "java",
+  "react",
+  "flutter",
+  "android",
+  "html5",
+  "css3",
+  "nodedotjs",
+  "express",
+  "nextdotjs",
+  "prisma",
+  "amazonaws",
+  "postgresql",
+  "firebase",
+  "nginx",
+  "vercel",
+  "testinglibrary",
+  "jest",
+  "cypress",
+  "docker",
+  "git",
+  "jira",
+  "github",
+  "gitlab",
+  "visualstudiocode",
+  "androidstudio",
+  "sonarqube",
+  "figma",
 ];
 
 const ForgotPassword = () => {
@@ -31,13 +56,15 @@ const ForgotPassword = () => {
     e.preventDefault();
     setIsLoading(true);
     const auth = getAuth();
-    
+
     try {
       await sendPasswordResetEmail(auth, email);
       toast.success("Password reset link sent to your email");
       setEmail(""); // Clear the email field after successful submission
     } catch (error) {
-      toast.error("Failed to send reset link. Please check your email address.");
+      toast.error(
+        "Failed to send reset link. Please check your email address."
+      );
     } finally {
       setIsLoading(false);
     }
@@ -70,8 +97,8 @@ const ForgotPassword = () => {
           <form onSubmit={handlePasswordReset} className="space-y-4">
             {/* Email Input */}
             <div className={isEmailAnimating ? "animate-pulse" : ""}>
-              <label 
-                htmlFor="email" 
+              <label
+                htmlFor="email"
                 className="block text-sm font-medium text-gray-700 mb-2"
               >
                 Email Address

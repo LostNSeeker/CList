@@ -8,9 +8,9 @@ import {
   browserLocalPersistence,
 } from "firebase/auth";
 import { Eye, EyeOff } from "lucide-react";
-import IconCloud from "../Components/ui/icon-cloud";
+import IconCloud from "../components/ui/icon-cloud";
 import { toast } from "react-toastify";
-import CheckboxWithLabel from "../Components/CheckboxWithLabel";
+import CheckboxWithLabel from "../components/CheckboxWithLabel";
 
 const slugs = [
   "typescript",
@@ -114,7 +114,7 @@ const Login = () => {
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 tracking-tight">
             Login
           </h1>
-          
+
           <form onSubmit={handleLogin} className="space-y-6">
             {/* Email Input */}
             <div className={`${isEmailAnimating ? "animate-pulse" : ""}`}>
@@ -136,7 +136,11 @@ const Login = () => {
             </div>
 
             {/* Password Input */}
-            <div className={`relative ${isPasswordAnimating ? "animate-pulse" : ""}`}>
+            <div
+              className={`relative ${
+                isPasswordAnimating ? "animate-pulse" : ""
+              }`}
+            >
               <label
                 htmlFor="password"
                 className="block text-sm font-medium text-gray-700 mb-2"
