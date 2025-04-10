@@ -15,8 +15,8 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
+} from "@/Components/ui/select";
+import { Button } from "@/Components/ui/button";
 import {
   Pagination,
   PaginationContent,
@@ -24,7 +24,7 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "@/components/ui/pagination";
+} from "@/Components/ui/pagination";
 import { cn } from "@/lib/utils";
 
 const ITEMS_PER_PAGE = 4;

@@ -31,7 +31,7 @@ export default [
       "react/react-in-jsx-scope": "off",
       "react/jsx-no-target-blank": "off",
       "react/prop-types": "off",
-      "react-refresh/only-export-components": [
+      "react-refresh/only-export-Components": [
         "warn",
         { allowConstantExport: true },
       ],

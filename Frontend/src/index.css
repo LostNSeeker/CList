@@ -1,5 +1,5 @@
 @tailwind base;
-@tailwind components;
+@tailwind Components;
 @tailwind utilities;
 @layer base {
   :root {
@@ -65,7 +65,7 @@
   }
 }
 
-@layer components {
+@layer Components {
   /* Loading Screen */
   .loading-spinner {
     @apply animate-spin rounded-full border-2 border-gray-200;
