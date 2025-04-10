@@ -1,2 +1,7 @@
 # Node.js dependencies
 node_modules/
+
+
+.env
+
+config/admin-key.json
