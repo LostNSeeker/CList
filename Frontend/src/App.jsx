@@ -8,7 +8,7 @@ import { useContext } from "react";
 import Login from "./Pages/Login";
 import SignUp from "./Pages/SignUp";
 import PreviousSolved from "./Pages/PreviousSolved";
-import Contests from "./Components/Contests";
+import Contests from "./components/Contests";
 import Home from "./Pages/Home";
 import TopNav from "./components/TopNav";
 import Rating from "./components/Rating";

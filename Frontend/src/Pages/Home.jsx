@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../config/firebaseConfig";
-import Contests from "../Components/Contests";
+import Contests from "../components/Contests";
 import { PieChartQuestions } from "../components/pieChartQuestions";
 import { PieChartContests } from "../components/pieChartContests";
 import CurrentRatings from "../components/currentRattings";
