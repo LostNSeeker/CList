@@ -70,91 +70,91 @@ const TimeRangeButton = ({ active, children, onClick }) => (
 );
 
 const StatCard = ({ platform, stat, focused, onFocus }) => (
-	<div
-	  className={`
+  <div
+    className={`
 		group relative overflow-hidden transition-all duration-300
 		hover:shadow-lg cursor-pointer rounded-lg bg-white
 		${focused ? "ring-2 ring-primary shadow-lg scale-105" : "hover:scale-102"}
 	  `}
-	  onClick={onFocus}
-	>
-	  {/* Gradient Overlay */}
-	  <div
-		className={`
+    onClick={onFocus}
+  >
+    {/* Gradient Overlay */}
+    <div
+      className={`
 		  absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300
 		  bg-gradient-to-br ${platformConfig[platform].gradient}
 		`}
-	  />
-	  
-	  {/* Border Gradient */}
-	  <div
-		className={`
+    />
+
+    {/* Border Gradient */}
+    <div
+      className={`
 		  absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r
 		  ${platformConfig[platform].borderGradient}
 		`}
-	  />
-  
-	  {/* Content Section */}
-	  <div className="p-4">
-		{/* Header Section */}
-		<div className="flex items-center justify-between mb-3">
-		  {/* Platform Icon and Name */}
-		  <div className="flex items-center gap-2">
-			<div
-			  className={`
+    />
+
+    {/* Content Section */}
+    <div className="p-4">
+      {/* Header Section */}
+      <div className="flex items-center justify-between mb-3">
+        {/* Platform Icon and Name */}
+        <div className="flex items-center gap-2">
+          <div
+            className={`
 				p-1 rounded-md bg-gradient-to-br ${platformConfig[platform].gradient}
 			  `}
-			>
-			  <Award
-				className={`h-4 w-4 text-${platformConfig[platform].color}`}
-			  />
-			</div>
-			<span className="font-medium text-sm">{platformConfig[platform].name}</span>
-		  </div>
-  
-		  {/* Stat Change Badge */}
-		  <div>
-			<span
-			  className={`
+          >
+            <Award
+              className={`h-4 w-4 text-${platformConfig[platform].color}`}
+            />
+          </div>
+          <span className="font-medium text-sm">
+            {platformConfig[platform].name}
+          </span>
+        </div>
+
+        {/* Stat Change Badge */}
+        <div>
+          <span
+            className={`
 				text-xs px-2 py-1 rounded-full
 				${stat.change >= 0 ? "bg-green-100 text-green-600" : "bg-red-100 text-red-600"}
 			  `}
-			>
-			  {stat.change >= 0 ? (
-				<TrendingUp className="inline h-3 w-3 mr-1" />
-			  ) : (
-				<TrendingDown className="inline h-3 w-3 mr-1" />
-			  )}
-			  {Math.abs(stat.change)}
-			</span>
-		  </div>
-		</div>
-  
-		{/* Stat Details */}
-		<div className="flex justify-between items-center">
-		  {/* Current Rating */}
-		  <div>
-			<div className="text-xl font-bold">{stat.current}</div>
-			<p className="text-xs text-gray-500">Current Rating</p>
-		  </div>
-  
-		  {/* Highest and Lowest Ratings */}
-		  <div className="flex gap-6 text-xs">
-			<div className="text-center">
-			  <div className="font-medium">{stat.highest}</div>
-			  <p className="text-gray-500">Highest</p>
-			</div>
-			<div className="text-center">
-			  <div className="font-medium">{stat.lowest}</div>
-			  <p className="text-gray-500">Lowest</p>
-			</div>
-		  </div>
-		</div>
-	  </div>
-	</div>
-  );
-  
-  
+          >
+            {stat.change >= 0 ? (
+              <TrendingUp className="inline h-3 w-3 mr-1" />
+            ) : (
+              <TrendingDown className="inline h-3 w-3 mr-1" />
+            )}
+            {Math.abs(stat.change)}
+          </span>
+        </div>
+      </div>
+
+      {/* Stat Details */}
+      <div className="flex justify-between items-center">
+        {/* Current Rating */}
+        <div>
+          <div className="text-xl font-bold">{stat.current}</div>
+          <p className="text-xs text-gray-500">Current Rating</p>
+        </div>
+
+        {/* Highest and Lowest Ratings */}
+        <div className="flex gap-6 text-xs">
+          <div className="text-center">
+            <div className="font-medium">{stat.highest}</div>
+            <p className="text-gray-500">Highest</p>
+          </div>
+          <div className="text-center">
+            <div className="font-medium">{stat.lowest}</div>
+            <p className="text-gray-500">Lowest</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+);
 
 const RatingChart = ({ data }) => {
   const [timeRange, setTimeRange] = useState("all");

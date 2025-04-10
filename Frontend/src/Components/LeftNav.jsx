@@ -1,12 +1,19 @@
-import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Home, Trophy, Calendar, History, ChevronRight, ChevronLeft } from 'lucide-react';
+import React, { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import {
+  Home,
+  Trophy,
+  Calendar,
+  History,
+  ChevronRight,
+  ChevronLeft,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-  TooltipProvider
+  TooltipProvider,
 } from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
 
@@ -15,10 +22,10 @@ const LeftNav = () => {
   const location = useLocation();
 
   const menuItems = [
-    { path: '/', name: 'Home', icon: Home },
-    { path: '/contests', name: 'Contests', icon: Trophy },
-    { path: '/events', name: 'Events', icon: Calendar },
-    { path: '/solvedQuestions', name: 'Solved Questions', icon: History },
+    { path: "/", name: "Home", icon: Home },
+    { path: "/contests", name: "Contests", icon: Trophy },
+    { path: "/events", name: "Events", icon: Calendar },
+    { path: "/solvedQuestions", name: "Solved Questions", icon: History },
   ];
 
   return (
@@ -95,10 +102,12 @@ const LeftNav = () => {
 
         {/* Decorative Element */}
         <div className="absolute bottom-8 left-0 right-0 flex justify-center">
-          <div className={cn(
-            "h-1 rounded-full bg-gradient-to-r from-blue-500 to-blue-600",
-            isExpanded ? "w-32" : "w-8"
-          )} />
+          <div
+            className={cn(
+              "h-1 rounded-full bg-gradient-to-r from-blue-500 to-blue-600",
+              isExpanded ? "w-32" : "w-8"
+            )}
+          />
         </div>
       </div>
     </TooltipProvider>

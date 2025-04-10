@@ -1,24 +1,24 @@
-import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { signOut } from 'firebase/auth';
-import { auth } from '../../config/firebaseConfig';
+import React, { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { signOut } from "firebase/auth";
+import { auth } from "../../config/firebaseConfig";
 import {
   NavigationMenu,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-} from '@/components/ui/navigation-menu';
+} from "@/components/ui/navigation-menu";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { Button } from '@/components/ui/button';
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { 
-  Menu, 
+import {
+  Menu,
   User,
   Home,
   Trophy,
@@ -26,30 +26,33 @@ import {
   CheckCircle,
   BarChart2,
   Book,
-  LogOut 
-} from 'lucide-react';
+  LogOut,
+} from "lucide-react";
 
 const TopNav = () => {
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const menuItems = [
-    { name: 'Home', icon: Home, href: '/' },
-    { name: 'Contests', icon: Trophy, href: '/contests' },
-    { name: 'MAANG Events', icon: Calendar, href: '/events' },
-    { name: 'Solved Questions', icon: CheckCircle, href: '/solvedQuestions' },
-    { name: 'Analytics', icon: BarChart2, href: '/rating' },
+    { name: "Home", icon: Home, href: "/" },
+    { name: "Contests", icon: Trophy, href: "/contests" },
+    { name: "MAANG Events", icon: Calendar, href: "/events" },
+    { name: "Solved Questions", icon: CheckCircle, href: "/solvedQuestions" },
+    { name: "Analytics", icon: BarChart2, href: "/rating" },
   ];
 
   const problemSets = [
-    { name: 'CSES', href: 'https://cses.fi/problemset' },
-    { name: 'Love Babbar Sheet', href: 'https://450dsa.com/' },
-    { name: 'Striver\'s SDE Sheet', href: 'https://takeuforward.org/interviews/strivers-sde-sheet-top-coding-interview-problems/' },
+    { name: "CSES", href: "https://cses.fi/problemset" },
+    { name: "Love Babbar Sheet", href: "https://450dsa.com/" },
+    {
+      name: "Striver's SDE Sheet",
+      href: "https://takeuforward.org/interviews/strivers-sde-sheet-top-coding-interview-problems/",
+    },
   ];
 
   const handleLogout = () => {
     signOut(auth);
-    window.location.href = '/login';
+    window.location.href = "/login";
   };
 
   return (
@@ -59,7 +62,6 @@ const TopNav = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
             <img src="/Yorigin.png" alt="Logo" className="h-18 w-20" />
-            
           </Link>
 
           {/* Desktop Navigation */}
@@ -67,7 +69,7 @@ const TopNav = () => {
             {menuItems.map((item) => {
               const Icon = item.icon;
               const isActive = location.pathname === item.href;
-              
+
               return (
                 <Link
                   key={item.name}
@@ -75,7 +77,9 @@ const TopNav = () => {
                   className={cn(
                     "flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors",
                     "hover:bg-accent hover:text-accent-foreground",
-                    isActive ? "bg-accent text-accent-foreground" : "text-foreground/60"
+                    isActive
+                      ? "bg-accent text-accent-foreground"
+                      : "text-foreground/60"
                   )}
                 >
                   <Icon className="h-4 w-4 mr-2" />
@@ -150,7 +154,7 @@ const TopNav = () => {
               {menuItems.map((item) => {
                 const Icon = item.icon;
                 const isActive = location.pathname === item.href;
-                
+
                 return (
                   <Link
                     key={item.name}
@@ -158,7 +162,9 @@ const TopNav = () => {
                     className={cn(
                       "flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors",
                       "hover:bg-accent hover:text-accent-foreground",
-                      isActive ? "bg-accent text-accent-foreground" : "text-foreground/60"
+                      isActive
+                        ? "bg-accent text-accent-foreground"
+                        : "text-foreground/60"
                     )}
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
@@ -167,7 +173,7 @@ const TopNav = () => {
                   </Link>
                 );
               })}
-              
+
               <div className="pt-2 mt-2 border-t">
                 <div className="px-3 py-2 text-sm font-medium text-foreground/60">
                   Problem Sets

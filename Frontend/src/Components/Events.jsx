@@ -86,7 +86,8 @@ const EventItem = ({ event, onClick }) => (
             <span
               className={cn(
                 "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium w-fit",
-                COMPANY_CONFIG[event.Company]?.badge || "bg-gray-100 text-gray-700"
+                COMPANY_CONFIG[event.Company]?.badge ||
+                  "bg-gray-100 text-gray-700"
               )}
             >
               {event.Company}
@@ -128,7 +129,8 @@ const EventDialog = ({ event, onClose }) => (
             <div
               className={cn(
                 "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium w-fit mt-2",
-                COMPANY_CONFIG[event.Company]?.badge || "bg-gray-100 text-gray-700"
+                COMPANY_CONFIG[event.Company]?.badge ||
+                  "bg-gray-100 text-gray-700"
               )}
             >
               {event.Company}

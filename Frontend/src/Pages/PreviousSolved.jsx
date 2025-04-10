@@ -10,7 +10,14 @@ import {
 } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 const PreviousSolved = () => {
   const [activeTab, setActiveTab] = useState("codechef");
@@ -33,7 +40,9 @@ const PreviousSolved = () => {
     setIsLoading(true);
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_APP_BACKEND_URL}/api/user/getQuestionByPage?page=${pageNumber - 1}`,
+        `${
+          import.meta.env.VITE_APP_BACKEND_URL
+        }/api/user/getQuestionByPage?page=${pageNumber - 1}`,
         {
           headers: {
             Authorization: await auth.currentUser.getIdToken(),
