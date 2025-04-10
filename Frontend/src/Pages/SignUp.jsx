@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { auth } from "../../config/firebaseConfig";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { Eye, EyeOff } from "lucide-react";
-import IconCloud from "../Components/ui/icon-cloud";
+import IconCloud from "../components/ui/icon-cloud";
 import { toast } from "react-toastify";
 
 const slugs = [

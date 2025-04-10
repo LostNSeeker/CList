@@ -8,9 +8,9 @@ import {
   browserLocalPersistence,
 } from "firebase/auth";
 import { Eye, EyeOff } from "lucide-react";
-import IconCloud from "../Components/ui/icon-cloud";
+import IconCloud from "../components/ui/icon-cloud";
 import { toast } from "react-toastify";
-import CheckboxWithLabel from "../Components/CheckboxWithLabel";
+import CheckboxWithLabel from "../components/CheckboxWithLabel";
 
 const slugs = [
   "typescript",

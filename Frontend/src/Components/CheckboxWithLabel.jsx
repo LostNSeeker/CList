@@ -1,4 +1,4 @@
-// src/Components/CheckboxWithLabel.jsx
+// src/components/CheckboxWithLabel.jsx
 import PropTypes from "prop-types";
 
 const CheckboxWithLabel = ({ checked, onChange, label }) => {

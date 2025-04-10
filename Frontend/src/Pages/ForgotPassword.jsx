@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "../../config/firebaseConfig";
-import IconCloud from "../Components/ui/icon-cloud";
+import IconCloud from "../components/ui/icon-cloud";
 import { toast } from "react-toastify";
 
 const slugs = [

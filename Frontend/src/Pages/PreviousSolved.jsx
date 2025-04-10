@@ -8,8 +8,8 @@ import {
   ExternalLink,
   Loader2,
 } from "lucide-react";
-import { Tabs, TabsList, TabsTrigger } from "@/Components/ui/tabs";
-import { Button } from "@/Components/ui/button";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -17,7 +17,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/Components/ui/table";
+} from "@/components/ui/table";
 
 const PreviousSolved = () => {
   const [activeTab, setActiveTab] = useState("codechef");

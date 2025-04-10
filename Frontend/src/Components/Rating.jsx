@@ -6,7 +6,7 @@ import {
   CardHeader,
   CardTitle,
   CardDescription,
-} from "@/Components/ui/card";
+} from "@/components/ui/card";
 import {
   Loader2,
   TrendingUp,
@@ -16,8 +16,8 @@ import {
   Calendar,
   CalendarRange,
 } from "lucide-react";
-import { Badge } from "@/Components/ui/badge";
-import { Button } from "@/Components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import UserContext from "../utils/userContext";
 import {
   LineChart,

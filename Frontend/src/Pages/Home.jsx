@@ -1,13 +1,13 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../config/firebaseConfig";
-import Contests from "../Components/Contests";
-import { PieChartQuestions } from "../Components/pieChartQuestions";
-import { PieChartContests } from "../Components/pieChartContests";
-import CurrentRatings from "../Components/currentRattings";
-import Events from "../Components/Events";
-import ProblemSolved from "../Components/ProblemSolved";
-import TotalContests from "../Components/TotalContests";
+import Contests from "../components/Contests";
+import { PieChartQuestions } from "../components/pieChartQuestions";
+import { PieChartContests } from "../components/pieChartContests";
+import CurrentRatings from "../components/currentRattings";
+import Events from "../components/Events";
+import ProblemSolved from "../components/ProblemSolved";
+import TotalContests from "../components/TotalContests";
 
 const Home = () => {
   const navigate = useNavigate();

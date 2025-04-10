@@ -14,8 +14,8 @@ import {
   TooltipContent,
   TooltipTrigger,
   TooltipProvider,
-} from "@/Components/ui/tooltip";
-import { Button } from "@/Components/ui/button";
+} from "@/components/ui/tooltip";
+import { Button } from "@/components/ui/button";
 
 const LeftNav = () => {
   const [isExpanded, setIsExpanded] = useState(false);
