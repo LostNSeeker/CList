@@ -7,7 +7,7 @@ const serviceAccountPath =
 		? "/etc/secrets/admin-key.json"
 		: "./admin-key.json";
 
-const serviceAccount = require(serviceAccountPath); // Download from Firebase Console
+const serviceAccount = require(serviceAccountPath);
 
 initializeApp({
 	credential: admin.credential.cert(serviceAccount),
